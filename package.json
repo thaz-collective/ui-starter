@@ -1,0 +1,76 @@
+{
+  "name": "@thaz/ui-starter",
+  "version": "1.0.0-rc.1",
+  "description": "UI template components and building point for other thaz-collective libraries",
+  "homepage": "https://github.com/thaz-collective/ui-starter#readme",
+  "bugs": {
+    "url": "https://github.com/thaz-collective/ui-starter/issues"
+  },
+  "license": "MIT",
+  "author": "Tim Hazlett",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thaz-collective/ui-starter.git"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "scripts": {
+    "taze": "vpx taze@latest -Ilwr --maturity-period 3",
+    "taze:major": "vpx taze@latest major -Ilwr --maturity-period 3",
+    "taze:minor": "vpx taze@latest minor -Ilwr --maturity-period 3",
+    "taze:patch": "vpx taze@latest patch -Ilwr --maturity-period 3"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "catalog:",
+    "@internationalized/date": "catalog:",
+    "@js-temporal/polyfill": "catalog:",
+    "@tanstack/react-form": "catalog:",
+    "@tanstack/react-query": "catalog:",
+    "@tanstack/react-router": "catalog:",
+    "@tanstack/react-router-ssr-query": "catalog:",
+    "@tanstack/react-start": "catalog:",
+    "@thaz/form-util": "catalog:",
+    "@thaz/temporal-util": "catalog:",
+    "lucide-react": "catalog:",
+    "react": "catalog:",
+    "react-aria-components": "catalog:",
+    "react-dom": "catalog:",
+    "tailwind-merge": "catalog:",
+    "tailwind-variants": "catalog:",
+    "valibot": "catalog:"
+  },
+  "devDependencies": {
+    "@content-collections/core": "catalog:",
+    "@content-collections/mdx": "catalog:",
+    "@content-collections/vite": "catalog:",
+    "@mdx-js/rollup": "catalog:",
+    "@tailwindcss/vite": "catalog:",
+    "@tanstack/router-plugin": "catalog:",
+    "@thaz/oxfmt-config": "catalog:",
+    "@thaz/oxlint-config": "catalog:",
+    "@thaz/typescript-config": "catalog:",
+    "@total-typescript/ts-reset": "catalog:",
+    "@types/mdx": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
+    "@vitejs/plugin-rsc": "catalog:",
+    "remark-frontmatter": "catalog:",
+    "remark-mdx-frontmatter": "catalog:",
+    "tailwindcss": "catalog:",
+    "type-fest": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@11.12.0",
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
+  }
+}
