@@ -5,10 +5,207 @@ author:
   - Tim Hazlett
 ---
 
+import { Plus } from 'lucide-react';
+
 # Button
 
-Random for now
+An accessible button built on top of `react-aria-components`' `Button`, styled with
+`tailwind-variants`.
 
-## Some tmp content
+<H2 id="import">Import</H2>
 
-Just some random content for now
+<pre>
+  <code>{`import { Button } from '#src/common/components/button';`}</code>
+</pre>
+
+<H2 id="variants">Variants</H2>
+
+<H3 id="primary">Primary</H3>
+
+<Preview code={`<Button variant="primary">Primary</Button>`}>
+  <Button variant="primary">Primary</Button>
+</Preview>
+
+<H3 id="secondary">Secondary</H3>
+
+<Preview code={`<Button variant="secondary">Secondary</Button>`}>
+  <Button variant="secondary">Secondary</Button>
+</Preview>
+
+<H3 id="danger">Danger</H3>
+
+<Preview code={`<Button variant="danger">Danger</Button>`}>
+  <Button variant="danger">Danger</Button>
+</Preview>
+
+<H3 id="success">Success</H3>
+
+<Preview code={`<Button variant="success">Success</Button>`}>
+  <Button variant="success">Success</Button>
+</Preview>
+
+<H3 id="warning">Warning</H3>
+
+<Preview code={`<Button variant="warning">Warning</Button>`}>
+  <Button variant="warning">Warning</Button>
+</Preview>
+
+<H3 id="ghost">Ghost</H3>
+
+<Preview code={`<Button variant="ghost">Ghost</Button>`}>
+  <Button variant="ghost">Ghost</Button>
+</Preview>
+
+<H3 id="outline">Outline</H3>
+
+<Preview code={`<Button variant="outline">Outline</Button>`}>
+  <Button variant="outline">Outline</Button>
+</Preview>
+
+<H2 id="sizes">Sizes</H2>
+
+<H3 id="small">Small</H3>
+
+<Preview code={`<Button size="sm">Small</Button>`}>
+  <Button size="sm">Small</Button>
+</Preview>
+
+<H3 id="medium">Medium</H3>
+
+<Preview code={`<Button size="md">Medium</Button>`}>
+  <Button size="md">Medium</Button>
+</Preview>
+
+<H3 id="large">Large</H3>
+
+<Preview code={`<Button size="lg">Large</Button>`}>
+  <Button size="lg">Large</Button>
+</Preview>
+
+Icon-only sizes pair with a square, icon-sized button and take a single icon child
+(no visible label):
+
+<H3 id="small-icon">Small Icon</H3>
+
+<Preview code={`<Button size="smIcon" aria-label="Add"><Plus /></Button>`}>
+  <Button
+    size="smIcon"
+    aria-label="Add"
+  >
+    <Plus />
+  </Button>
+</Preview>
+
+<H3 id="medium-icon">Medium Icon</H3>
+
+<Preview code={`<Button size="mdIcon" aria-label="Add"><Plus /></Button>`}>
+  <Button
+    size="mdIcon"
+    aria-label="Add"
+  >
+    <Plus />
+  </Button>
+</Preview>
+
+<H3 id="large-icon">Large Icon</H3>
+
+<Preview code={`<Button size="lgIcon" aria-label="Add"><Plus /></Button>`}>
+  <Button
+    size="lgIcon"
+    aria-label="Add"
+  >
+    <Plus />
+  </Button>
+</Preview>
+
+<H2 id="full-width">Full Width</H2>
+
+<Preview code={`<Button fullWidth>Full Width</Button>`}>
+  <Button fullWidth>Full Width</Button>
+</Preview>
+
+<H2 id="inverted">Inverted</H2>
+
+`isInverted` swaps a variant's palette for one meant to sit on an inverted (dark)
+background. Only `primary`, `secondary`, `danger`, `success`, and `warning` define
+inverted styles — `ghost` and `outline` are unaffected by `isInverted`.
+
+<H3 id="primary-inverted">Primary Inverted</H3>
+
+<Preview code={`<Button variant="primary" isInverted>Primary</Button>`}>
+  <div className="rounded bg-black p-4">
+    <Button
+      variant="primary"
+      isInverted
+    >
+      {'Primary'}
+    </Button>
+  </div>
+</Preview>
+
+<H3 id="secondary-inverted">Secondary Inverted</H3>
+
+<Preview code={`<Button variant="secondary" isInverted>Secondary</Button>`}>
+  <div className="rounded bg-black p-4">
+    <Button
+      variant="secondary"
+      isInverted
+    >
+      {'Secondary'}
+    </Button>
+  </div>
+</Preview>
+
+<H3 id="danger-inverted">Danger Inverted</H3>
+
+<Preview code={`<Button variant="danger" isInverted>Danger</Button>`}>
+  <div className="rounded bg-black p-4">
+    <Button
+      variant="danger"
+      isInverted
+    >
+      {'Danger'}
+    </Button>
+  </div>
+</Preview>
+
+<H3 id="success-inverted">Success Inverted</H3>
+
+<Preview code={`<Button variant="success" isInverted>Success</Button>`}>
+  <div className="rounded bg-black p-4">
+    <Button
+      variant="success"
+      isInverted
+    >
+      {'Success'}
+    </Button>
+  </div>
+</Preview>
+
+<H3 id="warning-inverted">Warning Inverted</H3>
+
+<Preview code={`<Button variant="warning" isInverted>Warning</Button>`}>
+  <div className="rounded bg-black p-4">
+    <Button
+      variant="warning"
+      isInverted
+    >
+      {'Warning'}
+    </Button>
+  </div>
+</Preview>
+
+<H2 id="api">API</H2>
+
+<PropsTable
+  rows={[
+    {
+      name: 'variant',
+      type: "'primary' | 'secondary' | 'danger' | 'success' | 'warning' | 'ghost' | 'outline'",
+      default: "'primary'",
+    },
+    { name: 'size', type: "'sm' | 'md' | 'lg' | 'smIcon' | 'mdIcon' | 'lgIcon'", default: "'md'" },
+    { name: 'fullWidth', type: 'boolean', default: 'false' },
+    { name: 'isInverted', type: 'boolean', default: 'false' },
+  ]}
+/>

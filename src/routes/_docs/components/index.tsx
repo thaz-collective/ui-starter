@@ -1,9 +1,14 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
+
+import { allComponents } from 'content-collections';
 
 export const Route = createFileRoute('/_docs/components/')({
-  component: RouteComponent,
-});
+  beforeLoad: () => {
+    const [first] = [...allComponents].toSorted((a, b) => a.title.localeCompare(b.title));
+    if (!first) {
+      return;
+    }
 
-function RouteComponent() {
-  return <div>{'Hello "/_docs/components/"!'}</div>;
-}
+    throw redirect({ to: '/components/$componentID', params: { componentID: first.slug } });
+  },
+});
