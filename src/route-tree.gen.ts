@@ -11,8 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PostsRouteRouteImport } from './routes/posts/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as PostsSplatRouteImport } from './routes/posts/$'
+import { Route as PostsPostIDRouteImport } from './routes/posts/$postID'
 import { Route as DocsComponentsRouteRouteImport } from './routes/_docs/components/route'
+import { Route as DocsComponentsIndexRouteImport } from './routes/_docs/components/index'
 import { Route as DocsComponentsComponentIDRouteImport } from './routes/_docs/components/$componentID'
 
 const PostsRouteRoute = PostsRouteRouteImport.update({
@@ -25,15 +26,20 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PostsSplatRoute = PostsSplatRouteImport.update({
-  id: '/$',
-  path: '/$',
+const PostsPostIDRoute = PostsPostIDRouteImport.update({
+  id: '/$postID',
+  path: '/$postID',
   getParentRoute: () => PostsRouteRoute,
 } as any)
 const DocsComponentsRouteRoute = DocsComponentsRouteRouteImport.update({
   id: '/_docs/components',
   path: '/components',
   getParentRoute: () => rootRouteImport,
+} as any)
+const DocsComponentsIndexRoute = DocsComponentsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DocsComponentsRouteRoute,
 } as any)
 const DocsComponentsComponentIDRoute =
   DocsComponentsComponentIDRouteImport.update({
@@ -46,37 +52,50 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/posts': typeof PostsRouteRouteWithChildren
   '/components': typeof DocsComponentsRouteRouteWithChildren
-  '/posts/$': typeof PostsSplatRoute
+  '/posts/$postID': typeof PostsPostIDRoute
   '/components/$componentID': typeof DocsComponentsComponentIDRoute
+  '/components/': typeof DocsComponentsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/posts': typeof PostsRouteRouteWithChildren
-  '/components': typeof DocsComponentsRouteRouteWithChildren
-  '/posts/$': typeof PostsSplatRoute
+  '/posts/$postID': typeof PostsPostIDRoute
   '/components/$componentID': typeof DocsComponentsComponentIDRoute
+  '/components': typeof DocsComponentsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/posts': typeof PostsRouteRouteWithChildren
   '/_docs/components': typeof DocsComponentsRouteRouteWithChildren
-  '/posts/$': typeof PostsSplatRoute
+  '/posts/$postID': typeof PostsPostIDRoute
   '/_docs/components/$componentID': typeof DocsComponentsComponentIDRoute
+  '/_docs/components/': typeof DocsComponentsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/posts' | '/components' | '/posts/$' | '/components/$componentID'
+    | '/'
+    | '/posts'
+    | '/components'
+    | '/posts/$postID'
+    | '/components/$componentID'
+    | '/components/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/posts' | '/components' | '/posts/$' | '/components/$componentID'
+  to:
+    | '/'
+    | '/posts'
+    | '/posts/$postID'
+    | '/components/$componentID'
+    | '/components'
   id:
     | '__root__'
     | '/'
     | '/posts'
     | '/_docs/components'
-    | '/posts/$'
+    | '/posts/$postID'
     | '/_docs/components/$componentID'
+    | '/_docs/components/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -101,11 +120,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/posts/$': {
-      id: '/posts/$'
-      path: '/$'
-      fullPath: '/posts/$'
-      preLoaderRoute: typeof PostsSplatRouteImport
+    '/posts/$postID': {
+      id: '/posts/$postID'
+      path: '/$postID'
+      fullPath: '/posts/$postID'
+      preLoaderRoute: typeof PostsPostIDRouteImport
       parentRoute: typeof PostsRouteRoute
     }
     '/_docs/components': {
@@ -114,6 +133,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/components'
       preLoaderRoute: typeof DocsComponentsRouteRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_docs/components/': {
+      id: '/_docs/components/'
+      path: '/'
+      fullPath: '/components/'
+      preLoaderRoute: typeof DocsComponentsIndexRouteImport
+      parentRoute: typeof DocsComponentsRouteRoute
     }
     '/_docs/components/$componentID': {
       id: '/_docs/components/$componentID'
@@ -126,11 +152,11 @@ declare module '@tanstack/react-router' {
 }
 
 interface PostsRouteRouteChildren {
-  PostsSplatRoute: typeof PostsSplatRoute
+  PostsPostIDRoute: typeof PostsPostIDRoute
 }
 
 const PostsRouteRouteChildren: PostsRouteRouteChildren = {
-  PostsSplatRoute: PostsSplatRoute,
+  PostsPostIDRoute: PostsPostIDRoute,
 }
 
 const PostsRouteRouteWithChildren = PostsRouteRoute._addFileChildren(
@@ -139,10 +165,12 @@ const PostsRouteRouteWithChildren = PostsRouteRoute._addFileChildren(
 
 interface DocsComponentsRouteRouteChildren {
   DocsComponentsComponentIDRoute: typeof DocsComponentsComponentIDRoute
+  DocsComponentsIndexRoute: typeof DocsComponentsIndexRoute
 }
 
 const DocsComponentsRouteRouteChildren: DocsComponentsRouteRouteChildren = {
   DocsComponentsComponentIDRoute: DocsComponentsComponentIDRoute,
+  DocsComponentsIndexRoute: DocsComponentsIndexRoute,
 }
 
 const DocsComponentsRouteRouteWithChildren =

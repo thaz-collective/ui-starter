@@ -1,18 +1,18 @@
 import { createFileRoute, notFound } from '@tanstack/react-router';
 
 import { MDXContent } from '@content-collections/mdx/react';
-import { allPages } from 'content-collections';
+import { allPosts } from 'content-collections';
 
-export const Route = createFileRoute('/posts/$')({
+export const Route = createFileRoute('/posts/$postID')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { _splat } = Route.useParams();
+  const { postID } = Route.useParams();
 
-  console.info('slug', _splat);
-  console.info('allPages', allPages);
-  const page = allPages.find((pageCtx) => pageCtx.slug === _splat);
+  console.info('slug', postID);
+  console.info('allPosts', allPosts);
+  const page = allPosts.find((pageCtx) => pageCtx.slug === postID);
   if (!page) {
     throw notFound();
   }
@@ -21,7 +21,7 @@ function RouteComponent() {
     <main>
       <h1>{'Posts'}</h1>
       <ul>
-        {allPages.map((pageCtx) => (
+        {allPosts.map((pageCtx) => (
           <li key={pageCtx.slug}>
             <h2>{pageCtx.title}</h2>
             <MDXContent code={pageCtx.mdx} />
