@@ -4,8 +4,11 @@ import { useSuspenseQueryDeferred } from '#src/common/suspense-query-deferred';
 import { contentOptions } from '#src/services/content/options';
 
 export const Route = createFileRoute('/_docs')({
-  loader: ({ context: { queryClient } }) => {
-    void queryClient.prefetchQuery(contentOptions.getComponentSlugListQueryOptions());
+  loader: async ({ context: { queryClient } }) => {
+    await queryClient.ensureQueryData({
+      ...contentOptions.getComponentSlugListQueryOptions(),
+      revalidateIfStale: true,
+    });
   },
   component: RouteComponent,
 });

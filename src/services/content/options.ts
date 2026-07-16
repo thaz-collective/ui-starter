@@ -38,22 +38,40 @@ export const contentOptions = {
       staleTime: Temporal.Duration.from({ minutes: 5 }).total({ unit: 'milliseconds' }),
       queryKey: [...contentOptions.getComponentFrontMatterMetaBySlug(), data] as const,
       queryFn: async ({ signal }) => {
-        const response = await getComponentFrontMatterMetaBySlug({
+        return await getComponentFrontMatterMetaBySlug({
           signal,
           data,
         });
 
-        return v.parse(
-          v.object({
-            slug: v.string(),
-            title: v.string(),
-            date: v.pipe(v.string(), t.toPlainDate()),
-            author: v.array(v.string()),
-          }),
-          response,
-        );
+        // const response = await getComponentFrontMatterMetaBySlug({
+        //   signal,
+        //   data,
+        // });
+        //
+        // return v.parse(
+        //   v.object({
+        //     slug: v.string(),
+        //     title: v.string(),
+        //     date: v.pipe(v.string(), t.toPlainDate()),
+        //     author: v.array(v.string()),
+        //   }),
+        //   response,
+        // );
       },
     });
+  },
+  getComponentFrontMatterMetaBySlugSelect: (
+    response: Awaited<ReturnType<typeof getComponentFrontMatterMetaBySlug>>,
+  ) => {
+    return v.parse(
+      v.object({
+        slug: v.string(),
+        title: v.string(),
+        date: v.pipe(v.string(), t.toPlainDate()),
+        author: v.array(v.string()),
+      }),
+      response,
+    );
   },
 
   getComponentMDXBySlug: () => [...contentOptions.serviceEntity(), 'getComponentMDXBySlug'] as const,

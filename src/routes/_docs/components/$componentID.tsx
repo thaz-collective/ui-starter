@@ -39,11 +39,14 @@ function RouteComponent() {
   //   query: {
   //     data,
   //   },
-  // } = useSuspenseQueryDeferred(
-  //   contentOptions.getComponentFrontMatterMetaBySlugQueryOptions({
+  // } = useSuspenseQueryDeferred({
+  //   ...contentOptions.getComponentFrontMatterMetaBySlugQueryOptions({
   //     slug: componentID,
   //   }),
-  // );
+  //   select: contentOptions.getComponentFrontMatterMetaBySlugSelect
+  // });
+  // console.info('data', data);
+
   const {
     query: {
       data: { mdx },

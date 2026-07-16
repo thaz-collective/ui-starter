@@ -17,6 +17,7 @@ export const components = defineCollection({
       v.transform((date) => date.toJSON()),
     ),
     author: v.array(v.string()),
+    content: v.string(),
   }),
   transform: async (data, context) => {
     const { _meta, ...component } = data;
