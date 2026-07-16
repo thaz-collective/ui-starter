@@ -60,7 +60,7 @@ export const contentOptions = {
       },
     });
   },
-  getComponentFrontMatterMetaBySlugSelect: (
+  selectComponentFrontMatterMetaBySlugParseTypes: (
     response: Awaited<ReturnType<typeof getComponentFrontMatterMetaBySlug>>,
   ) => {
     return v.parse(

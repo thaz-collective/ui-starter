@@ -43,7 +43,7 @@ function RouteComponent() {
   //   ...contentOptions.getComponentFrontMatterMetaBySlugQueryOptions({
   //     slug: componentID,
   //   }),
-  //   select: contentOptions.getComponentFrontMatterMetaBySlugSelect
+  //   select: contentOptions.selectComponentFrontMatterMetaBySlugParseTypes
   // });
   // console.info('data', data);
 
