@@ -24,15 +24,15 @@ export const getComponentBySlug = createServerFn({ method: 'POST' })
   )
   .handler(({ data: { slug } }) => {
     const component = allComponents.find((componentCtx) => componentCtx.slug === slug);
-    if (!component) {
-      throw notFound();
+    if (component) {
+      return {
+        title: component.title,
+        date: component.date,
+        author: component.author,
+        slug: component.slug,
+        mdx: component.mdx,
+      };
     }
 
-    return {
-      title: component.title,
-      date: component.date,
-      author: component.author,
-      slug: component.slug,
-      mdx: component.mdx,
-    };
+    throw notFound();
   });
