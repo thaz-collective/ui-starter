@@ -27,6 +27,7 @@ const getComponentBySlug = createServerFn({ method: 'POST' })
       return component;
     }
 
+    console.error(`component slug not found: ${slug}`);
     throw notFound();
   });
 

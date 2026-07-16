@@ -14,17 +14,21 @@ import { useSuspenseQueryDeferred } from '#src/common/suspense-query-deferred';
 import { contentOptions } from '#src/services/content/options';
 
 export const Route = createFileRoute('/_docs/components/$componentID')({
-  loader: ({ params: { componentID }, context: { queryClient } }) => {
-    void queryClient.prefetchQuery(
-      contentOptions.getComponentFrontMatterMetaBySlugQueryOptions({
+  loader: async ({ params: { componentID }, context: { queryClient } }) => {
+    const frontMatterMetaPromise = queryClient.ensureQueryData({
+      ...contentOptions.getComponentFrontMatterMetaBySlugQueryOptions({
         slug: componentID,
       }),
-    );
-    void queryClient.prefetchQuery(
-      contentOptions.getComponentMDXBySlugQueryOptions({
+      revalidateIfStale: true,
+    });
+    const mdxPromise = queryClient.ensureQueryData({
+      ...contentOptions.getComponentMDXBySlugQueryOptions({
         slug: componentID,
       }),
-    );
+      revalidateIfStale: true,
+    });
+
+    await Promise.all([frontMatterMetaPromise, mdxPromise]);
   },
   component: RouteComponent,
 });
