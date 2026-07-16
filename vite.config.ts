@@ -2,6 +2,7 @@ import viteJSPluginReact from '@vitejs/plugin-react';
 import rsc from '@vitejs/plugin-rsc';
 import { defineConfig } from 'vite-plus';
 
+import { devtools } from '@tanstack/devtools-vite';
 import { tanstackStart } from '@tanstack/react-start/plugin/vite';
 
 import { oxfmtConfig } from '@thaz/oxfmt-config';
@@ -50,21 +51,24 @@ export default defineConfig({
       ...mdx({
         remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
       }),
+      ...contentCollections({
+        // TODO: need to figure out how to generate this at beginning.
+        //  If I have this it doesn't work.
+        // environment: 'ssr',
+        configPath: './content-collections.config.ts',
+      }),
     },
+    devtools(),
     tailwindcss(),
-    contentCollections({
-      environment: 'ssr',
-      configPath: './content-collections.config.ts',
-    }),
     tanstackStart({
       rsc: {
         enabled: true,
       },
-      // prerender: {
-      //   enabled: true,
-      //   crawlLinks: true,
-      //   retryCount: 2,
-      // },
+      prerender: {
+        enabled: true,
+        crawlLinks: true,
+        retryCount: 2,
+      },
       // spa: {
       //   enabled: true,
       //   prerender: {

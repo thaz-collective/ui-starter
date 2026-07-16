@@ -16,6 +16,7 @@ dist-ssr/
 .tanstack/
 .content-collections/
 *.tgz
+count.txt
 
 # Test Outputs
 coverage/

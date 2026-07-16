@@ -9,14 +9,13 @@ export const getComponentSlugList = createServerFn({ method: 'GET' }).handler(()
     .toSorted((a, b) => a.title.localeCompare(b.title))
     .map((componentCtx) => {
       return {
-        title: componentCtx.title,
-        author: componentCtx.author,
         slug: componentCtx.slug,
+        title: componentCtx.title,
       };
     });
 });
 
-export const getComponentBySlug = createServerFn({ method: 'POST' })
+export const getComponentFrontMatterMetaBySlug = createServerFn({ method: 'POST' })
   .validator(
     v.object({
       slug: v.string(),
@@ -26,10 +25,26 @@ export const getComponentBySlug = createServerFn({ method: 'POST' })
     const component = allComponents.find((componentCtx) => componentCtx.slug === slug);
     if (component) {
       return {
+        slug: component.slug,
         title: component.title,
         date: component.date,
         author: component.author,
-        slug: component.slug,
+      };
+    }
+
+    throw notFound();
+  });
+
+export const getComponentMDXBySlug = createServerFn({ method: 'POST' })
+  .validator(
+    v.object({
+      slug: v.string(),
+    }),
+  )
+  .handler(({ data: { slug } }) => {
+    const component = allComponents.find((componentCtx) => componentCtx.slug === slug);
+    if (component) {
+      return {
         mdx: component.mdx,
       };
     }

@@ -20,11 +20,11 @@ export const components = defineCollection({
   }),
   transform: async (data, context) => {
     const { _meta, ...component } = data;
-    console.info('data', data);
     const mdx = await compileMDX(context, data);
 
     return {
       ...component,
+      ..._meta,
       slug: _meta.path,
       mdx,
     };
@@ -36,7 +36,7 @@ const serverOnlyHook: WriterHook = ({ fileType, content }) => {
     return { content };
   }
   return {
-    content: `import '@tanstack/react-start/server-only';\n${content}`,
+    content: `import '@tanstack/react-start/server-only';\n\n${content}`,
   };
 };
 

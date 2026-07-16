@@ -16,7 +16,12 @@ import { contentOptions } from '#src/services/content/options';
 export const Route = createFileRoute('/_docs/components/$componentID')({
   loader: ({ params: { componentID }, context: { queryClient } }) => {
     void queryClient.prefetchQuery(
-      contentOptions.getComponentBySlugQueryOptions({
+      contentOptions.getComponentFrontMatterMetaBySlugQueryOptions({
+        slug: componentID,
+      }),
+    );
+    void queryClient.prefetchQuery(
+      contentOptions.getComponentMDXBySlugQueryOptions({
         slug: componentID,
       }),
     );
@@ -26,12 +31,21 @@ export const Route = createFileRoute('/_docs/components/$componentID')({
 
 function RouteComponent() {
   const { componentID } = Route.useParams();
+  // const {
+  //   query: {
+  //     data,
+  //   },
+  // } = useSuspenseQueryDeferred(
+  //   contentOptions.getComponentFrontMatterMetaBySlugQueryOptions({
+  //     slug: componentID,
+  //   }),
+  // );
   const {
     query: {
       data: { mdx },
     },
   } = useSuspenseQueryDeferred(
-    contentOptions.getComponentBySlugQueryOptions({
+    contentOptions.getComponentMDXBySlugQueryOptions({
       slug: componentID,
     }),
   );

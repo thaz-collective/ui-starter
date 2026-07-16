@@ -1,6 +1,10 @@
 import { queryOptions } from '@tanstack/react-query';
 
-import { getComponentSlugList, getComponentBySlug } from '#src/services/content/contract';
+import {
+  getComponentSlugList,
+  getComponentFrontMatterMetaBySlug,
+  getComponentMDXBySlug,
+} from '#src/services/content/contract';
 
 export const contentOptions = {
   serviceEntity: () => ['content'] as const,
@@ -17,12 +21,28 @@ export const contentOptions = {
     });
   },
 
-  getComponentBySlug: () => [...contentOptions.serviceEntity(), 'getComponentBySlug'] as const,
-  getComponentBySlugQueryOptions: (data: Parameters<typeof getComponentBySlug>[0]['data']) => {
+  getComponentFrontMatterMetaBySlug: () =>
+    [...contentOptions.serviceEntity(), 'getComponentFrontMatterMetaBySlug'] as const,
+  getComponentFrontMatterMetaBySlugQueryOptions: (
+    data: Parameters<typeof getComponentFrontMatterMetaBySlug>[0]['data'],
+  ) => {
     return queryOptions({
-      queryKey: [...contentOptions.getComponentBySlug(), data] as const,
+      queryKey: [...contentOptions.getComponentFrontMatterMetaBySlug(), data] as const,
       queryFn: async ({ signal }) => {
-        return await getComponentBySlug({
+        return await getComponentFrontMatterMetaBySlug({
+          signal,
+          data,
+        });
+      },
+    });
+  },
+
+  getComponentMDXBySlug: () => [...contentOptions.serviceEntity(), 'getComponentMDXBySlug'] as const,
+  getComponentMDXBySlugQueryOptions: (data: Parameters<typeof getComponentMDXBySlug>[0]['data']) => {
+    return queryOptions({
+      queryKey: [...contentOptions.getComponentMDXBySlug(), data] as const,
+      queryFn: async ({ signal }) => {
+        return await getComponentMDXBySlug({
           signal,
           data,
         });
