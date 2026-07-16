@@ -1,0 +1,137 @@
+---
+title: Card
+date: 2026-07-15
+author:
+  - Tim Hazlett
+---
+
+# Card
+
+A compound container built on top of `Surface`, with slots for a header, title,
+description, content, and footer.
+
+<H2 id="import">Import</H2>
+
+<pre>
+  <code>{`import { Card } from '#src/common/components/card';`}</code>
+</pre>
+
+<H2 id="anatomy">Anatomy</H2>
+
+- `Card` / `Card.Root` — the container; supplies context to every slot below.
+- `Card.Header` — top section, usually wraps `Title` and `Description`.
+- `Card.Title` — the card's heading text.
+- `Card.Description` — supporting text under the title.
+- `Card.Content` — the main body.
+- `Card.Footer` — bottom section, usually actions.
+
+Every slot must be rendered inside `Card`/`Card.Root` — they read shared context and
+throw if used standalone.
+
+<H2 id="variants">Variants</H2>
+
+<H3 id="transparent">Transparent</H3>
+
+<Preview
+  code={`<Card variant="transparent">
+  <Card.Header>
+    <Card.Title>Transparent</Card.Title>
+    <Card.Description>No background or border.</Card.Description>
+  </Card.Header>
+  <Card.Content>Card content goes here.</Card.Content>
+</Card>`}
+>
+  <Card
+    variant="transparent"
+    className="w-64"
+  >
+    <Card.Header>
+      <Card.Title>{'Transparent'}</Card.Title>
+      <Card.Description>{'No background or border.'}</Card.Description>
+    </Card.Header>
+    <Card.Content>{'Card content goes here.'}</Card.Content>
+  </Card>
+</Preview>
+
+<H3 id="default">Default</H3>
+
+<Preview
+  code={`<Card variant="default">
+  <Card.Header>
+    <Card.Title>Default</Card.Title>
+    <Card.Description>The default surface + border.</Card.Description>
+  </Card.Header>
+  <Card.Content>Card content goes here.</Card.Content>
+  <Card.Footer>Footer content</Card.Footer>
+</Card>`}
+>
+  <Card
+    variant="default"
+    className="w-64"
+  >
+    <Card.Header>
+      <Card.Title>{'Default'}</Card.Title>
+      <Card.Description>{'The default surface + border.'}</Card.Description>
+    </Card.Header>
+    <Card.Content>{'Card content goes here.'}</Card.Content>
+    <Card.Footer>{'Footer content'}</Card.Footer>
+  </Card>
+</Preview>
+
+<H3 id="secondary">Secondary</H3>
+
+<Preview
+  code={`<Card variant="secondary">
+  <Card.Header>
+    <Card.Title>Secondary</Card.Title>
+    <Card.Description>One layer deeper than default.</Card.Description>
+  </Card.Header>
+  <Card.Content>Card content goes here.</Card.Content>
+</Card>`}
+>
+  <Card
+    variant="secondary"
+    className="w-64"
+  >
+    <Card.Header>
+      <Card.Title>{'Secondary'}</Card.Title>
+      <Card.Description>{'One layer deeper than default.'}</Card.Description>
+    </Card.Header>
+    <Card.Content>{'Card content goes here.'}</Card.Content>
+  </Card>
+</Preview>
+
+<H3 id="tertiary">Tertiary</H3>
+
+<Preview
+  code={`<Card variant="tertiary">
+  <Card.Header>
+    <Card.Title>Tertiary</Card.Title>
+    <Card.Description>Two layers deeper than default.</Card.Description>
+  </Card.Header>
+  <Card.Content>Card content goes here.</Card.Content>
+</Card>`}
+>
+  <Card
+    variant="tertiary"
+    className="w-64"
+  >
+    <Card.Header>
+      <Card.Title>{'Tertiary'}</Card.Title>
+      <Card.Description>{'Two layers deeper than default.'}</Card.Description>
+    </Card.Header>
+    <Card.Content>{'Card content goes here.'}</Card.Content>
+  </Card>
+</Preview>
+
+<H2 id="api">API</H2>
+
+<PropsTable
+  rows={[
+    {
+      name: 'variant',
+      type: "'transparent' | 'default' | 'secondary' | 'tertiary'",
+      default: "'default'",
+    },
+  ]}
+/>

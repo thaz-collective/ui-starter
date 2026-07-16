@@ -6,6 +6,8 @@ import { MDXContent } from '@content-collections/mdx/react';
 import { allComponents } from 'content-collections';
 
 import { Button } from '#src/common/components/button';
+import { Card } from '#src/common/components/card';
+import { Surface } from '#src/common/components/surface';
 import { Preview } from '#src/docs/preview';
 import { PropsTable } from '#src/docs/props-table';
 
@@ -46,7 +48,7 @@ function H3({ className, children, id, ...props }: HeadingProps<'h3'>) {
 }
 
 // Every custom tag referenced from a components/*.mdx file must be added here.
-const mdxComponents = { Button, Preview, PropsTable, H2, H3 };
+const mdxComponents = { Button, Card, Surface, Preview, PropsTable, H2, H3 };
 
 export const Route = createFileRoute('/_docs/components/$componentID')({
   component: RouteComponent,

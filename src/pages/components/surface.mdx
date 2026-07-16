@@ -1,0 +1,79 @@
+---
+title: Surface
+date: 2026-07-15
+author:
+  - Tim Hazlett
+---
+
+# Surface
+
+A single-slot background primitive that swaps between the app's layered surface colors.
+`Card` builds on top of `Surface` for its non-transparent variants.
+
+<H2 id="import">Import</H2>
+
+<pre>
+  <code>{`import { Surface } from '#src/common/components/surface';`}</code>
+</pre>
+
+<H2 id="variants">Variants</H2>
+
+<H3 id="transparent">Transparent</H3>
+
+<Preview code={`<Surface variant="transparent">Transparent</Surface>`}>
+  <Surface
+    variant="transparent"
+    className="rounded-lg p-4"
+  >
+    {'Transparent'}
+  </Surface>
+</Preview>
+
+<H3 id="default">Default</H3>
+
+<Preview code={`<Surface variant="default">Default</Surface>`}>
+  <Surface
+    variant="default"
+    className="rounded-lg p-4"
+  >
+    {'Default'}
+  </Surface>
+</Preview>
+
+<H3 id="secondary">Secondary</H3>
+
+<Preview code={`<Surface variant="secondary">Secondary</Surface>`}>
+  <Surface
+    variant="secondary"
+    className="rounded-lg p-4"
+  >
+    {'Secondary'}
+  </Surface>
+</Preview>
+
+<H3 id="tertiary">Tertiary</H3>
+
+<Preview code={`<Surface variant="tertiary">Tertiary</Surface>`}>
+  <Surface
+    variant="tertiary"
+    className="rounded-lg p-4"
+  >
+    {'Tertiary'}
+  </Surface>
+</Preview>
+
+Each non-transparent variant also sets a `--field` CSS variable pointing at the next
+deeper surface level, so form fields nested inside automatically pick up the right
+background.
+
+<H2 id="api">API</H2>
+
+<PropsTable
+  rows={[
+    {
+      name: 'variant',
+      type: "'transparent' | 'default' | 'secondary' | 'tertiary'",
+      default: "'default'",
+    },
+  ]}
+/>
