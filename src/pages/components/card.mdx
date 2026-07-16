@@ -16,14 +16,62 @@ description, content, and footer.
   <code>{`import { Card } from '#src/common/components/card';`}</code>
 </pre>
 
+<H2 id="composition">Composition</H2>
+
+Use the following composition to build a `Card`:
+
+<pre>
+  <code>{`Card
+├── Card.Header (optional)
+│   ├── Card.Title
+│   └── Card.Description (optional)
+├── Card.Content (optional)
+└── Card.Footer (optional)`}</code>
+</pre>
+
 <H2 id="anatomy">Anatomy</H2>
 
-- `Card` / `Card.Root` — the container; supplies context to every slot below.
-- `Card.Header` — top section, usually wraps `Title` and `Description`.
-- `Card.Title` — the card's heading text.
-- `Card.Description` — supporting text under the title.
-- `Card.Content` — the main body.
-- `Card.Footer` — bottom section, usually actions.
+<table>
+  <thead>
+    <tr>
+      <th>{'Component'}</th>
+      <th>{'Description'}</th>
+      <th>{'Optional'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'Card / Card.Root'}</td>
+      <td>{'The container; supplies context to every slot below.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Card.Header'}</td>
+      <td>{'Top section, usually wraps Title and Description.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'Card.Title'}</td>
+      <td>{"The card's heading text."}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'Card.Description'}</td>
+      <td>{'Supporting text under the title.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'Card.Content'}</td>
+      <td>{'The main body.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'Card.Footer'}</td>
+      <td>{'Bottom section, usually actions.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+  </tbody>
+</table>
 
 Every slot must be rendered inside `Card`/`Card.Root` — they read shared context and
 throw if used standalone.

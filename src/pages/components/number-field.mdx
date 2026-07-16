@@ -16,18 +16,86 @@ and decrement step buttons, styled with `tailwind-variants`.
   <code>{`import { NumberField } from '#src/common/components/number-field';`}</code>
 </pre>
 
+<H2 id="composition">Composition</H2>
+
+Use the following composition to build a `NumberField`:
+
+<pre>
+  <code>{`NumberField
+├── NumberField.LabelInputContainer (optional)
+│   ├── NumberField.Label (optional)
+│   └── NumberField.Group
+│       ├── NumberField.Input
+│       └── NumberField.StepButtons (optional)
+│           ├── NumberField.IncrementButton
+│           └── NumberField.DecrementButton
+├── NumberField.Description (optional)
+└── NumberField.FieldError (optional)`}</code>
+</pre>
+
 <H2 id="anatomy">Anatomy</H2>
 
-- `NumberField` / `NumberField.Root` — the container; supplies context to every slot below.
-- `NumberField.LabelInputContainer` — wraps the label and input group.
-- `NumberField.Label` — the field's label text.
-- `NumberField.Group` — wraps the input and step buttons.
-- `NumberField.Input` — the numeric input.
-- `NumberField.StepButtons` — wraps the increment/decrement buttons.
-- `NumberField.IncrementButton` — increments the value.
-- `NumberField.DecrementButton` — decrements the value.
-- `NumberField.Description` — supporting text under the field.
-- `NumberField.FieldError` — validation error text, shown when `isInvalid`.
+<table>
+  <thead>
+    <tr>
+      <th>{'Component'}</th>
+      <th>{'Description'}</th>
+      <th>{'Optional'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'NumberField / NumberField.Root'}</td>
+      <td>{'The container; supplies context to every slot below.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'NumberField.LabelInputContainer'}</td>
+      <td>{'Wraps the label and input group.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'NumberField.Label'}</td>
+      <td>{"The field's label text."}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'NumberField.Group'}</td>
+      <td>{'Wraps the input and step buttons.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'NumberField.Input'}</td>
+      <td>{'The numeric input.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'NumberField.StepButtons'}</td>
+      <td>{'Wraps the increment/decrement buttons.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'NumberField.IncrementButton'}</td>
+      <td>{'Increments the value.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'NumberField.DecrementButton'}</td>
+      <td>{'Decrements the value.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'NumberField.Description'}</td>
+      <td>{'Supporting text under the field.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'NumberField.FieldError'}</td>
+      <td>{'Validation error text, shown when isInvalid.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+  </tbody>
+</table>
 
 Every slot must be rendered inside `NumberField`/`NumberField.Root` — they read shared
 context and throw if used standalone.

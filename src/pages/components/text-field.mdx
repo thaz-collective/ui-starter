@@ -16,15 +16,67 @@ styled with `tailwind-variants`.
   <code>{`import { TextField } from '#src/common/components/text-field';`}</code>
 </pre>
 
+<H2 id="composition">Composition</H2>
+
+Use the following composition to build a `TextField`:
+
+<pre>
+  <code>{`TextField
+├── TextField.LabelInputContainer (optional)
+│   ├── TextField.Label (optional)
+│   └── TextField.Input (or TextField.TextArea)
+├── TextField.Description (optional)
+└── TextField.FieldError (optional)`}</code>
+</pre>
+
 <H2 id="anatomy">Anatomy</H2>
 
-- `TextField` / `TextField.Root` — the container; supplies context to every slot below.
-- `TextField.LabelInputContainer` — wraps the label and input/textarea.
-- `TextField.Label` — the field's label text.
-- `TextField.Input` — a single-line text input.
-- `TextField.TextArea` — a multi-line textarea (use instead of `Input`, not alongside it).
-- `TextField.Description` — supporting text under the field.
-- `TextField.FieldError` — validation error text, shown when `isInvalid`.
+<table>
+  <thead>
+    <tr>
+      <th>{'Component'}</th>
+      <th>{'Description'}</th>
+      <th>{'Optional'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'TextField / TextField.Root'}</td>
+      <td>{'The container; supplies context to every slot below.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'TextField.LabelInputContainer'}</td>
+      <td>{'Wraps the label and input/textarea.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'TextField.Label'}</td>
+      <td>{"The field's label text."}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'TextField.Input'}</td>
+      <td>{'A single-line text input.'}</td>
+      <td>{'No (use instead of TextArea, not alongside it)'}</td>
+    </tr>
+    <tr>
+      <td>{'TextField.TextArea'}</td>
+      <td>{'A multi-line textarea.'}</td>
+      <td>{'No (use instead of Input, not alongside it)'}</td>
+    </tr>
+    <tr>
+      <td>{'TextField.Description'}</td>
+      <td>{'Supporting text under the field.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'TextField.FieldError'}</td>
+      <td>{'Validation error text, shown when isInvalid.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+  </tbody>
+</table>
 
 Every slot must be rendered inside `TextField`/`TextField.Root` — they read shared
 context and throw if used standalone.
