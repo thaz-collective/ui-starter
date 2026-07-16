@@ -35,8 +35,10 @@
     "react": "catalog:",
     "react-aria-components": "catalog:",
     "react-dom": "catalog:",
+    "spin-delay": "catalog:",
     "tailwind-merge": "catalog:",
     "tailwind-variants": "catalog:",
+    "use-deep-compare": "catalog:",
     "valibot": "catalog:"
   },
   "devDependencies": {

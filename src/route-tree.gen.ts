@@ -9,20 +9,13 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as PostsRouteRouteImport } from './routes/posts/route'
 import { Route as DocsRouteRouteImport } from './routes/_docs/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as PostsPostIDRouteImport } from './routes/posts/$postID'
 import { Route as DocsColorsRouteImport } from './routes/_docs/colors'
 import { Route as DocsComponentsRouteRouteImport } from './routes/_docs/components/route'
 import { Route as DocsComponentsIndexRouteImport } from './routes/_docs/components/index'
 import { Route as DocsComponentsComponentIDRouteImport } from './routes/_docs/components/$componentID'
 
-const PostsRouteRoute = PostsRouteRouteImport.update({
-  id: '/posts',
-  path: '/posts',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const DocsRouteRoute = DocsRouteRouteImport.update({
   id: '/_docs',
   getParentRoute: () => rootRouteImport,
@@ -31,11 +24,6 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
-} as any)
-const PostsPostIDRoute = PostsPostIDRouteImport.update({
-  id: '/$postID',
-  path: '/$postID',
-  getParentRoute: () => PostsRouteRoute,
 } as any)
 const DocsColorsRoute = DocsColorsRouteImport.update({
   id: '/colors',
@@ -61,18 +49,14 @@ const DocsComponentsComponentIDRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/posts': typeof PostsRouteRouteWithChildren
   '/components': typeof DocsComponentsRouteRouteWithChildren
   '/colors': typeof DocsColorsRoute
-  '/posts/$postID': typeof PostsPostIDRoute
   '/components/$componentID': typeof DocsComponentsComponentIDRoute
   '/components/': typeof DocsComponentsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/posts': typeof PostsRouteRouteWithChildren
   '/colors': typeof DocsColorsRoute
-  '/posts/$postID': typeof PostsPostIDRoute
   '/components/$componentID': typeof DocsComponentsComponentIDRoute
   '/components': typeof DocsComponentsIndexRoute
 }
@@ -80,10 +64,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_docs': typeof DocsRouteRouteWithChildren
-  '/posts': typeof PostsRouteRouteWithChildren
   '/_docs/components': typeof DocsComponentsRouteRouteWithChildren
   '/_docs/colors': typeof DocsColorsRoute
-  '/posts/$postID': typeof PostsPostIDRoute
   '/_docs/components/$componentID': typeof DocsComponentsComponentIDRoute
   '/_docs/components/': typeof DocsComponentsIndexRoute
 }
@@ -91,28 +73,18 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/posts'
     | '/components'
     | '/colors'
-    | '/posts/$postID'
     | '/components/$componentID'
     | '/components/'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/posts'
-    | '/colors'
-    | '/posts/$postID'
-    | '/components/$componentID'
-    | '/components'
+  to: '/' | '/colors' | '/components/$componentID' | '/components'
   id:
     | '__root__'
     | '/'
     | '/_docs'
-    | '/posts'
     | '/_docs/components'
     | '/_docs/colors'
-    | '/posts/$postID'
     | '/_docs/components/$componentID'
     | '/_docs/components/'
   fileRoutesById: FileRoutesById
@@ -120,18 +92,10 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DocsRouteRoute: typeof DocsRouteRouteWithChildren
-  PostsRouteRoute: typeof PostsRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/posts': {
-      id: '/posts'
-      path: '/posts'
-      fullPath: '/posts'
-      preLoaderRoute: typeof PostsRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_docs': {
       id: '/_docs'
       path: ''
@@ -145,13 +109,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/posts/$postID': {
-      id: '/posts/$postID'
-      path: '/$postID'
-      fullPath: '/posts/$postID'
-      preLoaderRoute: typeof PostsPostIDRouteImport
-      parentRoute: typeof PostsRouteRoute
     }
     '/_docs/colors': {
       id: '/_docs/colors'
@@ -211,22 +168,9 @@ const DocsRouteRouteWithChildren = DocsRouteRoute._addFileChildren(
   DocsRouteRouteChildren,
 )
 
-interface PostsRouteRouteChildren {
-  PostsPostIDRoute: typeof PostsPostIDRoute
-}
-
-const PostsRouteRouteChildren: PostsRouteRouteChildren = {
-  PostsPostIDRoute: PostsPostIDRoute,
-}
-
-const PostsRouteRouteWithChildren = PostsRouteRoute._addFileChildren(
-  PostsRouteRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DocsRouteRoute: DocsRouteRouteWithChildren,
-  PostsRouteRoute: PostsRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
