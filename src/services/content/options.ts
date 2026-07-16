@@ -1,6 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 
-import { getComponentSlugList, getComponentBySlug } from '#src/services/content/contract.server';
+import { getComponentSlugList, getComponentBySlug } from '#src/services/content/contract';
 
 export const contentOptions = {
   serviceEntity: () => ['content'] as const,

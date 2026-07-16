@@ -1,0 +1,238 @@
+---
+title: Text Field
+date: 2026-07-15
+author:
+  - Tim Hazlett
+---
+
+# Text Field
+
+A single- or multi-line text input built on top of `react-aria-components`' `TextField`,
+styled with `tailwind-variants`.
+
+<H2 id="import">Import</H2>
+
+<pre>
+  <code>{`import { TextField } from '#src/common/components/text-field';`}</code>
+</pre>
+
+<H2 id="anatomy">Anatomy</H2>
+
+- `TextField` / `TextField.Root` — the container; supplies context to every slot below.
+- `TextField.LabelInputContainer` — wraps the label and input/textarea.
+- `TextField.Label` — the field's label text.
+- `TextField.Input` — a single-line text input.
+- `TextField.TextArea` — a multi-line textarea (use instead of `Input`, not alongside it).
+- `TextField.Description` — supporting text under the field.
+- `TextField.FieldError` — validation error text, shown when `isInvalid`.
+
+Every slot must be rendered inside `TextField`/`TextField.Root` — they read shared
+context and throw if used standalone.
+
+<H2 id="examples">Examples</H2>
+
+<H3 id="default">Default</H3>
+
+<Preview
+  code={`<TextField className="w-64">
+  <TextField.LabelInputContainer>
+    <TextField.Label>Full name</TextField.Label>
+    <TextField.Input placeholder="Jane Smith" />
+  </TextField.LabelInputContainer>
+  <TextField.Description>Used on your public profile.</TextField.Description>
+</TextField>`}
+>
+  <TextField className="w-64">
+    <TextField.LabelInputContainer>
+      <TextField.Label>{'Full name'}</TextField.Label>
+      <TextField.Input placeholder="Jane Smith" />
+    </TextField.LabelInputContainer>
+    <TextField.Description>{'Used on your public profile.'}</TextField.Description>
+  </TextField>
+</Preview>
+
+<H3 id="textarea">Textarea</H3>
+
+<Preview
+  code={`<TextField className="w-64">
+  <TextField.LabelInputContainer>
+    <TextField.Label>Bio</TextField.Label>
+    <TextField.TextArea placeholder="Tell us about yourself…" />
+  </TextField.LabelInputContainer>
+  <TextField.Description>Shown below your display name.</TextField.Description>
+</TextField>`}
+>
+  <TextField className="w-64">
+    <TextField.LabelInputContainer>
+      <TextField.Label>{'Bio'}</TextField.Label>
+      <TextField.TextArea placeholder="Tell us about yourself…" />
+    </TextField.LabelInputContainer>
+    <TextField.Description>{'Shown below your display name.'}</TextField.Description>
+  </TextField>
+</Preview>
+
+<H2 id="states">States</H2>
+
+<H3 id="error">Error</H3>
+
+<Preview
+  code={`<TextField className="w-64" isInvalid>
+  <TextField.LabelInputContainer>
+    <TextField.Label>Email</TextField.Label>
+    <TextField.Input placeholder="you@example.com" />
+  </TextField.LabelInputContainer>
+  <TextField.FieldError>Please enter a valid email address.</TextField.FieldError>
+</TextField>`}
+>
+  <TextField
+    className="w-64"
+    isInvalid
+  >
+    <TextField.LabelInputContainer>
+      <TextField.Label>{'Email'}</TextField.Label>
+      <TextField.Input placeholder="you@example.com" />
+    </TextField.LabelInputContainer>
+    <TextField.FieldError>{'Please enter a valid email address.'}</TextField.FieldError>
+  </TextField>
+</Preview>
+
+<H3 id="disabled">Disabled</H3>
+
+<Preview
+  code={`<TextField className="w-64" isDisabled>
+  <TextField.LabelInputContainer>
+    <TextField.Label>Email</TextField.Label>
+    <TextField.Input value="jane@example.com" />
+  </TextField.LabelInputContainer>
+</TextField>`}
+>
+  <TextField
+    className="w-64"
+    isDisabled
+  >
+    <TextField.LabelInputContainer>
+      <TextField.Label>{'Email'}</TextField.Label>
+      <TextField.Input value="jane@example.com" />
+    </TextField.LabelInputContainer>
+  </TextField>
+</Preview>
+
+<H3 id="readonly">Readonly</H3>
+
+<Preview
+  code={`<TextField className="w-64" isReadOnly>
+  <TextField.LabelInputContainer>
+    <TextField.Label>Email</TextField.Label>
+    <TextField.Input value="jane@example.com" />
+  </TextField.LabelInputContainer>
+  <TextField.Description>Contact support to change this.</TextField.Description>
+</TextField>`}
+>
+  <TextField
+    className="w-64"
+    isReadOnly
+  >
+    <TextField.LabelInputContainer>
+      <TextField.Label>{'Email'}</TextField.Label>
+      <TextField.Input value="jane@example.com" />
+    </TextField.LabelInputContainer>
+    <TextField.Description>{'Contact support to change this.'}</TextField.Description>
+  </TextField>
+</Preview>
+
+<H3 id="required">Required</H3>
+
+<Preview
+  code={`<TextField className="w-64" isRequired>
+  <TextField.LabelInputContainer>
+    <TextField.Label>Email</TextField.Label>
+    <TextField.Input placeholder="you@example.com" />
+  </TextField.LabelInputContainer>
+  <TextField.Description>Required to create your account.</TextField.Description>
+</TextField>`}
+>
+  <TextField
+    className="w-64"
+    isRequired
+  >
+    <TextField.LabelInputContainer>
+      <TextField.Label>{'Email'}</TextField.Label>
+      <TextField.Input placeholder="you@example.com" />
+    </TextField.LabelInputContainer>
+    <TextField.Description>{'Required to create your account.'}</TextField.Description>
+  </TextField>
+</Preview>
+
+<H2 id="in-a-card">In a Card</H2>
+
+<Preview
+  code={`<Card variant="default" className="w-80">
+  <Card.Header>
+    <Card.Title>Sign in</Card.Title>
+    <Card.Description>Enter your credentials to continue.</Card.Description>
+  </Card.Header>
+  <Card.Content className="flex flex-col gap-5">
+    <TextField isRequired>
+      <TextField.LabelInputContainer>
+        <TextField.Label>Email</TextField.Label>
+        <TextField.Input type="email" placeholder="you@example.com" />
+      </TextField.LabelInputContainer>
+    </TextField>
+    <TextField isRequired isInvalid>
+      <TextField.LabelInputContainer>
+        <TextField.Label>Password</TextField.Label>
+        <TextField.Input type="password" placeholder="••••••••" />
+      </TextField.LabelInputContainer>
+      <TextField.FieldError>Incorrect password. Please try again.</TextField.FieldError>
+    </TextField>
+  </Card.Content>
+</Card>`}
+>
+  <Card
+    variant="default"
+    className="w-80"
+  >
+    <Card.Header>
+      <Card.Title>{'Sign in'}</Card.Title>
+      <Card.Description>{'Enter your credentials to continue.'}</Card.Description>
+    </Card.Header>
+    <Card.Content className="flex flex-col gap-5">
+      <TextField isRequired>
+        <TextField.LabelInputContainer>
+          <TextField.Label>{'Email'}</TextField.Label>
+          <TextField.Input
+            type="email"
+            placeholder="you@example.com"
+          />
+        </TextField.LabelInputContainer>
+      </TextField>
+      <TextField
+        isRequired
+        isInvalid
+      >
+        <TextField.LabelInputContainer>
+          <TextField.Label>{'Password'}</TextField.Label>
+          <TextField.Input
+            type="password"
+            placeholder="••••••••"
+          />
+        </TextField.LabelInputContainer>
+        <TextField.FieldError>{'Incorrect password. Please try again.'}</TextField.FieldError>
+      </TextField>
+    </Card.Content>
+  </Card>
+</Preview>
+
+<H2 id="api">API</H2>
+
+<PropsTable
+  rows={[
+    { name: 'value', type: 'string', default: 'undefined' },
+    { name: 'defaultValue', type: 'string', default: 'undefined' },
+    { name: 'type', type: "'text' | 'email' | 'password' | 'search' | 'tel' | 'url'", default: "'text'" },
+    { name: 'isRequired', type: 'boolean', default: 'false' },
+    { name: 'isDisabled', type: 'boolean', default: 'false' },
+    { name: 'isReadOnly', type: 'boolean', default: 'false' },
+    { name: 'isInvalid', type: 'boolean', default: 'false' },
+  ]}
+/>

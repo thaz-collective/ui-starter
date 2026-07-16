@@ -1,0 +1,344 @@
+---
+title: Number Field
+date: 2026-07-15
+author:
+  - Tim Hazlett
+---
+
+# Number Field
+
+A numeric input built on top of `react-aria-components`' `NumberField`, with increment
+and decrement step buttons, styled with `tailwind-variants`.
+
+<H2 id="import">Import</H2>
+
+<pre>
+  <code>{`import { NumberField } from '#src/common/components/number-field';`}</code>
+</pre>
+
+<H2 id="anatomy">Anatomy</H2>
+
+- `NumberField` / `NumberField.Root` — the container; supplies context to every slot below.
+- `NumberField.LabelInputContainer` — wraps the label and input group.
+- `NumberField.Label` — the field's label text.
+- `NumberField.Group` — wraps the input and step buttons.
+- `NumberField.Input` — the numeric input.
+- `NumberField.StepButtons` — wraps the increment/decrement buttons.
+- `NumberField.IncrementButton` — increments the value.
+- `NumberField.DecrementButton` — decrements the value.
+- `NumberField.Description` — supporting text under the field.
+- `NumberField.FieldError` — validation error text, shown when `isInvalid`.
+
+Every slot must be rendered inside `NumberField`/`NumberField.Root` — they read shared
+context and throw if used standalone.
+
+<H2 id="examples">Examples</H2>
+
+<H3 id="default">Default</H3>
+
+<Preview
+  code={`<NumberField className="w-48">
+  <NumberField.LabelInputContainer>
+    <NumberField.Label>Quantity</NumberField.Label>
+    <NumberField.Group>
+      <NumberField.Input placeholder="0" />
+      <NumberField.StepButtons>
+        <NumberField.IncrementButton />
+        <NumberField.DecrementButton />
+      </NumberField.StepButtons>
+    </NumberField.Group>
+  </NumberField.LabelInputContainer>
+  <NumberField.Description>Number of items to order.</NumberField.Description>
+</NumberField>`}
+>
+  <NumberField className="w-48">
+    <NumberField.LabelInputContainer>
+      <NumberField.Label>{'Quantity'}</NumberField.Label>
+      <NumberField.Group>
+        <NumberField.Input placeholder="0" />
+        <NumberField.StepButtons>
+          <NumberField.IncrementButton />
+          <NumberField.DecrementButton />
+        </NumberField.StepButtons>
+      </NumberField.Group>
+    </NumberField.LabelInputContainer>
+    <NumberField.Description>{'Number of items to order.'}</NumberField.Description>
+  </NumberField>
+</Preview>
+
+<H3 id="formatted">Formatted (currency)</H3>
+
+<Preview
+  code={`<NumberField className="w-48" formatOptions={{ style: 'currency', currency: 'USD' }}>
+  <NumberField.LabelInputContainer>
+    <NumberField.Label>Price</NumberField.Label>
+    <NumberField.Group>
+      <NumberField.Input placeholder="0.00" />
+      <NumberField.StepButtons>
+        <NumberField.IncrementButton />
+        <NumberField.DecrementButton />
+      </NumberField.StepButtons>
+    </NumberField.Group>
+  </NumberField.LabelInputContainer>
+  <NumberField.Description>Formatted as USD currency.</NumberField.Description>
+</NumberField>`}
+>
+  <NumberField
+    className="w-48"
+    formatOptions={{ style: 'currency', currency: 'USD' }}
+  >
+    <NumberField.LabelInputContainer>
+      <NumberField.Label>{'Price'}</NumberField.Label>
+      <NumberField.Group>
+        <NumberField.Input placeholder="0.00" />
+        <NumberField.StepButtons>
+          <NumberField.IncrementButton />
+          <NumberField.DecrementButton />
+        </NumberField.StepButtons>
+      </NumberField.Group>
+    </NumberField.LabelInputContainer>
+    <NumberField.Description>{'Formatted as USD currency.'}</NumberField.Description>
+  </NumberField>
+</Preview>
+
+<H3 id="min-max">Min / Max</H3>
+
+<Preview
+  code={`<NumberField className="w-48" minValue={0} maxValue={100} defaultValue={50}>
+  <NumberField.LabelInputContainer>
+    <NumberField.Label>Percentage</NumberField.Label>
+    <NumberField.Group>
+      <NumberField.Input placeholder="0" />
+      <NumberField.StepButtons>
+        <NumberField.IncrementButton />
+        <NumberField.DecrementButton />
+      </NumberField.StepButtons>
+    </NumberField.Group>
+  </NumberField.LabelInputContainer>
+  <NumberField.Description>Clamped between 0 and 100.</NumberField.Description>
+</NumberField>`}
+>
+  <NumberField
+    className="w-48"
+    minValue={0}
+    maxValue={100}
+    defaultValue={50}
+  >
+    <NumberField.LabelInputContainer>
+      <NumberField.Label>{'Percentage'}</NumberField.Label>
+      <NumberField.Group>
+        <NumberField.Input placeholder="0" />
+        <NumberField.StepButtons>
+          <NumberField.IncrementButton />
+          <NumberField.DecrementButton />
+        </NumberField.StepButtons>
+      </NumberField.Group>
+    </NumberField.LabelInputContainer>
+    <NumberField.Description>{'Clamped between 0 and 100.'}</NumberField.Description>
+  </NumberField>
+</Preview>
+
+<H2 id="states">States</H2>
+
+<H3 id="error">Error</H3>
+
+<Preview
+  code={`<NumberField className="w-48" isInvalid defaultValue={-1}>
+  <NumberField.LabelInputContainer>
+    <NumberField.Label>Quantity</NumberField.Label>
+    <NumberField.Group>
+      <NumberField.Input placeholder="0" />
+      <NumberField.StepButtons>
+        <NumberField.IncrementButton />
+        <NumberField.DecrementButton />
+      </NumberField.StepButtons>
+    </NumberField.Group>
+  </NumberField.LabelInputContainer>
+  <NumberField.FieldError>Value must be 0 or greater.</NumberField.FieldError>
+</NumberField>`}
+>
+  <NumberField
+    className="w-48"
+    isInvalid
+    defaultValue={-1}
+  >
+    <NumberField.LabelInputContainer>
+      <NumberField.Label>{'Quantity'}</NumberField.Label>
+      <NumberField.Group>
+        <NumberField.Input placeholder="0" />
+        <NumberField.StepButtons>
+          <NumberField.IncrementButton />
+          <NumberField.DecrementButton />
+        </NumberField.StepButtons>
+      </NumberField.Group>
+    </NumberField.LabelInputContainer>
+    <NumberField.FieldError>{'Value must be 0 or greater.'}</NumberField.FieldError>
+  </NumberField>
+</Preview>
+
+<H3 id="disabled">Disabled</H3>
+
+<Preview
+  code={`<NumberField className="w-48" isDisabled defaultValue={10}>
+  <NumberField.LabelInputContainer>
+    <NumberField.Label>Quantity</NumberField.Label>
+    <NumberField.Group>
+      <NumberField.Input placeholder="0" />
+      <NumberField.StepButtons>
+        <NumberField.IncrementButton />
+        <NumberField.DecrementButton />
+      </NumberField.StepButtons>
+    </NumberField.Group>
+  </NumberField.LabelInputContainer>
+</NumberField>`}
+>
+  <NumberField
+    className="w-48"
+    isDisabled
+    defaultValue={10}
+  >
+    <NumberField.LabelInputContainer>
+      <NumberField.Label>{'Quantity'}</NumberField.Label>
+      <NumberField.Group>
+        <NumberField.Input placeholder="0" />
+        <NumberField.StepButtons>
+          <NumberField.IncrementButton />
+          <NumberField.DecrementButton />
+        </NumberField.StepButtons>
+      </NumberField.Group>
+    </NumberField.LabelInputContainer>
+  </NumberField>
+</Preview>
+
+<H3 id="readonly">Readonly</H3>
+
+<Preview
+  code={`<NumberField className="w-48" isReadOnly value={42}>
+  <NumberField.LabelInputContainer>
+    <NumberField.Label>Quantity</NumberField.Label>
+    <NumberField.Group>
+      <NumberField.Input />
+      <NumberField.StepButtons>
+        <NumberField.IncrementButton />
+        <NumberField.DecrementButton />
+      </NumberField.StepButtons>
+    </NumberField.Group>
+  </NumberField.LabelInputContainer>
+</NumberField>`}
+>
+  <NumberField
+    className="w-48"
+    isReadOnly
+    value={42}
+  >
+    <NumberField.LabelInputContainer>
+      <NumberField.Label>{'Quantity'}</NumberField.Label>
+      <NumberField.Group>
+        <NumberField.Input />
+        <NumberField.StepButtons>
+          <NumberField.IncrementButton />
+          <NumberField.DecrementButton />
+        </NumberField.StepButtons>
+      </NumberField.Group>
+    </NumberField.LabelInputContainer>
+  </NumberField>
+</Preview>
+
+<H3 id="required">Required</H3>
+
+<Preview
+  code={`<NumberField className="w-48" isRequired>
+  <NumberField.LabelInputContainer>
+    <NumberField.Label>Quantity</NumberField.Label>
+    <NumberField.Group>
+      <NumberField.Input placeholder="0" />
+      <NumberField.StepButtons>
+        <NumberField.IncrementButton />
+        <NumberField.DecrementButton />
+      </NumberField.StepButtons>
+    </NumberField.Group>
+  </NumberField.LabelInputContainer>
+</NumberField>`}
+>
+  <NumberField
+    className="w-48"
+    isRequired
+  >
+    <NumberField.LabelInputContainer>
+      <NumberField.Label>{'Quantity'}</NumberField.Label>
+      <NumberField.Group>
+        <NumberField.Input placeholder="0" />
+        <NumberField.StepButtons>
+          <NumberField.IncrementButton />
+          <NumberField.DecrementButton />
+        </NumberField.StepButtons>
+      </NumberField.Group>
+    </NumberField.LabelInputContainer>
+  </NumberField>
+</Preview>
+
+<H2 id="in-a-card">In a Card</H2>
+
+<Preview
+  code={`<Card variant="default" className="w-80">
+  <Card.Header>
+    <Card.Title>Order details</Card.Title>
+    <Card.Description>Adjust quantities before checkout.</Card.Description>
+  </Card.Header>
+  <Card.Content className="flex flex-col gap-5">
+    <NumberField minValue={1}>
+      <NumberField.LabelInputContainer>
+        <NumberField.Label>Quantity</NumberField.Label>
+        <NumberField.Group>
+          <NumberField.Input placeholder="1" />
+          <NumberField.StepButtons>
+            <NumberField.IncrementButton />
+            <NumberField.DecrementButton />
+          </NumberField.StepButtons>
+        </NumberField.Group>
+      </NumberField.LabelInputContainer>
+    </NumberField>
+  </Card.Content>
+</Card>`}
+>
+  <Card
+    variant="default"
+    className="w-80"
+  >
+    <Card.Header>
+      <Card.Title>{'Order details'}</Card.Title>
+      <Card.Description>{'Adjust quantities before checkout.'}</Card.Description>
+    </Card.Header>
+    <Card.Content className="flex flex-col gap-5">
+      <NumberField minValue={1}>
+        <NumberField.LabelInputContainer>
+          <NumberField.Label>{'Quantity'}</NumberField.Label>
+          <NumberField.Group>
+            <NumberField.Input placeholder="1" />
+            <NumberField.StepButtons>
+              <NumberField.IncrementButton />
+              <NumberField.DecrementButton />
+            </NumberField.StepButtons>
+          </NumberField.Group>
+        </NumberField.LabelInputContainer>
+      </NumberField>
+    </Card.Content>
+  </Card>
+</Preview>
+
+<H2 id="api">API</H2>
+
+<PropsTable
+  rows={[
+    { name: 'value', type: 'number', default: 'undefined' },
+    { name: 'defaultValue', type: 'number', default: 'undefined' },
+    { name: 'minValue', type: 'number', default: 'undefined' },
+    { name: 'maxValue', type: 'number', default: 'undefined' },
+    { name: 'step', type: 'number', default: '1' },
+    { name: 'formatOptions', type: 'Intl.NumberFormatOptions', default: 'undefined' },
+    { name: 'isRequired', type: 'boolean', default: 'false' },
+    { name: 'isDisabled', type: 'boolean', default: 'false' },
+    { name: 'isReadOnly', type: 'boolean', default: 'false' },
+    { name: 'isInvalid', type: 'boolean', default: 'false' },
+  ]}
+/>
