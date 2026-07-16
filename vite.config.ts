@@ -82,7 +82,13 @@ export default defineConfig({
       include: [/\.(?<ext>js|jsx|ts|tsx|md|mdx)$/],
     }),
   ],
-  fmt: oxfmtConfig,
+  fmt: {
+    ...oxfmtConfig,
+    sortTailwindcss: {
+      stylesheet: './src/global.css',
+      functions: ['tv', 'twMerge'],
+    },
+  },
   lint: {
     extends: [nativeConfig],
     options: {
