@@ -5,7 +5,7 @@ import { defineConfig } from 'vite-plus';
 import { tanstackStart } from '@tanstack/react-start/plugin/vite';
 
 import { oxfmtConfig } from '@thaz/oxfmt-config';
-import { nativeConfig } from '@thaz/oxlint-config';
+import { nativeConfig, jsPluginConfig } from '@thaz/oxlint-config';
 
 import contentCollections from '@content-collections/vite';
 import mdx from '@mdx-js/rollup';
@@ -90,6 +90,10 @@ export default defineConfig({
       typeCheck: true,
     },
     ignorePatterns: ['src/route-tree.gen.ts', '.content-collections/**'],
+    jsPlugins: jsPluginConfig.jsPlugins,
+    rules: {
+      ...jsPluginConfig.rules,
+    },
     overrides: [
       {
         files: ['**/src/routes/**/$*.tsx'],
