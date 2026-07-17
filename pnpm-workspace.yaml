@@ -22,11 +22,11 @@ catalog:
   '@tanstack/react-form-devtools': 0.2.31
   '@tanstack/react-query': 5.101.2
   '@tanstack/react-query-devtools': 5.101.2
-  '@tanstack/react-router': 1.170.17
+  '@tanstack/react-router': 1.170.18
   '@tanstack/react-router-devtools': 1.167.0
   '@tanstack/react-router-ssr-query': 1.167.1
-  '@tanstack/react-start': 1.168.27
-  '@tanstack/router-plugin': 1.168.19
+  '@tanstack/react-start': 1.168.28
+  '@tanstack/router-plugin': 1.168.20
   '@thaz/form-util': 1.0.0-rc.1
   '@thaz/oxfmt-config': 1.0.0-rc.1
   '@thaz/oxlint-config': 1.0.0-rc.1
@@ -58,8 +58,8 @@ catalog:
   typescript: 6.0.3
   use-deep-compare: 1.3.0
   valibot: 1.4.2
-  vite: npm:@voidzero-dev/vite-plus-core@0.2.4
-  vite-plus: 0.2.4
+  vite: npm:@voidzero-dev/vite-plus-core@0.2.5
+  vite-plus: 0.2.5
 
 catalogMode: prefer
 # Watch this issue: https://github.com/pnpm/pnpm/issues/11238
@@ -71,6 +71,16 @@ minimumReleaseAgeExclude:
   - '@thaz/typescript-config@1.0.0-rc.1'
   - '@thaz/oxfmt-config@1.0.0-rc.1'
   - '@thaz/oxlint-config@1.0.0-rc.1'
+  - '@voidzero-dev/vite-plus-core@0.2.5'
+  - '@voidzero-dev/vite-plus-darwin-arm64@0.2.5'
+  - '@voidzero-dev/vite-plus-darwin-x64@0.2.5'
+  - '@voidzero-dev/vite-plus-linux-arm64-gnu@0.2.5'
+  - '@voidzero-dev/vite-plus-linux-arm64-musl@0.2.5'
+  - '@voidzero-dev/vite-plus-linux-x64-gnu@0.2.5'
+  - '@voidzero-dev/vite-plus-linux-x64-musl@0.2.5'
+  - '@voidzero-dev/vite-plus-win32-arm64-msvc@0.2.5'
+  - '@voidzero-dev/vite-plus-win32-x64-msvc@0.2.5'
+  - vite-plus@0.2.5
 
 overrides:
   vite: 'catalog:'
