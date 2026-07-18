@@ -1,0 +1,360 @@
+---
+title: Date Picker
+date: 2026-07-17
+author:
+  - Tim Hazlett
+---
+
+import { CalendarDate } from '@internationalized/date';
+
+# Date Picker
+
+A date picker combines a segmented `DateField` with a `Calendar` popover, letting users type a
+date directly or pick one visually. Built on top of `react-aria-components`' `DatePicker`,
+`Popover`, `Dialog`, and `Calendar`, styled with `tailwind-variants`.
+
+<H2 id="import">Import</H2>
+
+<pre>
+  <code>{`import { DatePicker } from '#src/common/components/date-picker';`}</code>
+</pre>
+
+<H2 id="composition">Composition</H2>
+
+Use the following composition to build a `DatePicker`:
+
+<pre>
+  <code>{`DatePicker
+├── DatePicker.LabelInputContainer (optional)
+│   ├── DatePicker.Label (optional)
+│   └── DatePicker.Group
+│       ├── DatePicker.Input
+│       └── DatePicker.TriggerButton
+├── DatePicker.Popover
+│   └── DatePicker.Dialog
+│       └── DatePicker.Calendar
+├── DatePicker.Description (optional)
+└── DatePicker.FieldError (optional)`}</code>
+</pre>
+
+<H2 id="anatomy">Anatomy</H2>
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Component'}</th>
+      <th>{'Description'}</th>
+      <th>{'Optional'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'DatePicker / DatePicker.Root'}</td>
+      <td>{'The container; supplies context to every slot below.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'DatePicker.LabelInputContainer'}</td>
+      <td>{'Wraps the label and group.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'DatePicker.Label'}</td>
+      <td>{"The field's label text."}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'DatePicker.Group'}</td>
+      <td>{'Wraps the segmented input and trigger button.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'DatePicker.Input'}</td>
+      <td>{'The segmented date/time input.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'DatePicker.TriggerButton'}</td>
+      <td>{'Opens the calendar popover.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'DatePicker.Popover'}</td>
+      <td>{'Positions the calendar overlay relative to the trigger.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'DatePicker.Dialog'}</td>
+      <td>{'Focusable container for the calendar.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'DatePicker.Calendar'}</td>
+      <td>{'A pre-assembled month grid built from the standalone `Calendar` component.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'DatePicker.Description'}</td>
+      <td>{'Supporting text under the field.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'DatePicker.FieldError'}</td>
+      <td>{'Validation error text, shown when isInvalid.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+  </tbody>
+</table>
+
+Every slot must be rendered inside `DatePicker`/`DatePicker.Root` — they read shared context and
+throw if used standalone.
+
+<H2 id="examples">Examples</H2>
+
+<H3 id="default">Default</H3>
+
+<Preview
+  code={`<DatePicker className="w-64">
+  <DatePicker.LabelInputContainer>
+    <DatePicker.Label>Event date</DatePicker.Label>
+    <DatePicker.Group>
+      <DatePicker.Input />
+      <DatePicker.TriggerButton />
+    </DatePicker.Group>
+  </DatePicker.LabelInputContainer>
+  <DatePicker.Popover>
+    <DatePicker.Dialog>
+      <DatePicker.Calendar />
+    </DatePicker.Dialog>
+  </DatePicker.Popover>
+  <DatePicker.Description>Choose a date for your event.</DatePicker.Description>
+</DatePicker>`}
+>
+  <DatePicker className="w-64">
+    <DatePicker.LabelInputContainer>
+      <DatePicker.Label>{'Event date'}</DatePicker.Label>
+      <DatePicker.Group>
+        <DatePicker.Input />
+        <DatePicker.TriggerButton />
+      </DatePicker.Group>
+    </DatePicker.LabelInputContainer>
+    <DatePicker.Popover>
+      <DatePicker.Dialog>
+        <DatePicker.Calendar />
+      </DatePicker.Dialog>
+    </DatePicker.Popover>
+    <DatePicker.Description>{'Choose a date for your event.'}</DatePicker.Description>
+  </DatePicker>
+</Preview>
+
+<H3 id="default-value">Default value</H3>
+
+<Preview
+  code={`<DatePicker className="w-64" defaultValue={new CalendarDate(2026, 7, 17)}>
+  <DatePicker.LabelInputContainer>
+    <DatePicker.Label>Event date</DatePicker.Label>
+    <DatePicker.Group>
+      <DatePicker.Input />
+      <DatePicker.TriggerButton />
+    </DatePicker.Group>
+  </DatePicker.LabelInputContainer>
+  <DatePicker.Popover>
+    <DatePicker.Dialog>
+      <DatePicker.Calendar />
+    </DatePicker.Dialog>
+  </DatePicker.Popover>
+</DatePicker>`}
+>
+  <DatePicker
+    className="w-64"
+    defaultValue={new CalendarDate(2026, 7, 17)}
+  >
+    <DatePicker.LabelInputContainer>
+      <DatePicker.Label>{'Event date'}</DatePicker.Label>
+      <DatePicker.Group>
+        <DatePicker.Input />
+        <DatePicker.TriggerButton />
+      </DatePicker.Group>
+    </DatePicker.LabelInputContainer>
+    <DatePicker.Popover>
+      <DatePicker.Dialog>
+        <DatePicker.Calendar />
+      </DatePicker.Dialog>
+    </DatePicker.Popover>
+  </DatePicker>
+</Preview>
+
+<H2 id="states">States</H2>
+
+<H3 id="error">Error</H3>
+
+<Preview
+  code={`<DatePicker className="w-64" isInvalid>
+  <DatePicker.LabelInputContainer>
+    <DatePicker.Label>Event date</DatePicker.Label>
+    <DatePicker.Group>
+      <DatePicker.Input />
+      <DatePicker.TriggerButton />
+    </DatePicker.Group>
+  </DatePicker.LabelInputContainer>
+  <DatePicker.Popover>
+    <DatePicker.Dialog>
+      <DatePicker.Calendar />
+    </DatePicker.Dialog>
+  </DatePicker.Popover>
+  <DatePicker.FieldError>Please choose a valid date.</DatePicker.FieldError>
+</DatePicker>`}
+>
+  <DatePicker
+    className="w-64"
+    isInvalid
+  >
+    <DatePicker.LabelInputContainer>
+      <DatePicker.Label>{'Event date'}</DatePicker.Label>
+      <DatePicker.Group>
+        <DatePicker.Input />
+        <DatePicker.TriggerButton />
+      </DatePicker.Group>
+    </DatePicker.LabelInputContainer>
+    <DatePicker.Popover>
+      <DatePicker.Dialog>
+        <DatePicker.Calendar />
+      </DatePicker.Dialog>
+    </DatePicker.Popover>
+    <DatePicker.FieldError>{'Please choose a valid date.'}</DatePicker.FieldError>
+  </DatePicker>
+</Preview>
+
+<H3 id="disabled">Disabled</H3>
+
+<Preview
+  code={`<DatePicker className="w-64" isDisabled>
+  <DatePicker.LabelInputContainer>
+    <DatePicker.Label>Event date</DatePicker.Label>
+    <DatePicker.Group>
+      <DatePicker.Input />
+      <DatePicker.TriggerButton />
+    </DatePicker.Group>
+  </DatePicker.LabelInputContainer>
+</DatePicker>`}
+>
+  <DatePicker
+    className="w-64"
+    isDisabled
+  >
+    <DatePicker.LabelInputContainer>
+      <DatePicker.Label>{'Event date'}</DatePicker.Label>
+      <DatePicker.Group>
+        <DatePicker.Input />
+        <DatePicker.TriggerButton />
+      </DatePicker.Group>
+    </DatePicker.LabelInputContainer>
+  </DatePicker>
+</Preview>
+
+<H3 id="required">Required</H3>
+
+<Preview
+  code={`<DatePicker className="w-64" isRequired>
+  <DatePicker.LabelInputContainer>
+    <DatePicker.Label>Event date</DatePicker.Label>
+    <DatePicker.Group>
+      <DatePicker.Input />
+      <DatePicker.TriggerButton />
+    </DatePicker.Group>
+  </DatePicker.LabelInputContainer>
+  <DatePicker.Popover>
+    <DatePicker.Dialog>
+      <DatePicker.Calendar />
+    </DatePicker.Dialog>
+  </DatePicker.Popover>
+</DatePicker>`}
+>
+  <DatePicker
+    className="w-64"
+    isRequired
+  >
+    <DatePicker.LabelInputContainer>
+      <DatePicker.Label>{'Event date'}</DatePicker.Label>
+      <DatePicker.Group>
+        <DatePicker.Input />
+        <DatePicker.TriggerButton />
+      </DatePicker.Group>
+    </DatePicker.LabelInputContainer>
+    <DatePicker.Popover>
+      <DatePicker.Dialog>
+        <DatePicker.Calendar />
+      </DatePicker.Dialog>
+    </DatePicker.Popover>
+  </DatePicker>
+</Preview>
+
+<H2 id="in-a-card">In a Card</H2>
+
+<Preview
+  code={`<Card variant="default" className="w-80">
+  <Card.Header>
+    <Card.Title>Book a room</Card.Title>
+    <Card.Description>Select a check-in date.</Card.Description>
+  </Card.Header>
+  <Card.Content className="flex flex-col gap-5">
+    <DatePicker>
+      <DatePicker.LabelInputContainer>
+        <DatePicker.Label>Check-in</DatePicker.Label>
+        <DatePicker.Group>
+          <DatePicker.Input />
+          <DatePicker.TriggerButton />
+        </DatePicker.Group>
+      </DatePicker.LabelInputContainer>
+      <DatePicker.Popover>
+        <DatePicker.Dialog>
+          <DatePicker.Calendar />
+        </DatePicker.Dialog>
+      </DatePicker.Popover>
+    </DatePicker>
+  </Card.Content>
+</Card>`}
+>
+  <Card
+    variant="default"
+    className="w-80"
+  >
+    <Card.Header>
+      <Card.Title>{'Book a room'}</Card.Title>
+      <Card.Description>{'Select a check-in date.'}</Card.Description>
+    </Card.Header>
+    <Card.Content className="flex flex-col gap-5">
+      <DatePicker>
+        <DatePicker.LabelInputContainer>
+          <DatePicker.Label>{'Check-in'}</DatePicker.Label>
+          <DatePicker.Group>
+            <DatePicker.Input />
+            <DatePicker.TriggerButton />
+          </DatePicker.Group>
+        </DatePicker.LabelInputContainer>
+        <DatePicker.Popover>
+          <DatePicker.Dialog>
+            <DatePicker.Calendar />
+          </DatePicker.Dialog>
+        </DatePicker.Popover>
+      </DatePicker>
+    </Card.Content>
+  </Card>
+</Preview>
+
+<H2 id="api">API</H2>
+
+<PropsTable
+  rows={[
+    { name: 'value', type: 'DateValue', default: 'undefined' },
+    { name: 'defaultValue', type: 'DateValue', default: 'undefined' },
+    { name: 'minValue', type: 'DateValue', default: 'undefined' },
+    { name: 'maxValue', type: 'DateValue', default: 'undefined' },
+    { name: 'granularity', type: "'day' | 'hour' | 'minute' | 'second'", default: "'day'" },
+    { name: 'shouldCloseOnSelect', type: 'boolean', default: 'true' },
+    { name: 'isRequired', type: 'boolean', default: 'false' },
+    { name: 'isDisabled', type: 'boolean', default: 'false' },
+    { name: 'isReadOnly', type: 'boolean', default: 'false' },
+    { name: 'isInvalid', type: 'boolean', default: 'false' },
+  ]}
+/>

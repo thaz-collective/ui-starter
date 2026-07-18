@@ -1,0 +1,267 @@
+---
+title: Date Field
+date: 2026-07-17
+author:
+  - Tim Hazlett
+---
+
+import { CalendarDate } from '@internationalized/date';
+
+# Date Field
+
+A date/time input built on top of `react-aria-components`' `DateField`, where each part of the
+date (month, day, year, etc.) is displayed as an individually editable segment, styled with
+`tailwind-variants`.
+
+<H2 id="import">Import</H2>
+
+<pre>
+  <code>{`import { DateField } from '#src/common/components/date-field';`}</code>
+</pre>
+
+<H2 id="composition">Composition</H2>
+
+Use the following composition to build a `DateField`:
+
+<pre>
+  <code>{`DateField
+├── DateField.LabelInputContainer (optional)
+│   ├── DateField.Label (optional)
+│   └── DateField.Input
+├── DateField.Description (optional)
+└── DateField.FieldError (optional)`}</code>
+</pre>
+
+<H2 id="anatomy">Anatomy</H2>
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Component'}</th>
+      <th>{'Description'}</th>
+      <th>{'Optional'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'DateField / DateField.Root'}</td>
+      <td>{'The container; supplies context to every slot below.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'DateField.LabelInputContainer'}</td>
+      <td>{'Wraps the label and segmented input.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'DateField.Label'}</td>
+      <td>{"The field's label text."}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'DateField.Input'}</td>
+      <td>{'The segmented date/time input.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'DateField.Description'}</td>
+      <td>{'Supporting text under the field.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'DateField.FieldError'}</td>
+      <td>{'Validation error text, shown when isInvalid.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+  </tbody>
+</table>
+
+Every slot must be rendered inside `DateField`/`DateField.Root` — they read shared context and
+throw if used standalone.
+
+<H2 id="examples">Examples</H2>
+
+<H3 id="default">Default</H3>
+
+<Preview
+  code={`<DateField className="w-48">
+  <DateField.LabelInputContainer>
+    <DateField.Label>Date of birth</DateField.Label>
+    <DateField.Input />
+  </DateField.LabelInputContainer>
+  <DateField.Description>Enter your date of birth.</DateField.Description>
+</DateField>`}
+>
+  <DateField className="w-48">
+    <DateField.LabelInputContainer>
+      <DateField.Label>{'Date of birth'}</DateField.Label>
+      <DateField.Input />
+    </DateField.LabelInputContainer>
+    <DateField.Description>{'Enter your date of birth.'}</DateField.Description>
+  </DateField>
+</Preview>
+
+<H3 id="granularity">Granularity (date + time)</H3>
+
+<Preview
+  code={`<DateField className="w-64" granularity="minute">
+  <DateField.LabelInputContainer>
+    <DateField.Label>Appointment</DateField.Label>
+    <DateField.Input />
+  </DateField.LabelInputContainer>
+  <DateField.Description>Includes hours and minutes.</DateField.Description>
+</DateField>`}
+>
+  <DateField
+    className="w-64"
+    granularity="minute"
+  >
+    <DateField.LabelInputContainer>
+      <DateField.Label>{'Appointment'}</DateField.Label>
+      <DateField.Input />
+    </DateField.LabelInputContainer>
+    <DateField.Description>{'Includes hours and minutes.'}</DateField.Description>
+  </DateField>
+</Preview>
+
+<H2 id="states">States</H2>
+
+<H3 id="error">Error</H3>
+
+<Preview
+  code={`<DateField className="w-48" isInvalid>
+  <DateField.LabelInputContainer>
+    <DateField.Label>Date of birth</DateField.Label>
+    <DateField.Input />
+  </DateField.LabelInputContainer>
+  <DateField.FieldError>Please enter a valid date.</DateField.FieldError>
+</DateField>`}
+>
+  <DateField
+    className="w-48"
+    isInvalid
+  >
+    <DateField.LabelInputContainer>
+      <DateField.Label>{'Date of birth'}</DateField.Label>
+      <DateField.Input />
+    </DateField.LabelInputContainer>
+    <DateField.FieldError>{'Please enter a valid date.'}</DateField.FieldError>
+  </DateField>
+</Preview>
+
+<H3 id="disabled">Disabled</H3>
+
+<Preview
+  code={`<DateField className="w-48" isDisabled>
+  <DateField.LabelInputContainer>
+    <DateField.Label>Date of birth</DateField.Label>
+    <DateField.Input />
+  </DateField.LabelInputContainer>
+</DateField>`}
+>
+  <DateField
+    className="w-48"
+    isDisabled
+  >
+    <DateField.LabelInputContainer>
+      <DateField.Label>{'Date of birth'}</DateField.Label>
+      <DateField.Input />
+    </DateField.LabelInputContainer>
+  </DateField>
+</Preview>
+
+<H3 id="readonly">Readonly</H3>
+
+<Preview
+  code={`<DateField className="w-48" isReadOnly defaultValue={new CalendarDate(2026, 7, 17)}>
+  <DateField.LabelInputContainer>
+    <DateField.Label>Date of birth</DateField.Label>
+    <DateField.Input />
+  </DateField.LabelInputContainer>
+</DateField>`}
+>
+  <DateField
+    className="w-48"
+    isReadOnly
+    defaultValue={new CalendarDate(2026, 7, 17)}
+  >
+    <DateField.LabelInputContainer>
+      <DateField.Label>{'Date of birth'}</DateField.Label>
+      <DateField.Input />
+    </DateField.LabelInputContainer>
+  </DateField>
+</Preview>
+
+<H3 id="required">Required</H3>
+
+<Preview
+  code={`<DateField className="w-48" isRequired>
+  <DateField.LabelInputContainer>
+    <DateField.Label>Date of birth</DateField.Label>
+    <DateField.Input />
+  </DateField.LabelInputContainer>
+</DateField>`}
+>
+  <DateField
+    className="w-48"
+    isRequired
+  >
+    <DateField.LabelInputContainer>
+      <DateField.Label>{'Date of birth'}</DateField.Label>
+      <DateField.Input />
+    </DateField.LabelInputContainer>
+  </DateField>
+</Preview>
+
+<H2 id="in-a-card">In a Card</H2>
+
+<Preview
+  code={`<Card variant="default" className="w-80">
+  <Card.Header>
+    <Card.Title>Reservation</Card.Title>
+    <Card.Description>Pick a date for your reservation.</Card.Description>
+  </Card.Header>
+  <Card.Content className="flex flex-col gap-5">
+    <DateField>
+      <DateField.LabelInputContainer>
+        <DateField.Label>Date</DateField.Label>
+        <DateField.Input />
+      </DateField.LabelInputContainer>
+    </DateField>
+  </Card.Content>
+</Card>`}
+>
+  <Card
+    variant="default"
+    className="w-80"
+  >
+    <Card.Header>
+      <Card.Title>{'Reservation'}</Card.Title>
+      <Card.Description>{'Pick a date for your reservation.'}</Card.Description>
+    </Card.Header>
+    <Card.Content className="flex flex-col gap-5">
+      <DateField>
+        <DateField.LabelInputContainer>
+          <DateField.Label>{'Date'}</DateField.Label>
+          <DateField.Input />
+        </DateField.LabelInputContainer>
+      </DateField>
+    </Card.Content>
+  </Card>
+</Preview>
+
+<H2 id="api">API</H2>
+
+<PropsTable
+  rows={[
+    { name: 'value', type: 'DateValue', default: 'undefined' },
+    { name: 'defaultValue', type: 'DateValue', default: 'undefined' },
+    { name: 'minValue', type: 'DateValue', default: 'undefined' },
+    { name: 'maxValue', type: 'DateValue', default: 'undefined' },
+    { name: 'granularity', type: "'day' | 'hour' | 'minute' | 'second'", default: "'day'" },
+    { name: 'isRequired', type: 'boolean', default: 'false' },
+    { name: 'isDisabled', type: 'boolean', default: 'false' },
+    { name: 'isReadOnly', type: 'boolean', default: 'false' },
+    { name: 'isInvalid', type: 'boolean', default: 'false' },
+  ]}
+/>
