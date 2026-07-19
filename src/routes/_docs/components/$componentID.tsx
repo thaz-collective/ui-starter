@@ -9,6 +9,7 @@ import { DatePicker } from '#src/common/components/date-picker';
 import { NumberField } from '#src/common/components/number-field';
 import { Surface } from '#src/common/components/surface';
 import { TextField } from '#src/common/components/text-field';
+import { TimeField } from '#src/common/components/time-field';
 import { H2, H3 } from '#src/common/docs/heading';
 import { Preview } from '#src/common/docs/preview';
 import { PropsTable } from '#src/common/docs/props-table';
@@ -70,6 +71,7 @@ function RouteComponent() {
         NumberField,
         Surface,
         TextField,
+        TimeField,
         H2,
         H3,
         Preview,

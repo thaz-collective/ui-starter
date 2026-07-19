@@ -1,0 +1,268 @@
+---
+title: Time Field
+date: 2026-07-18
+author:
+  - Tim Hazlett
+---
+
+import { Time } from '@internationalized/date';
+
+# Time Field
+
+A time input built on top of `react-aria-components`' `TimeField`, where each part of the time
+(hour, minute, second, AM/PM) is displayed as an individually editable segment, styled with
+`tailwind-variants`. It reuses the same segmented `DateInput` building block as `DateField`.
+
+<H2 id="import">Import</H2>
+
+<pre>
+  <code>{`import { TimeField } from '#src/common/components/time-field';`}</code>
+</pre>
+
+<H2 id="composition">Composition</H2>
+
+Use the following composition to build a `TimeField`:
+
+<pre>
+  <code>{`TimeField
+├── TimeField.LabelInputContainer (optional)
+│   ├── TimeField.Label (optional)
+│   └── TimeField.Input
+├── TimeField.Description (optional)
+└── TimeField.FieldError (optional)`}</code>
+</pre>
+
+<H2 id="anatomy">Anatomy</H2>
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Component'}</th>
+      <th>{'Description'}</th>
+      <th>{'Optional'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'TimeField / TimeField.Root'}</td>
+      <td>{'The container; supplies context to every slot below.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'TimeField.LabelInputContainer'}</td>
+      <td>{'Wraps the label and segmented input.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'TimeField.Label'}</td>
+      <td>{"The field's label text."}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'TimeField.Input'}</td>
+      <td>{'The segmented time input.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'TimeField.Description'}</td>
+      <td>{'Supporting text under the field.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'TimeField.FieldError'}</td>
+      <td>{'Validation error text, shown when isInvalid.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+  </tbody>
+</table>
+
+Every slot must be rendered inside `TimeField`/`TimeField.Root` — they read shared context and
+throw if used standalone.
+
+<H2 id="examples">Examples</H2>
+
+<H3 id="default">Default</H3>
+
+<Preview
+  code={`<TimeField className="w-48">
+  <TimeField.LabelInputContainer>
+    <TimeField.Label>Meeting time</TimeField.Label>
+    <TimeField.Input />
+  </TimeField.LabelInputContainer>
+  <TimeField.Description>Choose a start time.</TimeField.Description>
+</TimeField>`}
+>
+  <TimeField className="w-48">
+    <TimeField.LabelInputContainer>
+      <TimeField.Label>{'Meeting time'}</TimeField.Label>
+      <TimeField.Input />
+    </TimeField.LabelInputContainer>
+    <TimeField.Description>{'Choose a start time.'}</TimeField.Description>
+  </TimeField>
+</Preview>
+
+<H3 id="granularity">Granularity (with seconds)</H3>
+
+<Preview
+  code={`<TimeField className="w-48" granularity="second">
+  <TimeField.LabelInputContainer>
+    <TimeField.Label>Lap time</TimeField.Label>
+    <TimeField.Input />
+  </TimeField.LabelInputContainer>
+  <TimeField.Description>Includes seconds.</TimeField.Description>
+</TimeField>`}
+>
+  <TimeField
+    className="w-48"
+    granularity="second"
+  >
+    <TimeField.LabelInputContainer>
+      <TimeField.Label>{'Lap time'}</TimeField.Label>
+      <TimeField.Input />
+    </TimeField.LabelInputContainer>
+    <TimeField.Description>{'Includes seconds.'}</TimeField.Description>
+  </TimeField>
+</Preview>
+
+<H2 id="states">States</H2>
+
+<H3 id="error">Error</H3>
+
+<Preview
+  code={`<TimeField className="w-48" isInvalid>
+  <TimeField.LabelInputContainer>
+    <TimeField.Label>Meeting time</TimeField.Label>
+    <TimeField.Input />
+  </TimeField.LabelInputContainer>
+  <TimeField.FieldError>Please enter a valid time.</TimeField.FieldError>
+</TimeField>`}
+>
+  <TimeField
+    className="w-48"
+    isInvalid
+  >
+    <TimeField.LabelInputContainer>
+      <TimeField.Label>{'Meeting time'}</TimeField.Label>
+      <TimeField.Input />
+    </TimeField.LabelInputContainer>
+    <TimeField.FieldError>{'Please enter a valid time.'}</TimeField.FieldError>
+  </TimeField>
+</Preview>
+
+<H3 id="disabled">Disabled</H3>
+
+<Preview
+  code={`<TimeField className="w-48" isDisabled>
+  <TimeField.LabelInputContainer>
+    <TimeField.Label>Meeting time</TimeField.Label>
+    <TimeField.Input />
+  </TimeField.LabelInputContainer>
+</TimeField>`}
+>
+  <TimeField
+    className="w-48"
+    isDisabled
+  >
+    <TimeField.LabelInputContainer>
+      <TimeField.Label>{'Meeting time'}</TimeField.Label>
+      <TimeField.Input />
+    </TimeField.LabelInputContainer>
+  </TimeField>
+</Preview>
+
+<H3 id="readonly">Readonly</H3>
+
+<Preview
+  code={`<TimeField className="w-48" isReadOnly defaultValue={new Time(14, 30)}>
+  <TimeField.LabelInputContainer>
+    <TimeField.Label>Meeting time</TimeField.Label>
+    <TimeField.Input />
+  </TimeField.LabelInputContainer>
+</TimeField>`}
+>
+  <TimeField
+    className="w-48"
+    isReadOnly
+    defaultValue={new Time(14, 30)}
+  >
+    <TimeField.LabelInputContainer>
+      <TimeField.Label>{'Meeting time'}</TimeField.Label>
+      <TimeField.Input />
+    </TimeField.LabelInputContainer>
+  </TimeField>
+</Preview>
+
+<H3 id="required">Required</H3>
+
+<Preview
+  code={`<TimeField className="w-48" isRequired>
+  <TimeField.LabelInputContainer>
+    <TimeField.Label>Meeting time</TimeField.Label>
+    <TimeField.Input />
+  </TimeField.LabelInputContainer>
+</TimeField>`}
+>
+  <TimeField
+    className="w-48"
+    isRequired
+  >
+    <TimeField.LabelInputContainer>
+      <TimeField.Label>{'Meeting time'}</TimeField.Label>
+      <TimeField.Input />
+    </TimeField.LabelInputContainer>
+  </TimeField>
+</Preview>
+
+<H2 id="in-a-card">In a Card</H2>
+
+<Preview
+  code={`<Card variant="default" className="w-80">
+  <Card.Header>
+    <Card.Title>Schedule a call</Card.Title>
+    <Card.Description>Pick a time that works for you.</Card.Description>
+  </Card.Header>
+  <Card.Content className="flex flex-col gap-5">
+    <TimeField>
+      <TimeField.LabelInputContainer>
+        <TimeField.Label>Time</TimeField.Label>
+        <TimeField.Input />
+      </TimeField.LabelInputContainer>
+    </TimeField>
+  </Card.Content>
+</Card>`}
+>
+  <Card
+    variant="default"
+    className="w-80"
+  >
+    <Card.Header>
+      <Card.Title>{'Schedule a call'}</Card.Title>
+      <Card.Description>{'Pick a time that works for you.'}</Card.Description>
+    </Card.Header>
+    <Card.Content className="flex flex-col gap-5">
+      <TimeField>
+        <TimeField.LabelInputContainer>
+          <TimeField.Label>{'Time'}</TimeField.Label>
+          <TimeField.Input />
+        </TimeField.LabelInputContainer>
+      </TimeField>
+    </Card.Content>
+  </Card>
+</Preview>
+
+<H2 id="api">API</H2>
+
+<PropsTable
+  rows={[
+    { name: 'value', type: 'TimeValue', default: 'undefined' },
+    { name: 'defaultValue', type: 'TimeValue', default: 'undefined' },
+    { name: 'minValue', type: 'TimeValue', default: 'undefined' },
+    { name: 'maxValue', type: 'TimeValue', default: 'undefined' },
+    { name: 'granularity', type: "'hour' | 'minute' | 'second'", default: "'minute'" },
+    { name: 'hourCycle', type: '12 | 24', default: 'undefined' },
+    { name: 'isRequired', type: 'boolean', default: 'false' },
+    { name: 'isDisabled', type: 'boolean', default: 'false' },
+    { name: 'isReadOnly', type: 'boolean', default: 'false' },
+    { name: 'isInvalid', type: 'boolean', default: 'false' },
+  ]}
+/>
