@@ -223,3 +223,57 @@ Everything below is genuinely uncertain because the package is `2.0.0-alpha.1` a
   - No investigation was done into `@tanstack/react-form-devtools` (also in package.json) — out of scope for this doc.
 
 Recommendation: re-read `@tanstack/form-core`'s `ValidationIssue` type and `react-aria-components`' `errorMessage` prop typing before writing the first real adapter implementation, and re-run `pnpm intent list` at that time in case the bundled skill docs/types have moved in a newer alpha (this verification pass used `2.0.0-alpha.1`, same version the original doc was written against, so no version drift occurred here).
+
+## Addendum: the 8 newly-built field components (`checkbox`, `switch`, `radio-group`, `search-field`, `slider`, `tag-group`, `select`, `combo-box`)
+
+Written 2026-08-18, after implementing all 8 components under `src/common/components/`. Each follows the same thin-adapter pattern established above (`fieldComponent.strict(Adapter, 'field')`, mapping `field.value`/`field.handleChange`/`field.handleBlur`/`field.errors`/`field.meta.isInvalid` onto the component's `Root` props), living outside `src/common/components/*` in the same proposed `src/common/lib/form/`-style location. No adapters were actually implemented (still design-only, matching this doc's existing status) — this section only maps each component's real RAC value shape, confirmed against its `Root`/`index.ts` exports, so the adapters can be written directly against fact rather than assumption.
+
+### checkbox / switch — boolean, no transform
+
+`Checkbox.Root` wraps RAC `Checkbox`; `Switch` wraps RAC `Switch`. Both emit `onChange(isSelected: boolean)` and have no `value`/`checked` controlled prop — RAC's boolean toggles are controlled via `isSelected`/`defaultSelected`, not `value`. So the adapter maps `field.value: boolean` to `isSelected` (not `value`) and `field.handleChange` to `onChange`, e.g.:
+
+```tsx
+<Checkbox.Root isSelected={field.value} onChange={field.handleChange} onBlur={field.handleBlur} />
+```
+
+This is the simplest adapter of the whole set, as predicted in the "Planned" note above — just note the `value` → `isSelected` prop-name mismatch, since a naive port of the `text-field` adapter shape (`value={field.value}`) would silently no-op.
+
+`Checkbox` also has a `Checkbox.Group` (wraps RAC `CheckboxGroup`) for a set of checkboxes bound to one `string[]` field — that adapter shape matches `tag-group`'s below (`value`/`onChange` on the group emit/accept `string[]`), not the single-checkbox boolean shape. `Switch` has no group variant.
+
+### radio-group — string, no transform
+
+`RadioGroup.Root` wraps RAC `RadioGroup`, controlled via `value: string | null` / `onChange(value: string)` — same shape as `text-field`, confirmed as predicted in the original "Planned" note. `field.value: string` → `value`, `field.handleChange` → `onChange`. Individual `RadioGroup.Radio` children take a `value` prop (their own option value) but no `onChange` — selection state lives entirely on `Root`.
+
+### search-field — string, no transform, but has its own clear/empty state
+
+`SearchField.Root` wraps RAC `SearchField`, controlled the same way as `text-field` (`value: string` / `onChange(value: string)`), so the adapter is identical in shape to the `text-field` example above — swap `TextField` for `SearchField`, `TextField.Input` for `SearchField.Input`, and `TextField.LabelInputContainer` for `SearchField.Group`. One thing to flag: RAC's `SearchField` has its own built-in "clear" affordance (`SearchField.ClearButton`, wraps `Button slot="clear"`) that calls the field's own `onChange('')` internally — this composes for free with `field.handleChange` since it's the same `onChange` prop, no extra wiring needed in the adapter.
+
+### slider — number or number[], depends on single vs. multi-thumb
+
+`Slider.Root` wraps RAC `Slider`, controlled via `value`/`onChange`, and RAC's `Slider` is *overloaded*: for a single thumb, `value: number` / `onChange(value: number)`; for multiple thumbs (rendering more than one `Slider.Thumb`), `value: number[]` / `onChange(value: number[])`. This is a real, per-usage design decision the adapter can't make generically — **flagging as open question**: should this library ship two distinct registered field components (`Slider` for `FieldWithValue<number>`, `SliderRange` for `FieldWithValue<number[]>`), or one generic adapter typed against a generic `TValue extends number | number[]` and left to the consumer to specialize per-field? RAC itself resolves this via the shape of the `value`/`defaultValue` prop at the type level (function overloads on `SliderProps`), so a single adapter component would need the same conditional generic to stay type-safe — recommend deciding this only once a real multi-thumb use case exists in a consuming app, per this doc's existing "flag, don't decide" convention.
+
+### tag-group — string[], no transform
+
+`TagGroup.Root` wraps RAC `TagGroup`, controlled via `selectedKeys`/`onSelectionChange` for which *tags exist as selectable/removable chips* — but the more relevant read for a "chips of arbitrary values" field (e.g. a free-form tag list bound to a `string[]` form field) is `TagGroup.List`'s `items` prop (the actual set of tags rendered) combined with the `Tag`'s `onRemove`-style handling via `TagGroup.Root`'s `onRemove(keys: Set<Key>)` callback — RAC's `TagGroup` models "remove one tag from the set" as a `Set<Key>` event, not a full new-array `onChange`. **Flagging as open question**: the adapter needs to decide how a `Key`-based removal event reduces back onto a `string[]` form value (likely `field.handleChange(field.value.filter((v) => !removedKeys.has(v)))` assuming `Key === string` for this use case), and how *adding* a new tag (e.g. from a paired text input, which `TagGroup` does not itself provide) composes with the same field — this is closer in shape to `select`/`combobox`'s `Key`-vs-value-object question below than to a simple 1:1 value mapping, and should get its own design pass alongside those once a real consuming form needs it.
+
+### select — Key, needs a value-shape decision
+
+`Select.Root` wraps RAC `Select`, controlled via `selectedKey: Key | null` / `onSelectionChange(key: Key)` where `Key = string | number`. This confirms the original "Planned" note's prediction exactly. **Flagging as open question** (same as originally flagged, now concrete since the component exists): does this library's canonical form value for a select field store the `Key` directly (simplest — `field.value: Key | null` maps 1:1 to `selectedKey`/`onSelectionChange`, no transform, no dependency on the option list being loaded), or the full selected option object (requires the adapter to resolve `Key -> option` via whatever collection/query backs `Select.ListBox`'s `items`, and breaks if `defaultValues` sets a key whose option isn't loaded yet — e.g. async-loaded options)? Recommend the `Key`-only canonical value (matches RAC's own controlled-value shape, avoids the async-availability problem entirely) unless a consuming app has a concrete reason to store the full object in form state — this is a project-wide call, not a per-field one, so it shouldn't be decided ad hoc per adapter.
+
+### combo-box — Key + separate input text, two values need reconciling
+
+`ComboBox.Root` wraps RAC `ComboBox`, which is controlled via **two independent props**: `selectedKey: Key | null` / `onSelectionChange(key: Key | null)` for the committed selection, and `inputValue: string` / `onInputChange(value: string)` for the raw text currently typed (which does not necessarily match the selected option's label — e.g. mid-typing before a selection is committed, or free text if the combobox allows non-matching input). This is a strictly harder case than `select`'s single `Key`, and inherits the same async-option-availability concern flagged above. **Flagging as open question**: does the form field's canonical value track only `selectedKey` (simplest, but loses in-progress typed text across remounts/blur-without-select), or does the adapter need to manage `inputValue` as local component state separate from the form field (likely correct, since "what's currently typed" is transient UI state, not committed form data) and only call `field.handleChange` on `onSelectionChange`? This mirrors a common controlled-combobox pattern outside this library too, but the exact split needs a project-wide decision (not per-field) once `select`'s `Key`-vs-object question above is settled, since both should stay consistent with each other.
+
+### Per-component onChange emission summary (for quick reference when writing adapters)
+
+| Component | Controlled prop(s) | Emitted value | Transform needed |
+|---|---|---|---|
+| `Checkbox.Root` | `isSelected` | `boolean` | prop-name only (`value` → `isSelected`) |
+| `Checkbox.Group` | `value` | `string[]` | none |
+| `Switch` | `isSelected` | `boolean` | prop-name only (`value` → `isSelected`) |
+| `RadioGroup.Root` | `value` | `string` | none |
+| `SearchField.Root` | `value` | `string` | none |
+| `Slider.Root` | `value` | `number` (single thumb) or `number[]` (multi-thumb) | none, but shape is usage-dependent (flagged) |
+| `TagGroup.Root`/`.List` | `selectedKeys`/`items` + `onRemove(Set<Key>)` | `Set<Key>` removal events, not a `string[]` `onChange` | reduction logic needed (flagged) |
+| `Select.Root` | `selectedKey` | `Key` (`string \| number`) | `Key`-vs-option-object decision (flagged) |
+| `ComboBox.Root` | `selectedKey` + `inputValue` | `Key` + `string`, two independent streams | selection/typed-text split decision (flagged) |
