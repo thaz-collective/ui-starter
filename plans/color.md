@@ -1,7 +1,7 @@
 # Color
 
 ## What it is
-**Not one concept** — jolly-ui's `color.tsx` bundles wrappers for five distinct RAC color-picking primitives that don't share a parent/child relationship with each other: a color field (text input), a 2D color area, a 1D slider track (shared by sliders/wheel), a color wheel, a color swatch/swatch-picker, plus the top-level `ColorPicker` composition root. This does **not** fit our "one folder per compound" convention as a single flat compound — it needs to become **several sibling top-level folders**, similar to how `date-field`/`date-input`/`date-picker`/`calendar`/`time-field` are already split into separate concepts in this library rather than one giant `Date` compound.
+**Not one concept** — jolly-ui's `color.tsx` bundles wrappers for five distinct RAC color-picking primitives that don't share a parent/child relationship with each other: a color field (text input), a 2D color area, a 1D slider track (shared by sliders/wheel), a color wheel, a color swatch/swatch-picker, plus the top-level `ColorPicker` composition root. This does **not** fit our "one folder per compound" convention as a single flat compound — it needs to become **several sibling top-level folders**, similar to how `date-time-picker`/`calendar`/`time-field` are already split into separate concepts in this library rather than one giant `Date` compound.
 
 ## Source
 `/home/maethron/codingProjects/opensource/jolly-ui/src/registry/new-york/ui/color.tsx`

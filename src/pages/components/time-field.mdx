@@ -11,7 +11,11 @@ import { Time } from '@internationalized/date';
 
 A time input built on top of `react-aria-components`' `TimeField`, where each part of the time
 (hour, minute, second, AM/PM) is displayed as an individually editable segment, styled with
-`tailwind-variants`. It reuses the same segmented `DateInput` building block as `DateField`.
+`tailwind-variants`. It reuses the same segmented `DateInput` building block as
+[`DateTimePicker`](/components/date-time-picker).
+
+Use `TimeField` when you need a time value decoupled from any date — for a combined date and
+time input, use `DateTimePicker` with a higher `granularity` instead.
 
 <H2 id="import">Import</H2>
 

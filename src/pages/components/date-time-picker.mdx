@@ -9,9 +9,13 @@ import { CalendarDate } from '@internationalized/date';
 
 # Date Time Picker
 
-A date picker combines a segmented `DateField` with a `Calendar` popover, letting users type a
-date directly or pick one visually. Built on top of `react-aria-components`' `DateTimePicker`,
+A date picker combines a segmented date/time field with a `Calendar` popover, letting users type
+a date directly or pick one visually. Built on top of `react-aria-components`' `DatePicker`,
 `Popover`, `Dialog`, and `Calendar`, styled with `tailwind-variants`.
+
+`DateTimePicker` covers date-only, date+time, and time-of-day-within-a-date use cases through its
+`granularity` prop — there is no separate `DateField` component. If you need a time value that
+isn't tied to any date, use [`TimeField`](/components/time-field) instead.
 
 <H2 id="import">Import</H2>
 
@@ -181,6 +185,48 @@ throw if used standalone.
         <DateTimePicker.Calendar />
       </DateTimePicker.Dialog>
     </DateTimePicker.Popover>
+  </DateTimePicker>
+</Preview>
+
+<H3 id="granularity">Granularity (date + time)</H3>
+
+Raise `granularity` to `"minute"` or `"second"` to add time segments to the same field. The
+calendar popover still selects the date portion; the extra segments are typed directly.
+
+<Preview
+  code={`<DateTimePicker className="w-72" granularity="minute">
+  <DateTimePicker.LabelInputContainer>
+    <DateTimePicker.Label>Appointment</DateTimePicker.Label>
+    <DateTimePicker.Group>
+      <DateTimePicker.Input />
+      <DateTimePicker.TriggerButton />
+    </DateTimePicker.Group>
+  </DateTimePicker.LabelInputContainer>
+  <DateTimePicker.Popover>
+    <DateTimePicker.Dialog>
+      <DateTimePicker.Calendar />
+    </DateTimePicker.Dialog>
+  </DateTimePicker.Popover>
+  <DateTimePicker.Description>Includes hours and minutes.</DateTimePicker.Description>
+</DateTimePicker>`}
+>
+  <DateTimePicker
+    className="w-72"
+    granularity="minute"
+  >
+    <DateTimePicker.LabelInputContainer>
+      <DateTimePicker.Label>{'Appointment'}</DateTimePicker.Label>
+      <DateTimePicker.Group>
+        <DateTimePicker.Input />
+        <DateTimePicker.TriggerButton />
+      </DateTimePicker.Group>
+    </DateTimePicker.LabelInputContainer>
+    <DateTimePicker.Popover>
+      <DateTimePicker.Dialog>
+        <DateTimePicker.Calendar />
+      </DateTimePicker.Dialog>
+    </DateTimePicker.Popover>
+    <DateTimePicker.Description>{'Includes hours and minutes.'}</DateTimePicker.Description>
   </DateTimePicker>
 </Preview>
 
