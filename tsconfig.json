@@ -1,7 +1,7 @@
 {
   "extends": [
     "@thaz/typescript-config/bundler.json",
-    "@thaz/typescript-config/lib-dom.json",
+    "@thaz/typescript-config/lib-dom-temporal.json",
     "@thaz/typescript-config/paths.json",
     "@thaz/typescript-config/react.json"
   ],

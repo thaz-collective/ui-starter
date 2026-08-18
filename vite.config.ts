@@ -1,16 +1,16 @@
+import { defineConfig } from 'vite-plus';
+import contentCollections from '@content-collections/vite';
+import tailwindcss from '@tailwindcss/vite';
+import { tanstackStart } from '@tanstack/react-start/plugin/vite';
 import viteJSPluginReact from '@vitejs/plugin-react';
 import rsc from '@vitejs/plugin-rsc';
-import { defineConfig } from 'vite-plus';
+import mdx from '@mdx-js/rollup';
 
 import { devtools } from '@tanstack/devtools-vite';
-import { tanstackStart } from '@tanstack/react-start/plugin/vite';
 
 import { oxfmtConfig } from '@thaz/oxfmt-config';
 import { nativeConfig, jsPluginConfig } from '@thaz/oxlint-config';
 
-import contentCollections from '@content-collections/vite';
-import mdx from '@mdx-js/rollup';
-import tailwindcss from '@tailwindcss/vite';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
 
@@ -26,18 +26,23 @@ export default defineConfig({
     tasks: {
       dev: {
         command: 'vp dev',
+        input: [{ auto: true }, '!coverage/**'],
       },
       build: {
         command: 'vp pack',
+        input: [{ auto: true }, '!coverage/**'],
       },
       check: {
         command: 'vp check',
+        input: [{ auto: true }, '!coverage/**'],
       },
       fmt: {
         command: 'vp fmt',
+        input: [{ auto: true }, '!coverage/**'],
       },
       lint: {
         command: 'vp lint',
+        input: [{ auto: true }, '!coverage/**'],
       },
     },
   },

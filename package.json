@@ -23,17 +23,22 @@
   "dependencies": {
     "@fontsource-variable/inter": "catalog:",
     "@internationalized/date": "catalog:",
-    "@js-temporal/polyfill": "catalog:",
+    "@tanstack/charts": "catalog:",
+    "@tanstack/react-charts": "catalog:",
     "@tanstack/react-devtools": "catalog:",
     "@tanstack/react-form": "catalog:",
     "@tanstack/react-form-devtools": "catalog:",
+    "@tanstack/react-pacer": "catalog:",
+    "@tanstack/react-pacer-devtools": "catalog:",
     "@tanstack/react-query": "catalog:",
     "@tanstack/react-query-devtools": "catalog:",
     "@tanstack/react-router": "catalog:",
     "@tanstack/react-router-devtools": "catalog:",
     "@tanstack/react-router-ssr-query": "catalog:",
     "@tanstack/react-start": "catalog:",
+    "@tanstack/react-store": "catalog:",
     "@thaz/form-util": "catalog:",
+    "@thaz/network-util": "catalog:",
     "@thaz/temporal-util": "catalog:",
     "lucide-react": "catalog:",
     "react": "catalog:",
@@ -42,6 +47,7 @@
     "spin-delay": "catalog:",
     "tailwind-merge": "catalog:",
     "tailwind-variants": "catalog:",
+    "temporal-polyfill": "catalog:",
     "use-deep-compare": "catalog:",
     "valibot": "catalog:"
   },
@@ -79,7 +85,7 @@
   "engines": {
     "node": ">=24"
   },
-  "packageManager": "pnpm@11.13.1",
+  "packageManager": "pnpm@11.22.0",
   "msw": {
     "workerDirectory": [
       "public"

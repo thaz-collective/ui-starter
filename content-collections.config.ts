@@ -4,6 +4,8 @@ import type { WriterHook } from '@content-collections/core';
 import { defineCollection, defineConfig } from '@content-collections/core';
 import { compileMDX } from '@content-collections/mdx';
 import * as v from 'valibot';
+// oxlint-disable-next-line import/no-unassigned-import -- Needed to polyfill in temporal globally
+import 'temporal-polyfill/full/global';
 
 export const components = defineCollection({
   name: 'components',

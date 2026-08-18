@@ -32,8 +32,7 @@ x-flags: &penpot-flags
 x-uri: &penpot-public-uri
   PENPOT_PUBLIC_URI: http://localhost:9001
 
-x-body-size: &penpot-http-body-size
-  # Max body size
+x-body-size: &penpot-http-body-size # Max body size
   PENPOT_HTTP_SERVER_MAX_BODY_SIZE: 367001600
   # Deprecation warning: this variable is deprecated. Use PENPOT_HTTP_SERVER_MAX_BODY (defaults to 367001600)
   PENPOT_HTTP_SERVER_MAX_MULTIPART_BODY_SIZE: 367001600
@@ -81,7 +80,7 @@ services:
   #     - "443:443"
 
   penpot-frontend:
-    image: "penpotapp/frontend:${PENPOT_VERSION:-2.16}"
+    image: 'penpotapp/frontend:${PENPOT_VERSION:-2.16}'
     restart: always
     ports:
       - 9001:8080
@@ -98,23 +97,23 @@ services:
       - penpot
 
     # labels:
-      # - "traefik.enable=true"
+    # - "traefik.enable=true"
 
-      # ## HTTPS: example of labels for the case where penpot will be exposed to the
-      # ## internet with HTTPS using traefik.
+    # ## HTTPS: example of labels for the case where penpot will be exposed to the
+    # ## internet with HTTPS using traefik.
 
-      # - "traefik.http.routers.penpot-https.rule=Host(`<DOMAIN_NAME>`)"
-      # - "traefik.http.routers.penpot-https.entrypoints=websecure"
-      # - "traefik.http.routers.penpot-https.tls.certresolver=letsencrypt"
-      # - "traefik.http.routers.penpot-https.tls=true"
+    # - "traefik.http.routers.penpot-https.rule=Host(`<DOMAIN_NAME>`)"
+    # - "traefik.http.routers.penpot-https.entrypoints=websecure"
+    # - "traefik.http.routers.penpot-https.tls.certresolver=letsencrypt"
+    # - "traefik.http.routers.penpot-https.tls=true"
 
     environment:
-      << : [*penpot-flags, *penpot-http-body-size, *penpot-public-uri]
+      <<: [*penpot-flags, *penpot-http-body-size, *penpot-public-uri]
       # Set to "true" on hosts where IPv6 is disabled at kernel boot level.
       # PENPOT_DISABLE_IPV6_LISTEN: "true"
 
   penpot-backend:
-    image: "penpotapp/backend:${PENPOT_VERSION:-2.16}"
+    image: 'penpotapp/backend:${PENPOT_VERSION:-2.16}'
     restart: always
 
     volumes:
@@ -132,7 +131,7 @@ services:
     ## Configuration envronment variables for the backend container.
 
     environment:
-      << : [*penpot-flags, *penpot-public-uri, *penpot-http-body-size, *penpot-secret-key]
+      <<: [*penpot-flags, *penpot-public-uri, *penpot-http-body-size, *penpot-secret-key]
 
       ## Database connection parameters. Don't touch them unless you are using custom
       ## postgresql connection parameters.
@@ -165,7 +164,7 @@ services:
       ## based on real scenarios. If you want to help us, please leave it enabled. You can
       ## audit what data we send with the code available on github.
 
-      PENPOT_TELEMETRY_ENABLED: "true"
+      PENPOT_TELEMETRY_ENABLED: 'true'
       PENPOT_TELEMETRY_REFERER: compose
 
       ## Example SMTP/Email configuration. By default, emails are sent to the mailcatch
@@ -179,17 +178,17 @@ services:
       PENPOT_SMTP_PORT: 1025
       PENPOT_SMTP_USERNAME:
       PENPOT_SMTP_PASSWORD:
-      PENPOT_SMTP_TLS: "false"
-      PENPOT_SMTP_SSL: "false"
+      PENPOT_SMTP_TLS: 'false'
+      PENPOT_SMTP_SSL: 'false'
 
   penpot-mcp:
-    image: "penpotapp/mcp:${PENPOT_VERSION:-2.16}"
+    image: 'penpotapp/mcp:${PENPOT_VERSION:-2.16}'
     restart: always
     networks:
       - penpot
 
   penpot-exporter:
-    image: "penpotapp/exporter:${PENPOT_VERSION:-2.16}"
+    image: 'penpotapp/exporter:${PENPOT_VERSION:-2.16}'
     restart: always
 
     depends_on:
@@ -200,7 +199,7 @@ services:
       - penpot
 
     environment:
-      << : [*penpot-secret-key, *penpot-public-uri]
+      <<: [*penpot-secret-key, *penpot-public-uri]
       # Don't touch it; this uses an internal docker network to
       # communicate with the frontend.
       PENPOT_INTERNAL_URI: http://penpot-frontend:8080
@@ -209,12 +208,12 @@ services:
       PENPOT_REDIS_URI: redis://penpot-valkey/0
 
   penpot-postgres:
-    image: "postgres:15"
+    image: 'postgres:15'
     restart: always
     stop_signal: SIGINT
 
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U penpot"]
+      test: ['CMD-SHELL', 'pg_isready -U penpot']
       interval: 2s
       timeout: 10s
       retries: 5
@@ -237,7 +236,7 @@ services:
     restart: always
 
     healthcheck:
-      test: ["CMD-SHELL", "valkey-cli ping | grep PONG"]
+      test: ['CMD-SHELL', 'valkey-cli ping | grep PONG']
       interval: 1s
       timeout: 3s
       retries: 5
@@ -261,6 +260,6 @@ services:
     expose:
       - '1025'
     ports:
-      - "1080:1080"
+      - '1080:1080'
     networks:
       - penpot
