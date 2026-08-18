@@ -5,7 +5,7 @@ import { composeRenderProps, FieldError as RACFieldError } from 'react-aria-comp
 import type { VariantProps } from 'tailwind-variants';
 import { tv } from 'tailwind-variants';
 
-import { useNumberFieldContext } from '#src/common/components/number-field/context';
+import { useDateTimePickerContext } from '#src/common/components/date-time-picker/context';
 
 const fieldErrorVariants = tv({
   base: [
@@ -24,10 +24,12 @@ export interface FieldErrorProps extends RACFieldErrorProps, FieldErrorVariants 
 }
 
 export function FieldError(props: FieldErrorProps) {
-  const context = useNumberFieldContext();
+  const context = useDateTimePickerContext();
 
   if (context === undefined) {
-    throw new Error('NumberField.FieldError must be used within a component that extends a NumberFieldContextProvider');
+    throw new Error(
+      'DateTimePicker.FieldError must be used within a component that extends a DateTimePickerContextProvider',
+    );
   }
 
   const { slots } = context;

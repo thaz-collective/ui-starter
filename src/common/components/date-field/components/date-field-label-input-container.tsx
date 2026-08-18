@@ -1,8 +1,30 @@
-import type { LabelInputContainerProps as InternalLabelInputContainerProps } from '#src/common/components/label-input-container';
-import { useDateFieldContext } from '#src/common/components/date-field/context';
-import { LabelInputContainer as InternalLabelInputContainer } from '#src/common/components/label-input-container';
+import type { ComponentPropsWithRef, ReactNode } from 'react';
 
-export function LabelInputContainer(props: InternalLabelInputContainerProps) {
+import type { VariantProps } from 'tailwind-variants';
+import { tv } from 'tailwind-variants';
+
+import { useDateFieldContext } from '#src/common/components/date-field/context';
+
+const labelInputContainerVariants = tv({
+  base: [
+    'group/label-input-container',
+    'relative flex items-stretch',
+    'rounded-md',
+    'bg-field',
+    'transition-colors duration-150',
+
+    'border border-field-border',
+    'focus-within:border-primary hover:border-primary-hover',
+  ],
+});
+
+type LabelInputContainerVariants = VariantProps<typeof labelInputContainerVariants>;
+
+export interface LabelInputContainerProps extends ComponentPropsWithRef<'div'>, LabelInputContainerVariants {
+  children: ReactNode;
+}
+
+export function LabelInputContainer(props: LabelInputContainerProps) {
   const context = useDateFieldContext();
 
   if (context === undefined) {
@@ -13,10 +35,16 @@ export function LabelInputContainer(props: InternalLabelInputContainerProps) {
 
   const { slots } = context;
 
+  const mergedProps = {
+    ...props,
+    className: slots.inputLabelContainer({ ...props, className: props.className }),
+  };
+
   return (
-    <InternalLabelInputContainer
-      {...props}
-      className={slots.inputLabelContainer({ ...props, className: props.className })}
+    <div
+      {...mergedProps}
+      data-slot="label-input-container"
+      className={labelInputContainerVariants({ className: mergedProps.className })}
     />
   );
 }

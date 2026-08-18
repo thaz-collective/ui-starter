@@ -2,7 +2,7 @@ import type { DateInputProps as RACDateInputProps } from 'react-aria-components'
 import { composeRenderProps, DateInput as RACDateInput, DateSegment as RACDateSegment } from 'react-aria-components';
 import { tv } from 'tailwind-variants';
 
-import { useDateFieldContext } from '#src/common/components/date-field/context';
+import { useDateTimePickerContext } from '#src/common/components/date-time-picker/context';
 
 const dateInputVariants = tv({
   slots: {
@@ -34,10 +34,10 @@ const dateInputVariants = tv({
 export type DateInputProps = Omit<RACDateInputProps, 'children'>;
 
 export function Input(props: DateInputProps) {
-  const context = useDateFieldContext();
+  const context = useDateTimePickerContext();
 
   if (context === undefined) {
-    throw new Error('DateField.Input must be used within a component that extends a DateFieldContextProvider');
+    throw new Error('DateTimePicker.Input must be used within a component that extends a DateTimePickerContextProvider');
   }
 
   const { slots } = context;

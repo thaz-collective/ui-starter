@@ -1,10 +1,29 @@
-import { composeRenderProps } from 'react-aria-components';
+import type { ReactNode } from 'react';
 
-import type { FieldErrorProps as InternalFieldErrorProps } from '#src/common/components/field-error';
+import type { FieldErrorProps as RACFieldErrorProps } from 'react-aria-components';
+import { composeRenderProps, FieldError as RACFieldError } from 'react-aria-components';
+import type { VariantProps } from 'tailwind-variants';
+import { tv } from 'tailwind-variants';
+
 import { useDateFieldContext } from '#src/common/components/date-field/context';
-import { FieldError as InternalFieldError } from '#src/common/components/field-error';
 
-export function FieldError(props: InternalFieldErrorProps) {
+const fieldErrorVariants = tv({
+  base: [
+    'group/field-error',
+
+    'text-xs text-danger',
+
+    'hidden',
+  ],
+});
+
+type FieldErrorVariants = VariantProps<typeof fieldErrorVariants>;
+
+export interface FieldErrorProps extends RACFieldErrorProps, FieldErrorVariants {
+  children: ReactNode;
+}
+
+export function FieldError(props: FieldErrorProps) {
   const context = useDateFieldContext();
 
   if (context === undefined) {
@@ -14,10 +33,13 @@ export function FieldError(props: InternalFieldErrorProps) {
   const { slots } = context;
 
   return (
-    <InternalFieldError
+    <RACFieldError
       {...props}
+      data-slot="field-error"
       className={composeRenderProps(props.className, (className, renderProps) => {
-        return slots.fieldError({ ...props, ...renderProps, className });
+        const slotClassName = slots.fieldError({ ...props, ...renderProps, className });
+
+        return fieldErrorVariants({ ...props, ...renderProps, className: slotClassName });
       })}
     />
   );

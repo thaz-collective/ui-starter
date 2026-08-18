@@ -1,8 +1,27 @@
-import type { DescriptionProps as InternalDescriptionProps } from '#src/common/components/description';
-import { useDateFieldContext } from '#src/common/components/date-field/context';
-import { Description as InternalDescription } from '#src/common/components/description';
+import type { ReactNode } from 'react';
 
-export function Description(props: InternalDescriptionProps) {
+import type { TextProps as RACTextProps } from 'react-aria-components';
+import { Text as RACText } from 'react-aria-components';
+import type { VariantProps } from 'tailwind-variants';
+import { tv } from 'tailwind-variants';
+
+import { useDateFieldContext } from '#src/common/components/date-field/context';
+
+const descriptionVariants = tv({
+  base: [
+    'group/description',
+
+    'text-xs text-muted-foreground',
+  ],
+});
+
+type DescriptionVariants = VariantProps<typeof descriptionVariants>;
+
+export interface DescriptionProps extends Omit<RACTextProps, 'slot'>, DescriptionVariants {
+  children: ReactNode;
+}
+
+export function Description(props: DescriptionProps) {
   const context = useDateFieldContext();
 
   if (context === undefined) {
@@ -11,10 +30,17 @@ export function Description(props: InternalDescriptionProps) {
 
   const { slots } = context;
 
+  const mergedProps = {
+    ...props,
+    className: slots.description({ ...props, className: props.className }),
+  };
+
   return (
-    <InternalDescription
-      {...props}
-      className={slots.description({ ...props, className: props.className })}
+    <RACText
+      {...mergedProps}
+      data-slot="description"
+      slot="description"
+      className={descriptionVariants({ ...mergedProps })}
     />
   );
 }

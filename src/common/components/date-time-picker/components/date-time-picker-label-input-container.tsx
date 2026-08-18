@@ -3,7 +3,7 @@ import type { ComponentPropsWithRef, ReactNode } from 'react';
 import type { VariantProps } from 'tailwind-variants';
 import { tv } from 'tailwind-variants';
 
-import { useTimeFieldContext } from '#src/common/components/time-field/context';
+import { useDateTimePickerContext } from '#src/common/components/date-time-picker/context';
 
 const labelInputContainerVariants = tv({
   base: [
@@ -25,11 +25,11 @@ export interface LabelInputContainerProps extends ComponentPropsWithRef<'div'>, 
 }
 
 export function LabelInputContainer(props: LabelInputContainerProps) {
-  const context = useTimeFieldContext();
+  const context = useDateTimePickerContext();
 
   if (context === undefined) {
     throw new Error(
-      'TimeField.LabelInputContainer must be used within a component that extends a TimeFieldContextProvider',
+      'DateTimePicker.LabelInputContainer must be used within a component that extends a DateTimePickerContextProvider',
     );
   }
 

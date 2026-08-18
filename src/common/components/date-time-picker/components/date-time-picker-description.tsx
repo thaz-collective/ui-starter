@@ -5,7 +5,7 @@ import { Text as RACText } from 'react-aria-components';
 import type { VariantProps } from 'tailwind-variants';
 import { tv } from 'tailwind-variants';
 
-import { useNumberFieldContext } from '#src/common/components/number-field/context';
+import { useDateTimePickerContext } from '#src/common/components/date-time-picker/context';
 
 const descriptionVariants = tv({
   base: [
@@ -22,11 +22,11 @@ export interface DescriptionProps extends Omit<RACTextProps, 'slot'>, Descriptio
 }
 
 export function Description(props: DescriptionProps) {
-  const context = useNumberFieldContext();
+  const context = useDateTimePickerContext();
 
   if (context === undefined) {
     throw new Error(
-      'NumberField.Description must be used within a component that extends a NumberFieldContextProvider',
+      'DateTimePicker.Description must be used within a component that extends a DateTimePickerContextProvider',
     );
   }
 

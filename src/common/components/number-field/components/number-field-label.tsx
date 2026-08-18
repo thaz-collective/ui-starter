@@ -1,8 +1,23 @@
-import type { LabelProps as InternalLabelProps } from '#src/common/components/label';
-import { Label as InternalLabel } from '#src/common/components/label';
+import type { LabelProps as RACLabelProps } from 'react-aria-components';
+import { Label as RACLabel } from 'react-aria-components';
+import { tv } from 'tailwind-variants';
+
 import { useNumberFieldContext } from '#src/common/components/number-field/context';
 
-export function Label(props: InternalLabelProps) {
+const labelVariants = tv({
+  base: [
+    'absolute left-3 z-10',
+    'top-1/2 -translate-y-1/2',
+    'text-sm leading-none font-medium',
+    'text-muted-foreground',
+    'pointer-events-none select-none',
+    'transition-all duration-150',
+  ],
+});
+
+export type LabelProps = RACLabelProps;
+
+export function Label(props: LabelProps) {
   const context = useNumberFieldContext();
 
   if (context === undefined) {
@@ -11,10 +26,16 @@ export function Label(props: InternalLabelProps) {
 
   const { slots } = context;
 
+  const mergedProps = {
+    ...props,
+    className: slots.label({ ...props, className: props.className }),
+  };
+
   return (
-    <InternalLabel
-      {...props}
-      className={slots.label({ ...props, className: props.className })}
+    <RACLabel
+      {...mergedProps}
+      data-slot="label"
+      className={labelVariants({ ...mergedProps })}
     />
   );
 }

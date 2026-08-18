@@ -2,7 +2,7 @@ import type { LabelProps as RACLabelProps } from 'react-aria-components';
 import { Label as RACLabel } from 'react-aria-components';
 import { tv } from 'tailwind-variants';
 
-import { useTimeFieldContext } from '#src/common/components/time-field/context';
+import { useDateTimePickerContext } from '#src/common/components/date-time-picker/context';
 
 const labelVariants = tv({
   base: [
@@ -18,10 +18,10 @@ const labelVariants = tv({
 export type LabelProps = RACLabelProps;
 
 export function Label(props: LabelProps) {
-  const context = useTimeFieldContext();
+  const context = useDateTimePickerContext();
 
   if (context === undefined) {
-    throw new Error('TimeField.Label must be used within a component that extends a TimeFieldContextProvider');
+    throw new Error('DateTimePicker.Label must be used within a component that extends a DateTimePickerContextProvider');
   }
 
   const { slots } = context;

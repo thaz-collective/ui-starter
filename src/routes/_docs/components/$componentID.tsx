@@ -5,7 +5,7 @@ import { MDXContent } from '@content-collections/mdx/react';
 import { Button } from '#src/common/components/button';
 import { Card } from '#src/common/components/card';
 import { DateField } from '#src/common/components/date-field';
-import { DatePicker } from '#src/common/components/date-picker';
+import { DateTimePicker } from '#src/common/components/date-time-picker';
 import { NumberField } from '#src/common/components/number-field';
 import { Surface } from '#src/common/components/surface';
 import { TextField } from '#src/common/components/text-field';
@@ -67,7 +67,7 @@ function RouteComponent() {
         Button,
         Card,
         DateField,
-        DatePicker,
+        DateTimePicker,
         NumberField,
         Surface,
         TextField,
