@@ -28,3 +28,13 @@ Compound object `ListBox`:
 ## Dependencies
 - None inbound. This is a **foundation component** — `select`, `combobox`, and `menu` (see their plans) all reuse the same item/section/collection/header shape and should either import this folder's parts directly (if cross-folder composite imports of a *sibling collection primitive* are acceptable — confirm with the team since the "self-contained" convention is about the label/input/description/error family, not necessarily about heavier collection primitives) or hand-copy the same item-rendering approach into their own folders to stay fully self-contained.
 - **Build this first** among `list-box`/`select`/`combobox`/`menu`.
+
+## Implementation status
+
+Built at `src/common/components/list-box/` exactly per the Build Steps above:
+standalone `tv()` in `variants.ts` (no `context.ts`), `ListBox`/`Item`/`Header`/
+`Section`/`Collection`, `Object.assign` compound export. Typechecks and lints
+clean. Consumed directly by `data-table`'s `DataTableFilterList` for its
+select/multi-select filter controls (a cross-folder import of this sibling
+collection primitive, per the "confirm with the team" note above — no objection
+raised during this pass).

@@ -31,3 +31,13 @@ Compound object `Table`:
 
 ## Dependencies
 None on other not-yet-migrated components. Reasonably complex — schedule after the simpler collection component (`list-box`) so the item-styling conventions (focus-visible ring, hovered/selected backgrounds) are already established and can be ported in.
+
+## Implementation status
+
+Built at `src/common/components/table/` exactly per the Build Steps above:
+`Table`/`Header`/`Column`/`Body`/`Row`/`Cell`/`ResizableContainer`, `Object.assign`
+compound export. `Column` ports jolly's `isResizable` prop + inner `Group`/
+`ColumnResizer` pattern; item-styling conventions (focus-visible ring, hovered/
+selected backgrounds) ported from `list-box`. Typechecks and lints clean. Now
+also the render target for `data-table` (milestones 1-4) — see
+`plans/tanstack-react-table-integration.md`'s own implementation status note.

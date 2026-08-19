@@ -1,0 +1,228 @@
+---
+title: Data Table
+date: 2026-08-19
+author:
+  - Tim Hazlett
+---
+
+# Data Table
+
+A TanStack Table v9 integration for [Table](/components/table): `@tanstack/react-table`
+owns row/column models and sorting/filtering/selection state, `Table.*` (RAC's
+semantic `<table>` markup) owns accessible rendering and interaction, and this
+folder glues the two together.
+
+Unlike this library's other components, `data-table` is **not** a single compound
+`<Root>` — a table integration is inherently a *factory* (`createDataTable()`,
+the equivalent of TanStack Form's `createFormHook`) plus a set of independently
+usable pieces a consumer wires into their own column definitions, the same way a
+real app would. `createDataTable()` is called once per distinct table shape
+(module scope), and returns a typed `useAppTable`/`createAppColumnHelper` bound
+to this library's feature set.
+
+Currently implemented: sorting, column visibility, column sizing/resizing, column
+filtering, global filtering, and row selection. Not yet implemented: column
+pinning, grouping/aggregation, pagination, virtualization, drag-and-drop
+reordering, row pinning, and editable cells — see `plans/tanstack-react-table-integration.md`'s
+"Implementation status" note for what a future pass should pick up.
+
+<H2 id="import">Import</H2>
+
+<pre>
+  <code>{`import { createDataTable, DataTableSearch, getColumnSizeVars } from '#src/common/components/data-table';
+import { Table } from '#src/common/components/table';`}</code>
+</pre>
+
+<H2 id="pieces">Pieces</H2>
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Export'}</th>
+      <th>{'Description'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'createDataTable()'}</td>
+      <td>{'Factory wrapping createTableHook: registers sorting/visibility/sizing/resizing/filtering/selection features and the built-in header/cell components below. Call once per table shape.'}</td>
+    </tr>
+    <tr>
+      <td>{'DataTableColumnHeader'}</td>
+      <td>{'Registered automatically as headerComponents.ColumnHeader — sort button + aria-sort wiring + a hide-column menu.'}</td>
+    </tr>
+    <tr>
+      <td>{'DataTableSelectCell / DataTableSelectAllHeader'}</td>
+      <td>{'Registered automatically as cellComponents.SelectCell / headerComponents.SelectAllHeader — row-selection checkboxes, reading selection via table.Subscribe(table.atoms.rowSelection) so toggling one row only re-renders that row.'}</td>
+    </tr>
+    <tr>
+      <td>{'DataTableFilterList'}</td>
+      <td>{'A column-filter popover: one control per filterable column, chosen from the column’s meta.variant.'}</td>
+    </tr>
+    <tr>
+      <td>{'DataTableSearch'}</td>
+      <td>{'A debounced (via @tanstack/react-pacer) global-filter search input.'}</td>
+    </tr>
+    <tr>
+      <td>{'DataTableToolbar'}</td>
+      <td>{'Layout-only container for search + filter/other actions.'}</td>
+    </tr>
+    <tr>
+      <td>{'getColumnSizeVars(table)'}</td>
+      <td>{'Computes --header-{id}-size / --col-{id}-size CSS custom properties from column sizing state, consumed by Table.Column/Table.Cell’s inline style.'}</td>
+    </tr>
+    <tr>
+      <td>{'dynamicFilterFn'}</td>
+      <td>{'The default column filterFn, dispatching on each column’s meta.variant. Registered by createDataTable() as defaultColumn.filterFn.'}</td>
+    </tr>
+  </tbody>
+</table>
+
+<H2 id="example">Example</H2>
+
+Sorting, a debounced global-filter search, and row selection working together —
+`DataTableDemo`'s source, in full:
+
+<Preview
+  code={`import { useMemo, useState } from 'react';
+
+import { createDataTable, DataTableSearch, getColumnSizeVars } from '#src/common/components/data-table';
+import { Table } from '#src/common/components/table';
+
+interface Person {
+  id: string;
+  name: string;
+  email: string;
+  role: 'admin' | 'editor' | 'viewer';
+}
+
+const data: Person[] = [
+  { id: '1', name: 'Ava Thompson', email: 'ava@example.com', role: 'admin' },
+  { id: '2', name: 'Noah Martinez', email: 'noah@example.com', role: 'editor' },
+  { id: '3', name: 'Mia Chen', email: 'mia@example.com', role: 'viewer' },
+  { id: '4', name: 'Liam Patel', email: 'liam@example.com', role: 'editor' },
+  { id: '5', name: 'Sofia Rossi', email: 'sofia@example.com', role: 'viewer' },
+];
+
+// Call createDataTable() once per distinct table shape (module scope) — it's a
+// factory, not a component.
+const { useAppTable, createAppColumnHelper } = createDataTable();
+
+const columnHelper = createAppColumnHelper<Person>();
+
+const columns = columnHelper.columns([
+  columnHelper.display({
+    id: 'select',
+    header: ({ header }) => <header.SelectAllHeader />,
+    cell: ({ cell }) => <cell.SelectCell />,
+    size: 40,
+    minSize: 40,
+    maxSize: 40,
+    enableSorting: false,
+    enableHiding: false,
+    enableResizing: false,
+  }),
+  columnHelper.accessor('name', {
+    id: 'name',
+    header: ({ header }) => <header.ColumnHeader />,
+    meta: { label: 'Name', variant: 'text' },
+  }),
+  columnHelper.accessor('email', {
+    id: 'email',
+    header: ({ header }) => <header.ColumnHeader />,
+    meta: { label: 'Email', variant: 'text' },
+    enableSorting: false,
+  }),
+  columnHelper.accessor('role', {
+    id: 'role',
+    header: ({ header }) => <header.ColumnHeader />,
+    meta: {
+      label: 'Role',
+      variant: 'select',
+      options: [
+        { label: 'Admin', value: 'admin' },
+        { label: 'Editor', value: 'editor' },
+        { label: 'Viewer', value: 'viewer' },
+      ],
+    },
+  }),
+]);
+
+export function DataTableDemo() {
+  const [globalFilter, setGlobalFilter] = useState('');
+
+  const table = useAppTable({
+    key: 'data-table-demo',
+    columns,
+    data,
+    state: { globalFilter },
+    onGlobalFilterChange: setGlobalFilter,
+  });
+
+  const columnSizeVars = useMemo(() => getColumnSizeVars(table), [table]);
+
+  return (
+    <table.AppTable>
+      <div className="flex w-full flex-col gap-3">
+        <DataTableSearch value={globalFilter} onChange={setGlobalFilter} />
+        <Table.ResizableContainer className="w-full overflow-auto rounded-md border border-foreground/15">
+          <Table style={{ ...columnSizeVars, width: '100%' }}>
+            <Table.Header>
+              {table.getHeaderGroups()[0]?.headers.map((header) => (
+                <Table.Column
+                  key={header.id}
+                  id={header.id}
+                  allowsSorting={header.column.getCanSort()}
+                  isResizable={header.column.getCanResize()}
+                  style={{ width: \`calc(var(--header-\${header.id}-size) * 1px)\` }}
+                >
+                  <table.AppHeader header={header}>{(h) => <h.FlexRender />}</table.AppHeader>
+                </Table.Column>
+              ))}
+            </Table.Header>
+            <Table.Body items={table.getRowModel().rows}>
+              {(row) => (
+                <Table.Row key={row.id} id={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <Table.Cell key={cell.id} style={{ width: \`calc(var(--col-\${cell.column.id}-size) * 1px)\` }}>
+                      <table.AppCell cell={cell}>{(c) => <c.FlexRender />}</table.AppCell>
+                    </Table.Cell>
+                  ))}
+                </Table.Row>
+              )}
+            </Table.Body>
+          </Table>
+        </Table.ResizableContainer>
+      </div>
+    </table.AppTable>
+  );
+}`}
+>
+  <DataTableDemo />
+</Preview>
+
+<H2 id="filtering">Column filtering</H2>
+
+`DataTableFilterList` renders a control per filterable column based on its
+`meta.variant` (`'text' | 'number' | 'date' | 'boolean' | 'select' | 'multi-select'`),
+writing through `column.setFilterValue(...)`. Add it to the toolbar above the
+table:
+
+<pre>
+  <code>{`import { DataTableFilterList, DataTableToolbar } from '#src/common/components/data-table';
+
+<DataTableToolbar search={<DataTableSearch value={globalFilter} onChange={setGlobalFilter} />}>
+  <DataTableFilterList />
+</DataTableToolbar>`}</code>
+</pre>
+
+<H2 id="api">API</H2>
+
+<PropsTable
+  rows={[
+    { name: 'createDataTable(options?)', type: 'CreateDataTableOptions -> ReturnType<typeof createTableHook>', default: 'undefined' },
+    { name: 'useAppTable({ key, columns, data, state?, ... })', type: 'AppReactTable', default: 'undefined' },
+    { name: 'createAppColumnHelper<TData>()', type: 'AppColumnHelper', default: 'undefined' },
+    { name: 'getColumnSizeVars(table)', type: 'CSSProperties', default: 'undefined' },
+  ]}
+/>
