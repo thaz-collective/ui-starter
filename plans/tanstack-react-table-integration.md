@@ -155,3 +155,76 @@ Milestones sized to be buildable/reviewable incrementally, each shippable/usable
 - **`getRowId` / stable ids**: the example always supplies `getRowId: (row) => row.id`. Any consumer data shape without a stable unique id will need one synthesized before row selection/pinning/expansion state can survive re-sorts or refetches reliably — worth calling out as a documented precondition, not an edge case.
 - **Interaction with `plans/table.md`**: that file describes a simple *presentational* `<Table>` with no data-modeling opinions; this plan deliberately treats it as a dependency/render-target rather than merging the two docs, per the task's explicit instruction. If `table.md`'s build order and this plan's milestone 1 diverge in practice (e.g. `table.md` gets built with assumptions that don't survive contact with TanStack Table's header-group/pinning offset requirements), that primitive may need a small revision pass — flagging as a coordination risk between the two plans, not asserting it will definitely happen.
 - **No pagination/virtualization combination explored**: table-core supports pagination and virtualization independently, but combining both (virtualized rows *within* one page) wasn't researched here since the example uses only pagination for its large-dataset case — likely unnecessary complexity unless a specific consumer need for both together emerges.
+
+## Implementation status
+
+Milestones 1-4 (of the section 6 build order) are built at
+`src/common/components/data-table/`:
+
+- **Milestone 1**: `lib/create-data-table.ts` (`createDataTable()` factory
+  wrapping `createTableHook`), `lib/features.ts` (`dataTableFeatures` registry —
+  sorting, row selection, column visibility/sizing/resizing, column + global
+  filtering), `lib/context.ts` (explicit `createTableHookContexts()` set, reused
+  across every `createDataTable()` call — necessary because, unlike the
+  kitchen-sink example's module-scope singleton, this library's factory can be
+  called more than once per app).
+- **Milestone 2**: `DataTableColumnHeader` (sort button + `aria-sort` via
+  `column.getIsSorted()`/`toggleSorting()`, a hide-column menu), `lib/column-size-vars.ts`
+  (`getColumnSizeVars(table)` — CSS-var-driven sizing wired into `table.md`'s
+  `Column`/`Cell`/`ResizableContainer`), column visibility (`getCanHide`/
+  `toggleVisibility`).
+- **Milestone 3**: `DataTableFilterList` (a simplified column-filter popover —
+  one control per column dispatched on `meta.variant`, no per-filter operator/
+  join-operator UI, unlike the kitchen-sink example's fuller `FilterList`),
+  `DataTableSearch` (global filter, debounced via `@tanstack/react-pacer`'s
+  `useDebouncedCallback` — confirmed already a dependency), `lib/filter-fns.ts`'s
+  `dynamicFilterFn` (dispatches on `meta.variant`, registered as
+  `defaultColumn.filterFn`).
+- **Milestone 4**: `DataTableSelectCell`/`DataTableSelectAllHeader`, both reading
+  selection via `table.Subscribe(source: table.atoms.rowSelection)` per the
+  fine-grained-reactivity note above, `getRowId` left to the consumer's
+  `useAppTable` call (not hardcoded in the factory, since it's data-shape
+  specific).
+
+**Not built** (milestones 5-10, unchanged from the plan): column pinning,
+grouping + row expanding + aggregation, pagination, virtualization, drag-and-drop
+reordering, row pinning + editable cells. A future pass can resume directly at
+milestone 5.
+
+**API surprises / corrections found during implementation** (v9's actual shipped
+types vs. this doc's expectations):
+
+- `createTableHook`'s `tableContext`/`cellContext`/`headerContext` options (and
+  the standalone `createTableHookContexts()` escape hatch) aren't mentioned in
+  this plan doc at all, but turned out to be load-bearing: `createDataTable()`
+  is a **factory** a consumer can call more than once, whereas the reference
+  example calls `createTableHook` exactly once at module scope. Registering
+  `DataTableColumnHeader`/`DataTableSelectCell`/`DataTableSelectAllHeader` as
+  built-in `headerComponents`/`cellComponents` while also letting those same
+  components import `useDataTableTableContext`/`useDataTableHeaderContext`
+  independently of any specific `createDataTable()` call required minting one
+  explicit context set up front (`lib/context.ts`) and passing it into every
+  `createDataTable()` call, plus splitting `lib/features.ts` out from
+  `lib/create-data-table.ts` to avoid an import cycle between the factory and
+  the built-in components.
+- `dynamicFilterFn` cannot be registered in `tableFeatures({ filterFns: { dynamic: dynamicFilterFn } })`
+  the way the plan's "per-column `meta: { variant }`... `dynamicFilterFn`
+  convention" note implies, if `dynamicFilterFn` itself needs to read
+  `columnMeta` typed by that same `tableFeatures()` call — that's a genuine
+  type-level cycle (`features.ts` -> `filter-fns.ts` -> `features.ts`), not just
+  a lint nit. Fix: keep `dynamicFilterFn` generic over `TFeatures extends
+  TableFeatures` (not pinned to `DataTableFeatures`) and pass it directly as
+  `defaultColumn.filterFn` (a plain function value) rather than through the
+  named `filterFns` registry, which sidesteps the cycle since `defaultColumn`
+  doesn't require the registry's exact `TFeatures` binding.
+- `ReactTable.store` (and therefore `<table.Subscribe source={table.store}>`) is
+  marked `@deprecated` in the shipped types even though it's the exact pattern
+  `header-components.tsx`'s `ColumnHeader` uses in the kitchen-sink example —
+  worth confirming isn't scheduled for removal. Used the recommended alternative
+  in `DataTableColumnHeader` instead: `<table.Subscribe selector={...}>` without
+  a `source` (the third overload, which defaults to `table`'s own store).
+- Otherwise the plan's read of the shipped API held up exactly: `createTableHook`'s
+  options/return shape, `tableFeatures({...})` registry pattern, `Subscribe`/
+  `atoms` fine-grained reactivity, and the built-in `filterFn_*`/`sortFn_*`
+  exports all matched what's actually in `@tanstack/react-table@9.1.2`'s
+  `.d.ts` files.

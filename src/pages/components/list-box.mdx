@@ -1,0 +1,164 @@
+---
+title: List Box
+date: 2026-08-19
+author:
+  - Tim Hazlett
+---
+
+# List Box
+
+A selectable list of items (single or multiple selection) built on top of
+`react-aria-components`' `ListBox`, styled with `tailwind-variants`. This is the
+shared collection primitive reused wherever a component needs an item/section/
+header list — `Select`, `ComboBox`, and menu-style popover content.
+
+<H2 id="import">Import</H2>
+
+<pre>
+  <code>{`import { ListBox } from '#src/common/components/list-box';`}</code>
+</pre>
+
+<H2 id="composition">Composition</H2>
+
+<pre>
+  <code>{`ListBox
+├── ListBox.Item
+├── ListBox.Section (optional)
+│   ├── ListBox.Header (optional)
+│   └── ListBox.Item
+└── ListBox.Collection (optional, for dynamic collections)`}</code>
+</pre>
+
+<H2 id="anatomy">Anatomy</H2>
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Component'}</th>
+      <th>{'Description'}</th>
+      <th>{'Optional'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'ListBox / ListBox.Root'}</td>
+      <td>{'The scrollable list container.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'ListBox.Item'}</td>
+      <td>{'A single selectable option, renders a checkmark when selected.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'ListBox.Section'}</td>
+      <td>{'Groups related items together.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'ListBox.Header'}</td>
+      <td>{"A section's heading text."}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'ListBox.Collection'}</td>
+      <td>{'Renders items from a dynamic data collection.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+  </tbody>
+</table>
+
+<H2 id="examples">Examples</H2>
+
+<H3 id="default">Default</H3>
+
+<Preview
+  code={`<ListBox aria-label="Favorite fruit" selectionMode="single" className="w-56 rounded-md border border-foreground/15">
+  <ListBox.Item id="apple">Apple</ListBox.Item>
+  <ListBox.Item id="banana">Banana</ListBox.Item>
+  <ListBox.Item id="orange">Orange</ListBox.Item>
+</ListBox>`}
+>
+  <ListBox aria-label="Favorite fruit" selectionMode="single" className="w-56 rounded-md border border-foreground/15">
+    <ListBox.Item id="apple">{'Apple'}</ListBox.Item>
+    <ListBox.Item id="banana">{'Banana'}</ListBox.Item>
+    <ListBox.Item id="orange">{'Orange'}</ListBox.Item>
+  </ListBox>
+</Preview>
+
+<H3 id="multiple-selection">Multiple selection</H3>
+
+<Preview
+  code={`<ListBox aria-label="Toppings" selectionMode="multiple" className="w-56 rounded-md border border-foreground/15">
+  <ListBox.Item id="cheese">Cheese</ListBox.Item>
+  <ListBox.Item id="pepperoni">Pepperoni</ListBox.Item>
+  <ListBox.Item id="mushrooms">Mushrooms</ListBox.Item>
+</ListBox>`}
+>
+  <ListBox aria-label="Toppings" selectionMode="multiple" className="w-56 rounded-md border border-foreground/15">
+    <ListBox.Item id="cheese">{'Cheese'}</ListBox.Item>
+    <ListBox.Item id="pepperoni">{'Pepperoni'}</ListBox.Item>
+    <ListBox.Item id="mushrooms">{'Mushrooms'}</ListBox.Item>
+  </ListBox>
+</Preview>
+
+<H3 id="sections">Sections</H3>
+
+<Preview
+  code={`<ListBox aria-label="Grouped options" selectionMode="single" className="w-56 rounded-md border border-foreground/15">
+  <ListBox.Section>
+    <ListBox.Header>Fruits</ListBox.Header>
+    <ListBox.Item id="apple">Apple</ListBox.Item>
+    <ListBox.Item id="banana">Banana</ListBox.Item>
+  </ListBox.Section>
+  <ListBox.Section>
+    <ListBox.Header>Vegetables</ListBox.Header>
+    <ListBox.Item id="carrot">Carrot</ListBox.Item>
+    <ListBox.Item id="pea">Pea</ListBox.Item>
+  </ListBox.Section>
+</ListBox>`}
+>
+  <ListBox aria-label="Grouped options" selectionMode="single" className="w-56 rounded-md border border-foreground/15">
+    <ListBox.Section>
+      <ListBox.Header>{'Fruits'}</ListBox.Header>
+      <ListBox.Item id="apple">{'Apple'}</ListBox.Item>
+      <ListBox.Item id="banana">{'Banana'}</ListBox.Item>
+    </ListBox.Section>
+    <ListBox.Section>
+      <ListBox.Header>{'Vegetables'}</ListBox.Header>
+      <ListBox.Item id="carrot">{'Carrot'}</ListBox.Item>
+      <ListBox.Item id="pea">{'Pea'}</ListBox.Item>
+    </ListBox.Section>
+  </ListBox>
+</Preview>
+
+<H2 id="states">States</H2>
+
+<H3 id="disabled-item">Disabled item</H3>
+
+<Preview
+  code={`<ListBox aria-label="Plan" selectionMode="single" disabledKeys={["pro"]} className="w-56 rounded-md border border-foreground/15">
+  <ListBox.Item id="free">Free</ListBox.Item>
+  <ListBox.Item id="pro">Pro (coming soon)</ListBox.Item>
+  <ListBox.Item id="enterprise">Enterprise</ListBox.Item>
+</ListBox>`}
+>
+  <ListBox aria-label="Plan" selectionMode="single" disabledKeys={['pro']} className="w-56 rounded-md border border-foreground/15">
+    <ListBox.Item id="free">{'Free'}</ListBox.Item>
+    <ListBox.Item id="pro">{'Pro (coming soon)'}</ListBox.Item>
+    <ListBox.Item id="enterprise">{'Enterprise'}</ListBox.Item>
+  </ListBox>
+</Preview>
+
+<H2 id="api">API</H2>
+
+<PropsTable
+  rows={[
+    { name: 'selectionMode', type: "'none' | 'single' | 'multiple'", default: "'none'" },
+    { name: 'selectedKeys', type: 'Iterable<Key>', default: 'undefined' },
+    { name: 'defaultSelectedKeys', type: 'Iterable<Key>', default: 'undefined' },
+    { name: 'disabledKeys', type: 'Iterable<Key>', default: 'undefined' },
+    { name: 'items', type: 'Iterable<T>', default: 'undefined' },
+    { name: 'onSelectionChange', type: '(keys: Selection) => void', default: 'undefined' },
+  ]}
+/>

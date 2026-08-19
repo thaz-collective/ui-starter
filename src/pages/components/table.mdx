@@ -1,0 +1,226 @@
+---
+title: Table
+date: 2026-08-19
+author:
+  - Tim Hazlett
+---
+
+# Table
+
+A plain, presentational data table — header, sortable/resizable columns, body,
+rows, and cells — built on top of `react-aria-components`' `Table` primitives,
+styled with `tailwind-variants`. This component has no data-modeling opinions
+(no sorting/filtering/selection state); it's the styled markup layer that
+`data-table` (the TanStack Table integration) renders into.
+
+<H2 id="import">Import</H2>
+
+<pre>
+  <code>{`import { Table } from '#src/common/components/table';`}</code>
+</pre>
+
+<H2 id="composition">Composition</H2>
+
+<pre>
+  <code>{`Table.ResizableContainer (optional)
+└── Table
+    ├── Table.Header
+    │   └── Table.Column
+    └── Table.Body
+        └── Table.Row
+            └── Table.Cell`}</code>
+</pre>
+
+<H2 id="anatomy">Anatomy</H2>
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Component'}</th>
+      <th>{'Description'}</th>
+      <th>{'Optional'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'Table / Table.Root'}</td>
+      <td>{'The <table> element.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Table.Header'}</td>
+      <td>{'The <thead>, contains Table.Column elements.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Table.Column'}</td>
+      <td>{'A <th>; supports allowsSorting and isResizable.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Table.Body'}</td>
+      <td>{'The <tbody>, contains Table.Row elements.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Table.Row'}</td>
+      <td>{'A <tr>; supports hover/selected states.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Table.Cell'}</td>
+      <td>{'A <td>.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Table.ResizableContainer'}</td>
+      <td>{'Wraps Table to enable column resizing.'}</td>
+      <td>{'Yes (required for resizable columns)'}</td>
+    </tr>
+  </tbody>
+</table>
+
+<H2 id="examples">Examples</H2>
+
+<H3 id="default">Default</H3>
+
+<Preview
+  code={`<Table aria-label="Invoices" className="w-full">
+  <Table.Header>
+    <Table.Column isRowHeader>Invoice</Table.Column>
+    <Table.Column>Status</Table.Column>
+    <Table.Column>Amount</Table.Column>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>INV001</Table.Cell>
+      <Table.Cell>Paid</Table.Cell>
+      <Table.Cell>$250.00</Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>INV002</Table.Cell>
+      <Table.Cell>Pending</Table.Cell>
+      <Table.Cell>$150.00</Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>`}
+>
+  <Table aria-label="Invoices" className="w-full">
+    <Table.Header>
+      <Table.Column isRowHeader>{'Invoice'}</Table.Column>
+      <Table.Column>{'Status'}</Table.Column>
+      <Table.Column>{'Amount'}</Table.Column>
+    </Table.Header>
+    <Table.Body>
+      <Table.Row>
+        <Table.Cell>{'INV001'}</Table.Cell>
+        <Table.Cell>{'Paid'}</Table.Cell>
+        <Table.Cell>{'$250.00'}</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>{'INV002'}</Table.Cell>
+        <Table.Cell>{'Pending'}</Table.Cell>
+        <Table.Cell>{'$150.00'}</Table.Cell>
+      </Table.Row>
+    </Table.Body>
+  </Table>
+</Preview>
+
+<H3 id="sortable-columns">Sortable columns</H3>
+
+<Preview
+  code={`<Table aria-label="Sortable invoices" className="w-full" sortDescriptor={{ column: 'invoice', direction: 'ascending' }}>
+  <Table.Header>
+    <Table.Column id="invoice" isRowHeader allowsSorting>Invoice</Table.Column>
+    <Table.Column id="status" allowsSorting>Status</Table.Column>
+    <Table.Column id="amount">Amount</Table.Column>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>INV001</Table.Cell>
+      <Table.Cell>Paid</Table.Cell>
+      <Table.Cell>$250.00</Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>INV002</Table.Cell>
+      <Table.Cell>Pending</Table.Cell>
+      <Table.Cell>$150.00</Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>`}
+>
+  <Table aria-label="Sortable invoices" className="w-full" sortDescriptor={{ column: 'invoice', direction: 'ascending' }}>
+    <Table.Header>
+      <Table.Column id="invoice" isRowHeader allowsSorting>{'Invoice'}</Table.Column>
+      <Table.Column id="status" allowsSorting>{'Status'}</Table.Column>
+      <Table.Column id="amount">{'Amount'}</Table.Column>
+    </Table.Header>
+    <Table.Body>
+      <Table.Row>
+        <Table.Cell>{'INV001'}</Table.Cell>
+        <Table.Cell>{'Paid'}</Table.Cell>
+        <Table.Cell>{'$250.00'}</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>{'INV002'}</Table.Cell>
+        <Table.Cell>{'Pending'}</Table.Cell>
+        <Table.Cell>{'$150.00'}</Table.Cell>
+      </Table.Row>
+    </Table.Body>
+  </Table>
+</Preview>
+
+<H3 id="resizable-columns">Resizable columns</H3>
+
+<Preview
+  code={`<Table.ResizableContainer className="w-full overflow-auto rounded-md border border-foreground/15">
+  <Table aria-label="Resizable invoices" className="w-full">
+    <Table.Header>
+      <Table.Column isRowHeader isResizable>Invoice</Table.Column>
+      <Table.Column isResizable>Status</Table.Column>
+      <Table.Column>Amount</Table.Column>
+    </Table.Header>
+    <Table.Body>
+      <Table.Row>
+        <Table.Cell>INV001</Table.Cell>
+        <Table.Cell>Paid</Table.Cell>
+        <Table.Cell>$250.00</Table.Cell>
+      </Table.Row>
+    </Table.Body>
+  </Table>
+</Table.ResizableContainer>`}
+>
+  <Table.ResizableContainer className="w-full overflow-auto rounded-md border border-foreground/15">
+    <Table aria-label="Resizable invoices" className="w-full">
+      <Table.Header>
+        <Table.Column isRowHeader isResizable>{'Invoice'}</Table.Column>
+        <Table.Column isResizable>{'Status'}</Table.Column>
+        <Table.Column>{'Amount'}</Table.Column>
+      </Table.Header>
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell>{'INV001'}</Table.Cell>
+          <Table.Cell>{'Paid'}</Table.Cell>
+          <Table.Cell>{'$250.00'}</Table.Cell>
+        </Table.Row>
+      </Table.Body>
+    </Table>
+  </Table.ResizableContainer>
+</Preview>
+
+<H2 id="data-table">For data-driven tables</H2>
+
+This component intentionally has no sorting/filtering/selection state — see
+[Data Table](/components/data-table) for the TanStack Table v9 integration that
+renders row/column models into these same `Table.*` parts.
+
+<H2 id="api">API</H2>
+
+<PropsTable
+  rows={[
+    { name: 'aria-label / aria-labelledby', type: 'string', default: 'undefined' },
+    { name: 'sortDescriptor', type: '{ column: Key; direction: "ascending" | "descending" }', default: 'undefined' },
+    { name: 'onSortChange', type: '(descriptor: SortDescriptor) => void', default: 'undefined' },
+    { name: 'selectionMode', type: "'none' | 'single' | 'multiple'", default: "'none'" },
+  ]}
+/>
