@@ -1,0 +1,209 @@
+---
+title: Slider
+date: 2026-08-19
+author:
+  - Tim Hazlett
+---
+
+# Slider
+
+A draggable-thumb range input built on top of `react-aria-components`' `Slider`, supporting
+horizontal or vertical orientation and single- or multi-thumb ranges, styled with `tailwind-variants`.
+
+<H2 id="import">Import</H2>
+
+<pre>
+  <code>{`import { Slider } from '#src/common/components/slider';`}</code>
+</pre>
+
+<H2 id="composition">Composition</H2>
+
+Use the following composition to build a `Slider`:
+
+<pre>
+  <code>{`Slider
+├── Slider.Output (optional)
+└── Slider.Track
+    ├── Slider.FillTrack (optional)
+    └── Slider.Thumb (one per thumb, positioned via its index prop)`}</code>
+</pre>
+
+<H2 id="anatomy">Anatomy</H2>
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Component'}</th>
+      <th>{'Description'}</th>
+      <th>{'Optional'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'Slider / Slider.Root'}</td>
+      <td>{'The container; owns the slider state and orientation.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Slider.Output'}</td>
+      <td>{'Displays the current value(s) as text.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'Slider.Track'}</td>
+      <td>{'The draggable track; wraps FillTrack and every Thumb.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Slider.FillTrack'}</td>
+      <td>{"The filled portion of the track up to the first thumb's position. Reads slider state directly, must be rendered inside Slider.Track."}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'Slider.Thumb'}</td>
+      <td>{'A draggable thumb. Render one per value; each takes an index prop (0, 1, …) to build a multi-thumb range slider.'}</td>
+      <td>{'No (at least one is required)'}</td>
+    </tr>
+  </tbody>
+</table>
+
+`Slider.Root` defaults `orientation` to `'horizontal'`. `Slider.FillTrack` only visualizes the fill up
+to thumb `index={0}` — for multi-thumb ranges, omit it or provide a custom fill implementation.
+
+<H2 id="examples">Examples</H2>
+
+<H3 id="default">Default</H3>
+
+<Preview
+  code={`<Slider defaultValue={30} className="w-64">
+  <Slider.Output />
+  <Slider.Track>
+    <Slider.FillTrack />
+    <Slider.Thumb index={0} />
+  </Slider.Track>
+</Slider>`}
+>
+  <Slider
+    defaultValue={30}
+    className="w-64"
+  >
+    <Slider.Output />
+    <Slider.Track>
+      <Slider.FillTrack />
+      <Slider.Thumb index={0} />
+    </Slider.Track>
+  </Slider>
+</Preview>
+
+<H3 id="range">Range (multi-thumb)</H3>
+
+<Preview
+  code={`<Slider defaultValue={[20, 60]} minValue={0} maxValue={100} className="w-64">
+  <Slider.Output />
+  <Slider.Track>
+    <Slider.Thumb index={0} />
+    <Slider.Thumb index={1} />
+  </Slider.Track>
+</Slider>`}
+>
+  <Slider
+    defaultValue={[20, 60]}
+    minValue={0}
+    maxValue={100}
+    className="w-64"
+  >
+    <Slider.Output />
+    <Slider.Track>
+      <Slider.Thumb index={0} />
+      <Slider.Thumb index={1} />
+    </Slider.Track>
+  </Slider>
+</Preview>
+
+<H3 id="steps">Steps</H3>
+
+<Preview
+  code={`<Slider defaultValue={50} minValue={0} maxValue={100} step={10} className="w-64">
+  <Slider.Output />
+  <Slider.Track>
+    <Slider.FillTrack />
+    <Slider.Thumb index={0} />
+  </Slider.Track>
+</Slider>`}
+>
+  <Slider
+    defaultValue={50}
+    minValue={0}
+    maxValue={100}
+    step={10}
+    className="w-64"
+  >
+    <Slider.Output />
+    <Slider.Track>
+      <Slider.FillTrack />
+      <Slider.Thumb index={0} />
+    </Slider.Track>
+  </Slider>
+</Preview>
+
+<H3 id="vertical">Vertical</H3>
+
+<Preview
+  code={`<Slider defaultValue={40} orientation="vertical" className="h-40">
+  <Slider.Track>
+    <Slider.FillTrack />
+    <Slider.Thumb index={0} />
+  </Slider.Track>
+</Slider>`}
+>
+  <Slider
+    defaultValue={40}
+    orientation="vertical"
+    className="h-40"
+  >
+    <Slider.Track>
+      <Slider.FillTrack />
+      <Slider.Thumb index={0} />
+    </Slider.Track>
+  </Slider>
+</Preview>
+
+<H2 id="states">States</H2>
+
+<H3 id="disabled">Disabled</H3>
+
+<Preview
+  code={`<Slider defaultValue={30} isDisabled className="w-64">
+  <Slider.Output />
+  <Slider.Track>
+    <Slider.FillTrack />
+    <Slider.Thumb index={0} />
+  </Slider.Track>
+</Slider>`}
+>
+  <Slider
+    defaultValue={30}
+    isDisabled
+    className="w-64"
+  >
+    <Slider.Output />
+    <Slider.Track>
+      <Slider.FillTrack />
+      <Slider.Thumb index={0} />
+    </Slider.Track>
+  </Slider>
+</Preview>
+
+<H2 id="api">API</H2>
+
+<PropsTable
+  rows={[
+    { name: 'value', type: 'number | number[]', default: 'undefined' },
+    { name: 'defaultValue', type: 'number | number[]', default: 'undefined' },
+    { name: 'minValue', type: 'number', default: '0' },
+    { name: 'maxValue', type: 'number', default: '100' },
+    { name: 'step', type: 'number', default: '1' },
+    { name: 'orientation', type: "'horizontal' | 'vertical'", default: "'horizontal'" },
+    { name: 'isDisabled', type: 'boolean', default: 'false' },
+  ]}
+/>

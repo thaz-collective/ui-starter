@@ -1,0 +1,333 @@
+---
+title: Combo Box
+date: 2026-08-19
+author:
+  - Tim Hazlett
+---
+
+# Combo Box
+
+An editable, filterable dropdown built on top of `react-aria-components`' `ComboBox`, combining a
+text input with a popover listbox, styled with `tailwind-variants`.
+
+<H2 id="import">Import</H2>
+
+<pre>
+  <code>{`import { ComboBox } from '#src/common/components/combo-box';`}</code>
+</pre>
+
+<H2 id="composition">Composition</H2>
+
+Use the following composition to build a `ComboBox`:
+
+<pre>
+  <code>{`ComboBox
+├── ComboBox.Label (optional)
+├── ComboBox.Group
+│   ├── ComboBox.Input
+│   └── ComboBox.TriggerButton (optional)
+├── ComboBox.Popover
+│   └── ComboBox.ListBox
+│       ├── ComboBox.Item (one or more)
+│       └── ComboBox.Section (optional, groups items)
+│           ├── ComboBox.Header (optional)
+│           ├── ComboBox.Collection (optional, for dynamic items)
+│           └── ComboBox.Item (one or more)
+├── ComboBox.Description (optional)
+└── ComboBox.FieldError (optional)`}</code>
+</pre>
+
+<H2 id="anatomy">Anatomy</H2>
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Component'}</th>
+      <th>{'Description'}</th>
+      <th>{'Optional'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'ComboBox / ComboBox.Root'}</td>
+      <td>{'The container; supplies context to every slot below.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'ComboBox.Label'}</td>
+      <td>{"The field's label text."}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'ComboBox.Group'}</td>
+      <td>{'The bordered input row; wraps Input and TriggerButton.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'ComboBox.Input'}</td>
+      <td>{'The editable text input, filters the listbox as the user types.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'ComboBox.TriggerButton'}</td>
+      <td>{'A button that toggles the popover; built on this library’s Button (ghost/smIcon variant).'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'ComboBox.Popover'}</td>
+      <td>{'The floating panel that contains the listbox; matches the trigger width.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'ComboBox.ListBox'}</td>
+      <td>{'The list of selectable items; accepts an items prop for dynamic rendering.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'ComboBox.Item'}</td>
+      <td>{'A single selectable option; shows a check indicator when selected.'}</td>
+      <td>{'No (at least one is required)'}</td>
+    </tr>
+    <tr>
+      <td>{'ComboBox.Section'}</td>
+      <td>{'Groups related items together, optionally under a Header.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'ComboBox.Header'}</td>
+      <td>{"A section's heading text."}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'ComboBox.Collection'}</td>
+      <td>{'Renders a dynamic collection of items inside a Section.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'ComboBox.Description'}</td>
+      <td>{'Supporting text under the field.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'ComboBox.FieldError'}</td>
+      <td>{'Validation error text, shown when isInvalid.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+  </tbody>
+</table>
+
+Every slot must be rendered inside `ComboBox`/`ComboBox.Root` — they read shared context and throw
+if used standalone. Selection is controlled via RAC's classic `selectedKey`/`onSelectionChange` API,
+separate from the free-typed `inputValue`/`onInputChange`.
+
+<H2 id="examples">Examples</H2>
+
+<H3 id="default">Default</H3>
+
+<Preview
+  code={`<ComboBox className="w-64" placeholder="Search fruits…">
+  <ComboBox.Label>Favorite fruit</ComboBox.Label>
+  <ComboBox.Group>
+    <ComboBox.Input />
+    <ComboBox.TriggerButton />
+  </ComboBox.Group>
+  <ComboBox.Popover>
+    <ComboBox.ListBox>
+      <ComboBox.Item id="apple">Apple</ComboBox.Item>
+      <ComboBox.Item id="banana">Banana</ComboBox.Item>
+      <ComboBox.Item id="cherry">Cherry</ComboBox.Item>
+    </ComboBox.ListBox>
+  </ComboBox.Popover>
+</ComboBox>`}
+>
+  <ComboBox
+    className="w-64"
+    placeholder="Search fruits…"
+  >
+    <ComboBox.Label>{'Favorite fruit'}</ComboBox.Label>
+    <ComboBox.Group>
+      <ComboBox.Input />
+      <ComboBox.TriggerButton />
+    </ComboBox.Group>
+    <ComboBox.Popover>
+      <ComboBox.ListBox>
+        <ComboBox.Item id="apple">{'Apple'}</ComboBox.Item>
+        <ComboBox.Item id="banana">{'Banana'}</ComboBox.Item>
+        <ComboBox.Item id="cherry">{'Cherry'}</ComboBox.Item>
+      </ComboBox.ListBox>
+    </ComboBox.Popover>
+  </ComboBox>
+</Preview>
+
+<H3 id="sections">Sections</H3>
+
+<Preview
+  code={`<ComboBox className="w-64" placeholder="Search food…">
+  <ComboBox.Label>Favorite food</ComboBox.Label>
+  <ComboBox.Group>
+    <ComboBox.Input />
+    <ComboBox.TriggerButton />
+  </ComboBox.Group>
+  <ComboBox.Popover>
+    <ComboBox.ListBox>
+      <ComboBox.Section>
+        <ComboBox.Header>Fruits</ComboBox.Header>
+        <ComboBox.Item id="apple">Apple</ComboBox.Item>
+        <ComboBox.Item id="banana">Banana</ComboBox.Item>
+      </ComboBox.Section>
+      <ComboBox.Section>
+        <ComboBox.Header>Vegetables</ComboBox.Header>
+        <ComboBox.Item id="carrot">Carrot</ComboBox.Item>
+        <ComboBox.Item id="potato">Potato</ComboBox.Item>
+      </ComboBox.Section>
+    </ComboBox.ListBox>
+  </ComboBox.Popover>
+</ComboBox>`}
+>
+  <ComboBox
+    className="w-64"
+    placeholder="Search food…"
+  >
+    <ComboBox.Label>{'Favorite food'}</ComboBox.Label>
+    <ComboBox.Group>
+      <ComboBox.Input />
+      <ComboBox.TriggerButton />
+    </ComboBox.Group>
+    <ComboBox.Popover>
+      <ComboBox.ListBox>
+        <ComboBox.Section>
+          <ComboBox.Header>{'Fruits'}</ComboBox.Header>
+          <ComboBox.Item id="apple">{'Apple'}</ComboBox.Item>
+          <ComboBox.Item id="banana">{'Banana'}</ComboBox.Item>
+        </ComboBox.Section>
+        <ComboBox.Section>
+          <ComboBox.Header>{'Vegetables'}</ComboBox.Header>
+          <ComboBox.Item id="carrot">{'Carrot'}</ComboBox.Item>
+          <ComboBox.Item id="potato">{'Potato'}</ComboBox.Item>
+        </ComboBox.Section>
+      </ComboBox.ListBox>
+    </ComboBox.Popover>
+  </ComboBox>
+</Preview>
+
+<H2 id="states">States</H2>
+
+<H3 id="error">Error</H3>
+
+<Preview
+  code={`<ComboBox className="w-64" placeholder="Search fruits…" isInvalid>
+  <ComboBox.Label>Favorite fruit</ComboBox.Label>
+  <ComboBox.Group>
+    <ComboBox.Input />
+    <ComboBox.TriggerButton />
+  </ComboBox.Group>
+  <ComboBox.Popover>
+    <ComboBox.ListBox>
+      <ComboBox.Item id="apple">Apple</ComboBox.Item>
+    </ComboBox.ListBox>
+  </ComboBox.Popover>
+  <ComboBox.FieldError>Please choose a fruit.</ComboBox.FieldError>
+</ComboBox>`}
+>
+  <ComboBox
+    className="w-64"
+    placeholder="Search fruits…"
+    isInvalid
+  >
+    <ComboBox.Label>{'Favorite fruit'}</ComboBox.Label>
+    <ComboBox.Group>
+      <ComboBox.Input />
+      <ComboBox.TriggerButton />
+    </ComboBox.Group>
+    <ComboBox.Popover>
+      <ComboBox.ListBox>
+        <ComboBox.Item id="apple">{'Apple'}</ComboBox.Item>
+      </ComboBox.ListBox>
+    </ComboBox.Popover>
+    <ComboBox.FieldError>{'Please choose a fruit.'}</ComboBox.FieldError>
+  </ComboBox>
+</Preview>
+
+<H3 id="disabled">Disabled</H3>
+
+<Preview
+  code={`<ComboBox className="w-64" placeholder="Search fruits…" isDisabled>
+  <ComboBox.Label>Favorite fruit</ComboBox.Label>
+  <ComboBox.Group>
+    <ComboBox.Input />
+    <ComboBox.TriggerButton />
+  </ComboBox.Group>
+  <ComboBox.Popover>
+    <ComboBox.ListBox>
+      <ComboBox.Item id="apple">Apple</ComboBox.Item>
+    </ComboBox.ListBox>
+  </ComboBox.Popover>
+</ComboBox>`}
+>
+  <ComboBox
+    className="w-64"
+    placeholder="Search fruits…"
+    isDisabled
+  >
+    <ComboBox.Label>{'Favorite fruit'}</ComboBox.Label>
+    <ComboBox.Group>
+      <ComboBox.Input />
+      <ComboBox.TriggerButton />
+    </ComboBox.Group>
+    <ComboBox.Popover>
+      <ComboBox.ListBox>
+        <ComboBox.Item id="apple">{'Apple'}</ComboBox.Item>
+      </ComboBox.ListBox>
+    </ComboBox.Popover>
+  </ComboBox>
+</Preview>
+
+<H3 id="required">Required</H3>
+
+<Preview
+  code={`<ComboBox className="w-64" placeholder="Search fruits…" isRequired>
+  <ComboBox.Label>Favorite fruit</ComboBox.Label>
+  <ComboBox.Group>
+    <ComboBox.Input />
+    <ComboBox.TriggerButton />
+  </ComboBox.Group>
+  <ComboBox.Popover>
+    <ComboBox.ListBox>
+      <ComboBox.Item id="apple">Apple</ComboBox.Item>
+    </ComboBox.ListBox>
+  </ComboBox.Popover>
+</ComboBox>`}
+>
+  <ComboBox
+    className="w-64"
+    placeholder="Search fruits…"
+    isRequired
+  >
+    <ComboBox.Label>{'Favorite fruit'}</ComboBox.Label>
+    <ComboBox.Group>
+      <ComboBox.Input />
+      <ComboBox.TriggerButton />
+    </ComboBox.Group>
+    <ComboBox.Popover>
+      <ComboBox.ListBox>
+        <ComboBox.Item id="apple">{'Apple'}</ComboBox.Item>
+      </ComboBox.ListBox>
+    </ComboBox.Popover>
+  </ComboBox>
+</Preview>
+
+<H2 id="api">API</H2>
+
+<PropsTable
+  rows={[
+    { name: 'selectedKey', type: 'Key | null', default: 'undefined' },
+    { name: 'defaultSelectedKey', type: 'Key | null', default: 'undefined' },
+    { name: 'inputValue', type: 'string', default: 'undefined' },
+    { name: 'defaultInputValue', type: 'string', default: 'undefined' },
+    { name: 'placeholder', type: 'string', default: 'undefined' },
+    { name: 'allowsCustomValue', type: 'boolean', default: 'false' },
+    { name: 'isRequired', type: 'boolean', default: 'false' },
+    { name: 'isDisabled', type: 'boolean', default: 'false' },
+    { name: 'isInvalid', type: 'boolean', default: 'false' },
+  ]}
+/>
