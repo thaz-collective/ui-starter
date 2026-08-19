@@ -79,7 +79,11 @@ header list — `Select`, `ComboBox`, and menu-style popover content.
   <ListBox.Item id="orange">Orange</ListBox.Item>
 </ListBox>`}
 >
-  <ListBox aria-label="Favorite fruit" selectionMode="single" className="w-56 rounded-md border border-foreground/15">
+  <ListBox
+    aria-label="Favorite fruit"
+    selectionMode="single"
+    className="w-56 rounded-md border border-foreground/15"
+  >
     <ListBox.Item id="apple">{'Apple'}</ListBox.Item>
     <ListBox.Item id="banana">{'Banana'}</ListBox.Item>
     <ListBox.Item id="orange">{'Orange'}</ListBox.Item>
@@ -95,7 +99,11 @@ header list — `Select`, `ComboBox`, and menu-style popover content.
   <ListBox.Item id="mushrooms">Mushrooms</ListBox.Item>
 </ListBox>`}
 >
-  <ListBox aria-label="Toppings" selectionMode="multiple" className="w-56 rounded-md border border-foreground/15">
+  <ListBox
+    aria-label="Toppings"
+    selectionMode="multiple"
+    className="w-56 rounded-md border border-foreground/15"
+  >
     <ListBox.Item id="cheese">{'Cheese'}</ListBox.Item>
     <ListBox.Item id="pepperoni">{'Pepperoni'}</ListBox.Item>
     <ListBox.Item id="mushrooms">{'Mushrooms'}</ListBox.Item>
@@ -118,7 +126,11 @@ header list — `Select`, `ComboBox`, and menu-style popover content.
   </ListBox.Section>
 </ListBox>`}
 >
-  <ListBox aria-label="Grouped options" selectionMode="single" className="w-56 rounded-md border border-foreground/15">
+  <ListBox
+    aria-label="Grouped options"
+    selectionMode="single"
+    className="w-56 rounded-md border border-foreground/15"
+  >
     <ListBox.Section>
       <ListBox.Header>{'Fruits'}</ListBox.Header>
       <ListBox.Item id="apple">{'Apple'}</ListBox.Item>
@@ -143,7 +155,12 @@ header list — `Select`, `ComboBox`, and menu-style popover content.
   <ListBox.Item id="enterprise">Enterprise</ListBox.Item>
 </ListBox>`}
 >
-  <ListBox aria-label="Plan" selectionMode="single" disabledKeys={['pro']} className="w-56 rounded-md border border-foreground/15">
+  <ListBox
+    aria-label="Plan"
+    selectionMode="single"
+    disabledKeys={['pro']}
+    className="w-56 rounded-md border border-foreground/15"
+  >
     <ListBox.Item id="free">{'Free'}</ListBox.Item>
     <ListBox.Item id="pro">{'Pro (coming soon)'}</ListBox.Item>
     <ListBox.Item id="enterprise">{'Enterprise'}</ListBox.Item>

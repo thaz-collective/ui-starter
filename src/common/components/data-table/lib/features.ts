@@ -1,12 +1,23 @@
 import {
+  createFilteredRowModel,
+  createSortedRowModel,
+  createExpandedRowModel,
+  metaHelper,
+  cellSelectionFeature,
+  cellSpanningFeature,
+  columnFacetingFeature,
   columnFilteringFeature,
+  columnGroupingFeature,
+  columnOrderingFeature,
+  columnPinningFeature,
   columnResizingFeature,
   columnSizingFeature,
   columnVisibilityFeature,
-  createFilteredRowModel,
-  createSortedRowModel,
   globalFilteringFeature,
-  metaHelper,
+  rowAggregationFeature,
+  rowExpandingFeature,
+  rowPaginationFeature,
+  rowPinningFeature,
   rowSelectionFeature,
   rowSortingFeature,
   sortFn_alphanumeric,
@@ -16,6 +27,21 @@ import {
 } from '@tanstack/react-table';
 
 import type { DataTableColumnMeta } from '#src/common/components/data-table/lib/filter-fns';
+import {
+  filter_zoned_date_time_equals,
+  filter_zoned_date_time_greater_than,
+  filter_zoned_date_time_greater_than_or_equal,
+  filter_zoned_date_time_less_than,
+  filter_zoned_date_time_less_than_or_equal,
+  filter_zoned_date_time_range,
+} from '#src/common/components/data-table/lib/filter-fns';
+import {
+  sort_zoned_date_time,
+  sort_instant,
+  sort_plain_date_time,
+  sort_plain_date,
+  sort_plain_time,
+} from '#src/common/components/data-table/lib/sort-fns';
 
 // v9's `tableFeatures({...})` is an explicit opt-in registry (unlike v8's
 // single `useReactTable(options)` hook, where every feature was always
@@ -26,16 +52,45 @@ import type { DataTableColumnMeta } from '#src/common/components/data-table/lib/
 // etc. are deliberately not registered — consumers needing them should
 // extend this factory rather than expect it silently supports them.
 export const dataTableFeatures = tableFeatures({
-  rowSortingFeature,
-  rowSelectionFeature,
-  columnVisibilityFeature,
-  columnSizingFeature,
-  columnResizingFeature,
+  cellSelectionFeature,
+  cellSpanningFeature,
+  columnFacetingFeature,
   columnFilteringFeature,
+  columnGroupingFeature,
+  columnOrderingFeature,
+  columnPinningFeature,
+  columnResizingFeature,
+  columnSizingFeature,
+  columnVisibilityFeature,
   globalFilteringFeature,
+  rowAggregationFeature,
+  rowExpandingFeature,
+  rowPaginationFeature,
+  rowPinningFeature,
+  rowSelectionFeature,
+  rowSortingFeature,
+
   sortedRowModel: createSortedRowModel(),
   filteredRowModel: createFilteredRowModel(),
-  sortFns: { alphanumeric: sortFn_alphanumeric, datetime: sortFn_datetime, text: sortFn_text },
+  expandedRowModel: createExpandedRowModel(),
+  sortFns: {
+    alphanumeric: sortFn_alphanumeric,
+    datetime: sortFn_datetime,
+    text: sortFn_text,
+    sort_zoned_date_time: sort_zoned_date_time,
+    sort_instant: sort_instant,
+    sort_plain_date_time: sort_plain_date_time,
+    sort_plain_date: sort_plain_date,
+    sort_plain_time: sort_plain_time,
+  },
+  filterFns: {
+    filter_zoned_date_time_equals: filter_zoned_date_time_equals,
+    filter_zoned_date_time_greater_than: filter_zoned_date_time_greater_than,
+    filter_zoned_date_time_greater_than_or_equal: filter_zoned_date_time_greater_than_or_equal,
+    filter_zoned_date_time_less_than: filter_zoned_date_time_less_than,
+    filter_zoned_date_time_less_than_or_equal: filter_zoned_date_time_less_than_or_equal,
+    filter_zoned_date_time_range: filter_zoned_date_time_range,
+  },
   columnMeta: metaHelper<DataTableColumnMeta>(),
 });
 

@@ -37,7 +37,9 @@ export function Input(props: DateInputProps) {
   const context = useDateTimePickerContext();
 
   if (context === undefined) {
-    throw new Error('DateTimePicker.Input must be used within a component that extends a DateTimePickerContextProvider');
+    throw new Error(
+      'DateTimePicker.Input must be used within a component that extends a DateTimePickerContextProvider',
+    );
   }
 
   const { slots } = context;

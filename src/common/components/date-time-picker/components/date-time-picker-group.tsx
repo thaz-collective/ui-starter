@@ -9,7 +9,9 @@ export function DateTimePickerGroup(props: DateTimePickerGroupProps) {
   const context = useDateTimePickerContext();
 
   if (context === undefined) {
-    throw new Error('DateTimePicker.Group must be used within a component that extends a DateTimePickerContextProvider');
+    throw new Error(
+      'DateTimePicker.Group must be used within a component that extends a DateTimePickerContextProvider',
+    );
   }
 
   const { slots } = context;

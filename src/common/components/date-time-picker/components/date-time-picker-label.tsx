@@ -21,7 +21,9 @@ export function Label(props: LabelProps) {
   const context = useDateTimePickerContext();
 
   if (context === undefined) {
-    throw new Error('DateTimePicker.Label must be used within a component that extends a DateTimePickerContextProvider');
+    throw new Error(
+      'DateTimePicker.Label must be used within a component that extends a DateTimePickerContextProvider',
+    );
   }
 
   const { slots } = context;

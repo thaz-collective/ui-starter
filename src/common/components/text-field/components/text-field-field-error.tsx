@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 
 import type { FieldErrorProps as RACFieldErrorProps } from 'react-aria-components';
-import { composeRenderProps, FieldError as RACFieldError } from 'react-aria-components';
 import type { VariantProps } from 'tailwind-variants';
+import { composeRenderProps, FieldError as RACFieldError } from 'react-aria-components';
 import { tv } from 'tailwind-variants';
 
 import { useTextFieldContext } from '#src/common/components/text-field/context';

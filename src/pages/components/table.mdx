@@ -105,7 +105,10 @@ styled with `tailwind-variants`. This component has no data-modeling opinions
   </Table.Body>
 </Table>`}
 >
-  <Table aria-label="Invoices" className="w-full">
+  <Table
+    aria-label="Invoices"
+    className="w-full"
+  >
     <Table.Header>
       <Table.Column isRowHeader>{'Invoice'}</Table.Column>
       <Table.Column>{'Status'}</Table.Column>
@@ -149,10 +152,25 @@ styled with `tailwind-variants`. This component has no data-modeling opinions
   </Table.Body>
 </Table>`}
 >
-  <Table aria-label="Sortable invoices" className="w-full" sortDescriptor={{ column: 'invoice', direction: 'ascending' }}>
+  <Table
+    aria-label="Sortable invoices"
+    className="w-full"
+    sortDescriptor={{ column: 'invoice', direction: 'ascending' }}
+  >
     <Table.Header>
-      <Table.Column id="invoice" isRowHeader allowsSorting>{'Invoice'}</Table.Column>
-      <Table.Column id="status" allowsSorting>{'Status'}</Table.Column>
+      <Table.Column
+        id="invoice"
+        isRowHeader
+        allowsSorting
+      >
+        {'Invoice'}
+      </Table.Column>
+      <Table.Column
+        id="status"
+        allowsSorting
+      >
+        {'Status'}
+      </Table.Column>
       <Table.Column id="amount">{'Amount'}</Table.Column>
     </Table.Header>
     <Table.Body>
@@ -191,9 +209,17 @@ styled with `tailwind-variants`. This component has no data-modeling opinions
 </Table.ResizableContainer>`}
 >
   <Table.ResizableContainer className="w-full overflow-auto rounded-md border border-foreground/15">
-    <Table aria-label="Resizable invoices" className="w-full">
+    <Table
+      aria-label="Resizable invoices"
+      className="w-full"
+    >
       <Table.Header>
-        <Table.Column isRowHeader isResizable>{'Invoice'}</Table.Column>
+        <Table.Column
+          isRowHeader
+          isResizable
+        >
+          {'Invoice'}
+        </Table.Column>
         <Table.Column isResizable>{'Status'}</Table.Column>
         <Table.Column>{'Amount'}</Table.Column>
       </Table.Header>

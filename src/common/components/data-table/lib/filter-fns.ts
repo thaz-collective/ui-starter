@@ -7,122 +7,116 @@ import {
   constructFilterFn,
 } from '@tanstack/react-table';
 
-type TemporalRangeFilterValue<T> = [T | undefined, T | undefined];
+const parseZonedDateTime = (value: unknown) => {
+  if (value instanceof Temporal.ZonedDateTime) {
+    return value;
+  }
 
-function isNullish(value: unknown): value is null | undefined {
-  return value === null || value === undefined;
-}
+  return null;
+};
 
-// Shared shape for every `filter_*` below: an inclusive `[min, max]` range filter
-// over a single Temporal type, mirroring table-core's own `filterFn_inDateRange`
-// but built on `Temporal`'s `compare` static instead of epoch-millis coercion —
-// Temporal values have no `-Infinity`/`Infinity` sentinel the way numbers do, so
-// open-ended bounds are represented as `undefined` and checked explicitly in
-// `filter` rather than folded into the comparison itself.
-function temporalRangeFilterFn<T>(
-  // oxlint-disable-next-line no-explicit-any -- matches table-core's own loosely-typed `TransformDataValueFn`; each `Temporal.X.from` call needs an `XLike`, not `unknown`.
-  resolve: (value: any) => T,
-  compare: (a: T, b: T) => number,
-) {
-  return constructFilterFn({
-    filter: (dataValue: T, filterValue: TemporalRangeFilterValue<T>) => {
-      const [min, max] = filterValue;
+const compare_zoned_date_time = (
+  dataValue: Temporal.ZonedDateTime | null,
+  filterValue: Temporal.ZonedDateTime | null,
+) => {
+  if (dataValue === null || filterValue === null) {
+    return null;
+  }
 
-      if (!isNullish(min) && compare(dataValue, min) < 0) {
-        return false;
-      }
+  return Temporal.ZonedDateTime.compare(dataValue, filterValue);
+};
 
-      if (!isNullish(max) && compare(dataValue, max) > 0) {
-        return false;
-      }
+const zoned_date_time_base_options = {
+  autoRemove: (val: unknown) => val === undefined || val === null || val === '',
+  resolveDataValue: parseZonedDateTime,
+  resolveFilterValue: parseZonedDateTime,
+} as const;
 
-      return true;
-    },
-    resolveDataValue: resolve,
-    resolveFilterValue: (val: TemporalRangeFilterValue<unknown>) => {
-      const [unsafeMin, unsafeMax] = val;
+export const filter_zoned_date_time_equals = constructFilterFn({
+  ...zoned_date_time_base_options,
+  filter: (dataValue: Temporal.ZonedDateTime | null, filterValue: Temporal.ZonedDateTime | null) => {
+    return compare_zoned_date_time(dataValue, filterValue) === 0;
+  },
+});
 
-      let min: T | undefined;
-      if (!isNullish(unsafeMin)) {
-        min = resolve(unsafeMin);
-      }
+export const filter_zoned_date_time_greater_than = constructFilterFn({
+  ...zoned_date_time_base_options,
+  filter: (dataValue: Temporal.ZonedDateTime | null, filterValue: Temporal.ZonedDateTime | null) => {
+    const cmp = compare_zoned_date_time(dataValue, filterValue);
 
-      let max: T | undefined;
-      if (!isNullish(unsafeMax)) {
-        max = resolve(unsafeMax);
-      }
+    return cmp !== null && cmp > 0;
+  },
+});
 
-      if (!isNullish(min) && !isNullish(max) && compare(min, max) > 0) {
-        [min, max] = [max, min];
-      }
+export const filter_zoned_date_time_greater_than_or_equal = constructFilterFn({
+  ...zoned_date_time_base_options,
+  filter: (dataValue: Temporal.ZonedDateTime | null, filterValue: Temporal.ZonedDateTime | null) => {
+    const cmp = compare_zoned_date_time(dataValue, filterValue);
 
-      return [min, max];
-    },
-    autoRemove: (val: TemporalRangeFilterValue<unknown>) => {
-      return isFalsy(val) || (Array.isArray(val) && isFalsy(val[0]) && isFalsy(val[1]));
-    },
-  });
-}
+    return cmp !== null && cmp >= 0;
+  },
+});
 
-export const filter_zoned_date_time = temporalRangeFilterFn(
-  (dataValue) => {
-    if (dataValue instanceof Temporal.ZonedDateTime) {
-      return dataValue;
+export const filter_zoned_date_time_less_than = constructFilterFn({
+  ...zoned_date_time_base_options,
+  filter: (dataValue: Temporal.ZonedDateTime | null, filterValue: Temporal.ZonedDateTime | null) => {
+    const cmp = compare_zoned_date_time(dataValue, filterValue);
+
+    return cmp !== null && cmp < 0;
+  },
+});
+
+export const filter_zoned_date_time_less_than_or_equal = constructFilterFn({
+  ...zoned_date_time_base_options,
+  filter: (dataValue: Temporal.ZonedDateTime | null, filterValue: Temporal.ZonedDateTime | null) => {
+    const cmp = compare_zoned_date_time(dataValue, filterValue);
+
+    return cmp !== null && cmp <= 0;
+  },
+});
+
+export const filter_zoned_date_time_range = constructFilterFn({
+  autoRemove: (val: unknown) => {
+    return (
+      val === undefined ||
+      val === null ||
+      (Array.isArray(val) &&
+        (val[0] === null || val[0] === undefined || val[0] === '') &&
+        (val[1] === null || val[1] === undefined || val[1] === ''))
+    );
+  },
+  resolveDataValue: parseZonedDateTime,
+  resolveFilterValue: (filterValue: [unknown, unknown]) => {
+    const [unsafeMin, unsafeMax] = filterValue;
+
+    const min = parseZonedDateTime(unsafeMin);
+    const max = parseZonedDateTime(unsafeMax);
+
+    if (min !== null && max !== null && Temporal.ZonedDateTime.compare(min, max) > 0) {
+      return [max, min] as const;
     }
 
-    // oxlint-disable-next-line no-unsafe-argument -- `resolve`'s param is intentionally `any`, see the comment on `temporalRangeFilterFn`.
-    return Temporal.ZonedDateTime.from(dataValue);
+    return [min, max];
   },
-  (a, b) => Temporal.ZonedDateTime.compare(a, b),
-);
-
-export const filter_instant = temporalRangeFilterFn(
-  (dataValue) => {
-    if (dataValue instanceof Temporal.Instant) {
-      return dataValue;
+  filter: (
+    dataValue: Temporal.ZonedDateTime | null,
+    [min, max]: [Temporal.ZonedDateTime | null, Temporal.ZonedDateTime | null],
+  ) => {
+    if (dataValue === null) {
+      return false;
     }
 
-    // oxlint-disable-next-line no-unsafe-argument -- see `filter_zoned_date_time`.
-    return Temporal.Instant.from(dataValue);
-  },
-  (a, b) => Temporal.Instant.compare(a, b),
-);
-
-export const filter_plain_date_time = temporalRangeFilterFn(
-  (dataValue) => {
-    if (dataValue instanceof Temporal.PlainDateTime) {
-      return dataValue;
+    if (min !== null && Temporal.ZonedDateTime.compare(dataValue, min) < 0) {
+      return false;
     }
 
-    // oxlint-disable-next-line no-unsafe-argument -- see `filter_zoned_date_time`.
-    return Temporal.PlainDateTime.from(dataValue);
-  },
-  (a, b) => Temporal.PlainDateTime.compare(a, b),
-);
-
-export const filter_plain_date = temporalRangeFilterFn(
-  (dataValue) => {
-    if (dataValue instanceof Temporal.PlainDate) {
-      return dataValue;
+    if (max !== null && Temporal.ZonedDateTime.compare(dataValue, max) > 0) {
+      return false;
     }
 
-    // oxlint-disable-next-line no-unsafe-argument -- see `filter_zoned_date_time`.
-    return Temporal.PlainDate.from(dataValue);
+    return true;
   },
-  (a, b) => Temporal.PlainDate.compare(a, b),
-);
-
-export const filter_plain_time = temporalRangeFilterFn(
-  (dataValue) => {
-    if (dataValue instanceof Temporal.PlainTime) {
-      return dataValue;
-    }
-
-    // oxlint-disable-next-line no-unsafe-argument -- see `filter_zoned_date_time`.
-    return Temporal.PlainTime.from(dataValue);
-  },
-  (a, b) => Temporal.PlainTime.compare(a, b),
-);
+});
 
 export interface DataTableColumnMeta {
   label?: string;

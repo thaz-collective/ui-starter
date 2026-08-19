@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 
 import type { TextProps as RACTextProps } from 'react-aria-components';
-import { Text as RACText } from 'react-aria-components';
 import type { VariantProps } from 'tailwind-variants';
+import { Text as RACText } from 'react-aria-components';
 import { tv } from 'tailwind-variants';
 
 import { useDateTimePickerContext } from '#src/common/components/date-time-picker/context';
