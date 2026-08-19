@@ -19,6 +19,11 @@ export function DataTableSelectCell() {
       {() => (
         <div className={selectCellContainer()}>
           <Checkbox
+            // RAC's `Table.Row`/`Table.Cell` provide an ambient `CheckboxContext`
+            // reserved for a `slot="selection"` checkbox tied to RAC's own Table
+            // selection model. We manage selection through TanStack Table state
+            // instead, so opt this checkbox out of that context entirely.
+            slot={null}
             aria-label="Select row"
             isSelected={row.getIsSelected()}
             onChange={(isSelected) => {

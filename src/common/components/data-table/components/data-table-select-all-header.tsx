@@ -16,6 +16,9 @@ export function DataTableSelectAllHeader() {
       {() => (
         <div className={selectCellContainer()}>
           <Checkbox
+            // See the matching comment in `data-table-select-cell.tsx` — opts
+            // this checkbox out of RAC Table's ambient `slot="selection"` context.
+            slot={null}
             aria-label="Select all rows"
             isSelected={table.getIsAllPageRowsSelected()}
             isIndeterminate={!table.getIsAllPageRowsSelected() && table.getIsSomePageRowsSelected()}

@@ -45,7 +45,13 @@ export function DataTableColumnHeader(props: DataTableColumnHeaderProps) {
   }
 
   return (
-    <table.Subscribe selector={(state) => ({ sorting: state.sorting })}>
+    // Selector must return a referentially-stable value when unchanged —
+    // `useSyncExternalStore` compares snapshots by reference, and a fresh
+    // `{ sorting: ... }` object literal every call breaks that contract,
+    // which manifests as React's "recovered from concurrent rendering
+    // error" warning. Returning `state.sorting` directly (stable unless
+    // sorting itself changes) fixes it.
+    <table.Subscribe selector={(state) => state.sorting}>
       {() => {
         let sorted: false | 'asc' | 'desc' = false;
 

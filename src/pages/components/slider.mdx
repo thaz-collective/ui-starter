@@ -22,6 +22,7 @@ Use the following composition to build a `Slider`:
 
 <pre>
   <code>{`Slider
+├── Slider.Label (required, or pass aria-label/aria-labelledby instead)
 ├── Slider.Output (optional)
 └── Slider.Track
     ├── Slider.FillTrack (optional)
@@ -43,6 +44,11 @@ Use the following composition to build a `Slider`:
       <td>{'Slider / Slider.Root'}</td>
       <td>{'The container; owns the slider state and orientation.'}</td>
       <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Slider.Label'}</td>
+      <td>{"The slider's accessible label text."}</td>
+      <td>{'No, unless aria-label or aria-labelledby is supplied on Slider.Root instead'}</td>
     </tr>
     <tr>
       <td>{'Slider.Output'}</td>
@@ -69,6 +75,8 @@ Use the following composition to build a `Slider`:
 
 `Slider.Root` defaults `orientation` to `'horizontal'`. `Slider.FillTrack` only visualizes the fill up
 to thumb `index={0}` — for multi-thumb ranges, omit it or provide a custom fill implementation.
+RAC's `Slider` requires an accessible name: render `Slider.Label` as a child, or pass `aria-label`/
+`aria-labelledby` directly on `Slider`/`Slider.Root` if a visible label isn't wanted.
 
 <H2 id="examples">Examples</H2>
 
@@ -76,6 +84,7 @@ to thumb `index={0}` — for multi-thumb ranges, omit it or provide a custom fil
 
 <Preview
   code={`<Slider defaultValue={30} className="w-64">
+  <Slider.Label>Volume</Slider.Label>
   <Slider.Output />
   <Slider.Track>
     <Slider.FillTrack />
@@ -87,6 +96,7 @@ to thumb `index={0}` — for multi-thumb ranges, omit it or provide a custom fil
     defaultValue={30}
     className="w-64"
   >
+    <Slider.Label>{'Volume'}</Slider.Label>
     <Slider.Output />
     <Slider.Track>
       <Slider.FillTrack />
@@ -99,6 +109,7 @@ to thumb `index={0}` — for multi-thumb ranges, omit it or provide a custom fil
 
 <Preview
   code={`<Slider defaultValue={[20, 60]} minValue={0} maxValue={100} className="w-64">
+  <Slider.Label>Price range</Slider.Label>
   <Slider.Output />
   <Slider.Track>
     <Slider.Thumb index={0} />
@@ -112,6 +123,7 @@ to thumb `index={0}` — for multi-thumb ranges, omit it or provide a custom fil
     maxValue={100}
     className="w-64"
   >
+    <Slider.Label>{'Price range'}</Slider.Label>
     <Slider.Output />
     <Slider.Track>
       <Slider.Thumb index={0} />
@@ -124,6 +136,7 @@ to thumb `index={0}` — for multi-thumb ranges, omit it or provide a custom fil
 
 <Preview
   code={`<Slider defaultValue={50} minValue={0} maxValue={100} step={10} className="w-64">
+  <Slider.Label>Brightness</Slider.Label>
   <Slider.Output />
   <Slider.Track>
     <Slider.FillTrack />
@@ -138,6 +151,7 @@ to thumb `index={0}` — for multi-thumb ranges, omit it or provide a custom fil
     step={10}
     className="w-64"
   >
+    <Slider.Label>{'Brightness'}</Slider.Label>
     <Slider.Output />
     <Slider.Track>
       <Slider.FillTrack />
@@ -150,6 +164,7 @@ to thumb `index={0}` — for multi-thumb ranges, omit it or provide a custom fil
 
 <Preview
   code={`<Slider defaultValue={40} orientation="vertical" className="h-40">
+  <Slider.Label>Level</Slider.Label>
   <Slider.Track>
     <Slider.FillTrack />
     <Slider.Thumb index={0} />
@@ -161,6 +176,31 @@ to thumb `index={0}` — for multi-thumb ranges, omit it or provide a custom fil
     orientation="vertical"
     className="h-40"
   >
+    <Slider.Label>{'Level'}</Slider.Label>
+    <Slider.Track>
+      <Slider.FillTrack />
+      <Slider.Thumb index={0} />
+    </Slider.Track>
+  </Slider>
+</Preview>
+
+<H3 id="aria-label">Without a visible label</H3>
+
+<Preview
+  code={`<Slider defaultValue={30} aria-label="Volume" className="w-64">
+  <Slider.Output />
+  <Slider.Track>
+    <Slider.FillTrack />
+    <Slider.Thumb index={0} />
+  </Slider.Track>
+</Slider>`}
+>
+  <Slider
+    defaultValue={30}
+    aria-label="Volume"
+    className="w-64"
+  >
+    <Slider.Output />
     <Slider.Track>
       <Slider.FillTrack />
       <Slider.Thumb index={0} />
@@ -174,6 +214,7 @@ to thumb `index={0}` — for multi-thumb ranges, omit it or provide a custom fil
 
 <Preview
   code={`<Slider defaultValue={30} isDisabled className="w-64">
+  <Slider.Label>Volume</Slider.Label>
   <Slider.Output />
   <Slider.Track>
     <Slider.FillTrack />
@@ -186,6 +227,7 @@ to thumb `index={0}` — for multi-thumb ranges, omit it or provide a custom fil
     isDisabled
     className="w-64"
   >
+    <Slider.Label>{'Volume'}</Slider.Label>
     <Slider.Output />
     <Slider.Track>
       <Slider.FillTrack />
@@ -205,5 +247,7 @@ to thumb `index={0}` — for multi-thumb ranges, omit it or provide a custom fil
     { name: 'step', type: 'number', default: '1' },
     { name: 'orientation', type: "'horizontal' | 'vertical'", default: "'horizontal'" },
     { name: 'isDisabled', type: 'boolean', default: 'false' },
+    { name: 'aria-label', type: 'string', default: 'undefined' },
+    { name: 'aria-labelledby', type: 'string', default: 'undefined' },
   ]}
 />

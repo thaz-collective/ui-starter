@@ -84,7 +84,10 @@ export function DataTableDemo() {
           className="w-full max-w-xs rounded-md border border-field-border bg-field px-3 py-1.5 text-sm outline-none"
         />
         <Table.ResizableContainer className="w-full overflow-auto rounded-md border border-foreground/15">
-          <Table style={{ ...columnSizeVars, width: '100%' }}>
+          <Table
+            aria-label="People"
+            style={{ ...columnSizeVars, width: '100%' }}
+          >
             <Table.Header>
               {table.getHeaderGroups()[0]?.headers.map((header) => (
                 <Table.Column

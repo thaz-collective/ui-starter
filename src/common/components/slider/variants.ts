@@ -5,6 +5,7 @@ import { tv } from 'tailwind-variants';
 export const sliderVariants = tv({
   slots: {
     root: ['relative flex touch-none items-center select-none'],
+    label: ['text-sm leading-none font-medium', 'text-foreground', 'select-none'],
     output: ['text-sm leading-none font-medium', 'text-foreground', 'select-none'],
     track: ['relative grow rounded-full bg-primary/20', 'data-disabled:opacity-50'],
     fillTrack: ['absolute rounded-full bg-primary'],
