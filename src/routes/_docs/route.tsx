@@ -1,6 +1,7 @@
 import { createFileRoute, Link, Outlet } from '@tanstack/react-router';
 
-import { useSuspenseQueryDeferred } from '#src/common/suspense-query-deferred';
+import { useSuspenseQueryDeferred } from '@thaz/network-util/react-query';
+
 import { contentOptions } from '#src/services/content/options';
 
 export const Route = createFileRoute('/_docs')({

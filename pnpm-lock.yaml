@@ -165,9 +165,6 @@ catalogs:
     remark-mdx-frontmatter:
       specifier: 5.2.0
       version: 5.2.0
-    spin-delay:
-      specifier: 2.0.1
-      version: 2.0.1
     tailwind-merge:
       specifier: 3.6.0
       version: 3.6.0
@@ -186,9 +183,6 @@ catalogs:
     typescript:
       specifier: 6.0.3
       version: 6.0.3
-    use-deep-compare:
-      specifier: 1.3.0
-      version: 1.3.0
     valibot:
       specifier: 1.4.2
       version: 1.4.2
@@ -290,9 +284,6 @@ importers:
       react-dom:
         specifier: 'catalog:'
         version: 19.2.8(react@19.2.8)
-      spin-delay:
-        specifier: 'catalog:'
-        version: 2.0.1(react@19.2.8)
       tailwind-merge:
         specifier: 'catalog:'
         version: 3.6.0
@@ -302,9 +293,6 @@ importers:
       temporal-polyfill:
         specifier: 'catalog:'
         version: 1.0.4
-      use-deep-compare:
-        specifier: 'catalog:'
-        version: 1.3.0(react@19.2.8)
       valibot:
         specifier: 'catalog:'
         version: 1.4.2(typescript@6.0.3)

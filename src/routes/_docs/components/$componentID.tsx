@@ -1,5 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 
+import { useSuspenseQueryDeferred } from '@thaz/network-util/react-query';
+
 import { MDXContent } from '@content-collections/mdx/react';
 
 import { Button } from '#src/common/components/button';
@@ -23,7 +25,6 @@ import { DataTableDemo } from '#src/common/docs/data-table-demo';
 import { H2, H3 } from '#src/common/docs/heading';
 import { Preview } from '#src/common/docs/preview';
 import { PropsTable } from '#src/common/docs/props-table';
-import { useSuspenseQueryDeferred } from '#src/common/suspense-query-deferred';
 import { contentOptions } from '#src/services/content/options';
 
 export const Route = createFileRoute('/_docs/components/$componentID')({
