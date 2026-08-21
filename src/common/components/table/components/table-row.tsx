@@ -1,17 +1,17 @@
-import type { RowProps as RACRowProps } from 'react-aria-components';
+import type { ComponentProps } from 'react';
+
 import { composeRenderProps, Row as RACRow } from 'react-aria-components';
 
 import { tableVariants } from '#src/common/components/table/variants';
 
-export type RowProps<T extends object> = RACRowProps<T>;
+type TableRowProps<T> = ComponentProps<typeof RACRow<T>>;
 
-export function Row<T extends object>(props: RowProps<T>) {
+export function TableRow<T>(props: TableRowProps<T>) {
   const { row } = tableVariants();
 
   return (
     <RACRow
       {...props}
-      data-slot="row"
       className={composeRenderProps(props.className, (className, renderProps) => {
         return row({ ...renderProps, className });
       })}

@@ -1,9 +1,10 @@
-import type { TableProps as RACTableProps } from 'react-aria-components';
+import type { ComponentProps } from 'react';
+
 import { composeRenderProps, Table as RACTable } from 'react-aria-components';
 
 import { tableVariants } from '#src/common/components/table/variants';
 
-export type TableProps = RACTableProps;
+type TableProps = ComponentProps<typeof RACTable>;
 
 export function Table(props: TableProps) {
   const { root } = tableVariants();
@@ -11,7 +12,6 @@ export function Table(props: TableProps) {
   return (
     <RACTable
       {...props}
-      data-slot="table"
       className={composeRenderProps(props.className, (className, renderProps) => {
         return root({ ...renderProps, className });
       })}

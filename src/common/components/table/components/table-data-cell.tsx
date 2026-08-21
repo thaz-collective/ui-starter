@@ -1,17 +1,17 @@
-import type { CellProps as RACCellProps } from 'react-aria-components';
+import type { ComponentProps } from 'react';
+
 import { Cell as RACCell, composeRenderProps } from 'react-aria-components';
 
 import { tableVariants } from '#src/common/components/table/variants';
 
-export type CellProps = RACCellProps;
+type TableDataCellProps = ComponentProps<typeof RACCell>;
 
-export function Cell(props: CellProps) {
+export function TableDataCell(props: TableDataCellProps) {
   const { cell } = tableVariants();
 
   return (
     <RACCell
       {...props}
-      data-slot="cell"
       className={composeRenderProps(props.className, (className, renderProps) => {
         return cell({ ...renderProps, className });
       })}
