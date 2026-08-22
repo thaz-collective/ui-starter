@@ -35,6 +35,10 @@ export function useDynamicFilter() {
     ];
   });
 
+  const filterableColumnOptionMap = new Map(
+    filterableColumnOptions.map((option) => [option.id, columnFilters.filter((filter) => filter.id === option.id)]),
+  );
+
   const addFilter = (columnID?: string) => {
     let [column] = filterableColumnOptions;
 
@@ -54,15 +58,24 @@ export function useDynamicFilter() {
       joinOperator: 'and',
     };
 
-    table.setColumnFilters([...columnFilters, newFilter]);
+    table.setColumnFilters(insertGroupedFilter(filterableColumnOptionMap, newFilter));
   };
 
-  const removeFilter = (filterID: string) => {
-    table.setColumnFilters(columnFilters.filter((value) => value.filterID !== filterID));
-  };
+  const updateFilterColumn = (filterID: string, columnID: string) => {
+    const target = columnFilters.find((value) => value.filterID === filterID);
 
-  const removeAllFilters = () => {
-    table.setColumnFilters([]);
+    if (target === undefined) {
+      return;
+    }
+
+    const updatedFilter: DynamicColumnFilter = {
+      ...target,
+      id: columnID,
+      operator: null,
+      value: null,
+    };
+
+    table.setColumnFilters(insertGroupedFilter(filterableColumnOptionMap, updatedFilter));
   };
 
   const updateJoinOperator = (id: string, joinOperator: JoinOperator) => {
@@ -111,14 +124,43 @@ export function useDynamicFilter() {
     );
   };
 
+  const removeFilter = (filterID: string) => {
+    table.setColumnFilters(columnFilters.filter((value) => value.filterID !== filterID));
+  };
+
+  const removeAllFilters = () => {
+    table.setColumnFilters([]);
+  };
+
   return {
     columnFilters,
     filterableColumnOptions,
+    filterableColumnOptionMap,
     addFilter,
-    removeFilter,
-    removeAllFilters,
     updateJoinOperator,
+    updateFilterColumn,
     updateFilterOperator,
     updateFilterValue,
+    removeFilter,
+    removeAllFilters,
   };
+}
+
+function insertGroupedFilter(
+  columnOptionMap: Map<string, DynamicColumnFilter[]>,
+  filter: DynamicColumnFilter,
+): DynamicColumnFilter[] {
+  // There might be a better way to do this?
+  for (const [id, filters] of columnOptionMap) {
+    columnOptionMap.set(
+      id,
+      filters.filter((value) => value.filterID !== filter.filterID),
+    );
+  }
+
+  const group = columnOptionMap.get(filter.id) ?? [];
+
+  columnOptionMap.set(filter.id, [...group, filter]);
+
+  return [...columnOptionMap.values()].flat();
 }
