@@ -148,19 +148,19 @@ export const dynamicFilter = constructFilterFn({
             break;
           }
           case 'lessThan': {
-            if (min === null) {
+            if (max === null) {
               continue;
             }
 
-            result = filterFn_lessThan(row, columnId, min);
+            result = filterFn_lessThan(row, columnId, max);
             break;
           }
           case 'lessThanOrEqual': {
-            if (min === null) {
+            if (max === null) {
               continue;
             }
 
-            result = filterFn_lessThanOrEqualTo(row, columnId, min);
+            result = filterFn_lessThanOrEqualTo(row, columnId, max);
             break;
           }
           case 'range': {

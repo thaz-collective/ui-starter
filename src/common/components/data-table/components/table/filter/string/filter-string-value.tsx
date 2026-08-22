@@ -44,7 +44,6 @@ export function FilterStringValue(props: FilterStringValueProps) {
 
   return (
     <TextField
-      aria-label={`${label} filter value`}
       value={inputValue}
       isDisabled={isDisabled}
       onChange={(nextValue) => {
@@ -52,7 +51,10 @@ export function FilterStringValue(props: FilterStringValueProps) {
         debouncedUpdateValue(nextValue);
       }}
     >
-      <TextField.Input />
+      <TextField.LabelInputContainer>
+        <TextField.Label>{label}</TextField.Label>
+        <TextField.Input />
+      </TextField.LabelInputContainer>
     </TextField>
   );
 }

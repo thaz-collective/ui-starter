@@ -9,9 +9,14 @@ import { numberFilterVariants } from './variants';
 
 const DEFAULT_DEBOUNCE_MS = 300;
 
+const MIN_ONLY_OPERATORS = new Set(['equals', 'notEquals', 'greaterThan', 'greaterThanOrEqual']);
+const MAX_ONLY_OPERATORS = new Set(['lessThan', 'lessThanOrEqual']);
+
 interface FilterNumberValueProps {
   filterID: string;
   label: string;
+  minLabel?: string;
+  maxLabel?: string;
   debounceMs?: number;
 }
 
@@ -31,13 +36,27 @@ function fromFieldValue(nextValue: number): number | null {
   return nextValue;
 }
 
+function getRangeLabel(isRange: boolean, label: string, suffix: string): string {
+  if (isRange) {
+    return `${label} ${suffix}`;
+  }
+
+  return label;
+}
+
 export function FilterNumberValue(props: FilterNumberValueProps) {
-  const { filterID, label, debounceMs = DEFAULT_DEBOUNCE_MS } = props;
+  const { filterID, label, minLabel, maxLabel, debounceMs = DEFAULT_DEBOUNCE_MS } = props;
   const { operator, value, updateValue } = useNumberFilter(filterID);
 
   const min = value?.min ?? null;
   const max = value?.max ?? null;
   const isRange = operator === 'range';
+
+  const showMin = operator === null || isRange || MIN_ONLY_OPERATORS.has(operator);
+  const showMax = operator === null || isRange || MAX_ONLY_OPERATORS.has(operator);
+
+  const resolvedMinLabel = minLabel ?? getRangeLabel(isRange, label, 'min');
+  const resolvedMaxLabel = maxLabel ?? getRangeLabel(isRange, label, 'max');
 
   const [prevMin, setPrevMin] = useState(min);
   const [prevMax, setPrevMax] = useState(max);
@@ -72,32 +91,52 @@ export function FilterNumberValue(props: FilterNumberValueProps) {
 
   return (
     <div className={valueGroup()}>
-      <NumberField
-        aria-label={`${label} filter minimum value`}
-        value={toFieldValue(minInputValue)}
-        isDisabled={operator === null}
-        onChange={(nextValue) => {
-          const nextMin = fromFieldValue(nextValue);
+      {showMin && (
+        <NumberField
+          value={toFieldValue(minInputValue)}
+          isDisabled={operator === null}
+          onChange={(nextValue) => {
+            const nextMin = fromFieldValue(nextValue);
 
-          setMinInputValue(nextMin);
-          debouncedUpdateMin(nextMin);
-        }}
-      >
-        <NumberField.Input />
-      </NumberField>
-      <NumberField
-        aria-label={`${label} filter maximum value`}
-        value={toFieldValue(maxInputValue)}
-        isDisabled={!isRange}
-        onChange={(nextValue) => {
-          const nextMax = fromFieldValue(nextValue);
+            setMinInputValue(nextMin);
+            debouncedUpdateMin(nextMin);
+          }}
+        >
+          <NumberField.LabelInputContainer>
+            <NumberField.Label>{resolvedMinLabel}</NumberField.Label>
+            <NumberField.Group>
+              <NumberField.Input />
+              <NumberField.StepButtons>
+                <NumberField.IncrementButton />
+                <NumberField.DecrementButton />
+              </NumberField.StepButtons>
+            </NumberField.Group>
+          </NumberField.LabelInputContainer>
+        </NumberField>
+      )}
+      {showMax && (
+        <NumberField
+          value={toFieldValue(maxInputValue)}
+          isDisabled={operator === null}
+          onChange={(nextValue) => {
+            const nextMax = fromFieldValue(nextValue);
 
-          setMaxInputValue(nextMax);
-          debouncedUpdateMax(nextMax);
-        }}
-      >
-        <NumberField.Input />
-      </NumberField>
+            setMaxInputValue(nextMax);
+            debouncedUpdateMax(nextMax);
+          }}
+        >
+          <NumberField.LabelInputContainer>
+            <NumberField.Label>{resolvedMaxLabel}</NumberField.Label>
+            <NumberField.Group>
+              <NumberField.Input />
+              <NumberField.StepButtons>
+                <NumberField.IncrementButton />
+                <NumberField.DecrementButton />
+              </NumberField.StepButtons>
+            </NumberField.Group>
+          </NumberField.LabelInputContainer>
+        </NumberField>
+      )}
     </div>
   );
 }
