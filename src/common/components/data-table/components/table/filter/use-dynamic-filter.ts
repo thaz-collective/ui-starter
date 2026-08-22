@@ -75,6 +75,13 @@ export function useDynamicFilter() {
       value: null,
     };
 
+    const oldGroup = filterableColumnOptionMap.get(target.id) ?? [];
+
+    filterableColumnOptionMap.set(
+      target.id,
+      oldGroup.filter((value) => value.filterID !== filterID),
+    );
+
     table.setColumnFilters(insertGroupedFilter(filterableColumnOptionMap, updatedFilter));
   };
 
@@ -150,14 +157,6 @@ function insertGroupedFilter(
   columnOptionMap: Map<string, DynamicColumnFilter[]>,
   filter: DynamicColumnFilter,
 ): DynamicColumnFilter[] {
-  // There might be a better way to do this?
-  for (const [id, filters] of columnOptionMap) {
-    columnOptionMap.set(
-      id,
-      filters.filter((value) => value.filterID !== filter.filterID),
-    );
-  }
-
   const group = columnOptionMap.get(filter.id) ?? [];
 
   columnOptionMap.set(filter.id, [...group, filter]);
