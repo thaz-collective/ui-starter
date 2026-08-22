@@ -9,11 +9,12 @@ interface FilterNumberValueProps {
 }
 
 function parseInputValue(rawValue: string): number | null {
-  if (rawValue === '') {
+  const trimmedValue = rawValue.trim();
+  if (trimmedValue.trim() === '') {
     return null;
   }
 
-  const parsed = Number(rawValue);
+  const parsed = Number(trimmedValue);
 
   if (Number.isNaN(parsed)) {
     return null;
