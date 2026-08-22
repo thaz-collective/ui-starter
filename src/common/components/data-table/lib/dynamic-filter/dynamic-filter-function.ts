@@ -6,6 +6,12 @@ import {
   filterFn_endsWith,
   filterFn_empty,
   filterFn_notEmpty,
+  filterFn_equals,
+  filterFn_greaterThan,
+  filterFn_greaterThanOrEqualTo,
+  filterFn_lessThan,
+  filterFn_lessThanOrEqualTo,
+  filterFn_betweenInclusive,
 } from '@tanstack/react-table';
 
 import type { DynamicColumnFilter } from '#src/common/components/data-table/lib/dynamic-filter/filter-util';
@@ -41,32 +47,52 @@ export const dynamicFilter = constructFilterFn({
       if (isStringColumnFilter(filter)) {
         const { value, operator } = filter;
 
-        if (isFalsy(value) && operator !== 'isEmpty' && operator !== 'isNotEmpty') {
-          continue;
-        }
-
         switch (operator) {
           case 'equals': {
+            if (isFalsy(value)) {
+              continue;
+            }
+
             result = filterFn_equalsString(row, columnId, value);
             break;
           }
           case 'notEquals': {
+            if (isFalsy(value)) {
+              continue;
+            }
+
             result = !filterFn_equalsString(row, columnId, value);
             break;
           }
           case 'contains': {
+            if (isFalsy(value)) {
+              continue;
+            }
+
             result = filterFn_includesString(row, columnId, value);
             break;
           }
           case 'notContains': {
+            if (isFalsy(value)) {
+              continue;
+            }
+
             result = !filterFn_includesString(row, columnId, value);
             break;
           }
           case 'startsWith': {
+            if (isFalsy(value)) {
+              continue;
+            }
+
             result = filterFn_startsWith(row, columnId, value);
             break;
           }
           case 'endsWith': {
+            if (isFalsy(value)) {
+              continue;
+            }
+
             result = filterFn_endsWith(row, columnId, value);
             break;
           }
@@ -88,50 +114,61 @@ export const dynamicFilter = constructFilterFn({
         const min = value?.min ?? null;
         const max = value?.max ?? null;
 
-        if (operator === 'range') {
-          if (min === null && max === null) {
-            continue;
-          }
-        } else if (min === null) {
-          continue;
-        }
-
-        const rawValue = row.getValue<unknown>(columnId);
-        let dataValue: number;
-
-        if (typeof rawValue === 'number') {
-          dataValue = rawValue;
-        } else {
-          dataValue = Number(rawValue);
-        }
-
         switch (operator) {
           case 'equals': {
-            result = dataValue === min;
+            if (min === null) {
+              continue;
+            }
+
+            result = filterFn_equals(row, columnId, min);
             break;
           }
           case 'notEquals': {
-            result = dataValue !== min;
+            if (min === null) {
+              continue;
+            }
+
+            result = !filterFn_equals(row, columnId, min);
             break;
           }
           case 'greaterThan': {
-            result = dataValue > (min ?? Number.NEGATIVE_INFINITY);
+            if (min === null) {
+              continue;
+            }
+
+            result = filterFn_greaterThan(row, columnId, min);
             break;
           }
           case 'greaterThanOrEqual': {
-            result = dataValue >= (min ?? Number.NEGATIVE_INFINITY);
+            if (min === null) {
+              continue;
+            }
+
+            result = filterFn_greaterThanOrEqualTo(row, columnId, min);
             break;
           }
           case 'lessThan': {
-            result = dataValue < (min ?? Number.POSITIVE_INFINITY);
+            if (min === null) {
+              continue;
+            }
+
+            result = filterFn_lessThan(row, columnId, min);
             break;
           }
           case 'lessThanOrEqual': {
-            result = dataValue <= (min ?? Number.POSITIVE_INFINITY);
+            if (min === null) {
+              continue;
+            }
+
+            result = filterFn_lessThanOrEqualTo(row, columnId, min);
             break;
           }
           case 'range': {
-            result = (min === null || dataValue >= min) && (max === null || dataValue <= max);
+            if (min === null && max === null) {
+              continue;
+            }
+
+            result = filterFn_betweenInclusive(row, columnId, [min ?? undefined, max ?? undefined]);
             break;
           }
           default: {

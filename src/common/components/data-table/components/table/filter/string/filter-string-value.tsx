@@ -1,41 +1,58 @@
-import { Input } from 'react-aria-components';
+import { useState } from 'react';
+
+import { useDebouncedCallback } from '@tanstack/react-pacer/debouncer';
 
 import type { StringFilterOperator } from '#src/common/components/data-table/lib/dynamic-filter/filter-util';
+import { TextField } from '#src/common/components/text-field';
 
 import { useStringFilter } from './use-string-filter';
-import { stringFilterVariants } from './variants';
 
 const EMPTY_OPERATORS = new Set<StringFilterOperator>(['isEmpty', 'isNotEmpty']);
+const DEFAULT_DEBOUNCE_MS = 300;
 
 interface FilterStringValueProps {
   filterID: string;
   label: string;
+  debounceMs?: number;
 }
 
 export function FilterStringValue(props: FilterStringValueProps) {
-  const { filterID, label } = props;
+  const { filterID, label, debounceMs = DEFAULT_DEBOUNCE_MS } = props;
   const { operator, value, updateValue } = useStringFilter(filterID);
 
-  const { valueInput } = stringFilterVariants();
+  const [prevValue, setPrevValue] = useState(value);
+  const [inputValue, setInputValue] = useState(value ?? '');
+
+  if (prevValue !== value) {
+    setPrevValue(value);
+    setInputValue(value ?? '');
+  }
+
+  const debouncedUpdateValue = useDebouncedCallback(
+    (nextValue: string) => {
+      if (nextValue === '') {
+        updateValue(null);
+        return;
+      }
+
+      updateValue(nextValue);
+    },
+    { wait: debounceMs },
+  );
 
   const isDisabled = operator !== null && EMPTY_OPERATORS.has(operator);
 
   return (
-    <Input
+    <TextField
       aria-label={`${label} filter value`}
-      className={valueInput()}
-      value={value ?? ''}
-      disabled={isDisabled}
-      onChange={(event) => {
-        const { value: nextValue } = event.target;
-
-        if (nextValue === '') {
-          updateValue(null);
-          return;
-        }
-
-        updateValue(nextValue);
+      value={inputValue}
+      isDisabled={isDisabled}
+      onChange={(nextValue) => {
+        setInputValue(nextValue);
+        debouncedUpdateValue(nextValue);
       }}
-    />
+    >
+      <TextField.Input />
+    </TextField>
   );
 }
