@@ -1,4 +1,5 @@
 import { TextField as TextFieldRoot } from './components/text-field';
+import { TextFieldRootDebounced } from './components/text-field-debounced';
 import { Description } from './components/text-field-description';
 import { FieldError } from './components/text-field-field-error';
 import { Input } from './components/text-field-input';
@@ -8,6 +9,7 @@ import { TextArea } from './components/text-field-text-area';
 
 export const TextField = Object.assign(TextFieldRoot, {
   Root: TextFieldRoot,
+  RootDebounced: TextFieldRootDebounced,
   LabelInputContainer,
   Label,
   Input,
