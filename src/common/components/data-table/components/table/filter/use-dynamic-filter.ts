@@ -58,7 +58,7 @@ export function useDynamicFilter() {
       joinOperator: 'and',
     };
 
-    table.setColumnFilters(insertGroupedFilter(filterableColumnOptionMap, newFilter));
+    table.setColumnFilters(upsertGroupedFilter(filterableColumnOptionMap, newFilter));
   };
 
   const updateFilterColumn = (filterID: string, columnID: string) => {
@@ -82,13 +82,13 @@ export function useDynamicFilter() {
       oldGroup.filter((value) => value.filterID !== filterID),
     );
 
-    table.setColumnFilters(insertGroupedFilter(filterableColumnOptionMap, updatedFilter));
+    table.setColumnFilters(upsertGroupedFilter(filterableColumnOptionMap, updatedFilter));
   };
 
-  const updateJoinOperator = (id: string, joinOperator: JoinOperator) => {
+  const updateJoinOperator = (columnID: string, joinOperator: JoinOperator) => {
     table.setColumnFilters(
       columnFilters.map((value) => {
-        if (id !== value.id) {
+        if (columnID !== value.id) {
           return value;
         }
 
@@ -153,7 +153,7 @@ export function useDynamicFilter() {
   };
 }
 
-function insertGroupedFilter(
+function upsertGroupedFilter(
   columnOptionMap: Map<string, DynamicColumnFilter[]>,
   filter: DynamicColumnFilter,
 ): DynamicColumnFilter[] {
