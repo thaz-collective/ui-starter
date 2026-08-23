@@ -1,16 +1,21 @@
 # Breadcrumbs
 
 ## What it is
+
 A horizontal trail of navigation links (`Home / Section / Current Page`) with separators and an optional overflow ellipsis.
 
 ## Source
+
 `/home/maethron/codingProjects/opensource/jolly-ui/src/registry/new-york/ui/breadcrumbs.tsx`
 
 ## RAC primitives used
+
 `Breadcrumbs`, `Breadcrumb`, `Link` from `react-aria-components`.
 
 ## Public API
+
 Compound object `Breadcrumbs`:
+
 - `Root` (`Breadcrumbs`, also default export)
 - `Item` (`Breadcrumb`, the `<li>`-equivalent wrapper)
 - `Link`
@@ -19,6 +24,7 @@ Compound object `Breadcrumbs`:
 - `Ellipsis` (presentational `<span>` for collapsed/overflowed items)
 
 ## Build steps
+
 1. Create `src/common/components/breadcrumbs/` with `variants.ts`, `index.ts`, and `components/breadcrumbs.tsx` (Root), `-item.tsx`, `-link.tsx`, `-page.tsx`, `-separator.tsx`, `-ellipsis.tsx`.
 2. `variants.ts`: `tv()` slots — `root` (`flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground`), `item`, `link` (`data-hovered`, `data-disabled`, `data-current`), `page` (current-page styling, no interactive states), `separator` (`[&>svg]:size-3.5`), `ellipsis`.
 3. `components/breadcrumbs.tsx` (Root): wrap RAC `Breadcrumbs` directly, generic `<T extends object>`.
@@ -29,4 +35,5 @@ Compound object `Breadcrumbs`:
 8. `index.ts`: `Object.assign(BreadcrumbsRoot, { Root, Item, Link, Page, Separator, Ellipsis })`.
 
 ## Dependencies
+
 None on other not-yet-migrated components. Simple, good early build.

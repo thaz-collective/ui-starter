@@ -2,7 +2,7 @@
 
 Status: implemented. All 12 adapters described below are built at `src/common/lib/form/*` (`text-field`, `number-field`, `date-time-picker`, `time-field`, `checkbox`, `switch`, `radio-group`, `search-field`, `slider`, `tag-group`, `select`, `combo-box`) and registered as `fieldComponents` in `src/configs/tanstack-form.tsx`, which exports `useAppForm`/`useFormContext`/`appFormOptions`/`defineAppFieldGroup` via `createFormHook`. `text-area` was skipped (shares `text-field`'s adapter shape per the note below); `button`/`card`/`surface` are not field inputs and have no adapter. One deviation found while implementing: RAC's `TextField`/`NumberField`/`DateField`/`TimeField`/`Select`/`ComboBox`/`RadioGroup`/`SearchField`/`TagGroup` props all omit `errorMessage` from their `Root` props entirely (confirmed by reading the installed `react-aria-components` `.d.ts` — not just assumed from this doc's original sketch) — the working pattern is `isInvalid` on `Root` plus the joined error string passed as `FieldError`'s `children` (this repo's `FieldError` wrapper requires `children`), not an `errorMessage` prop on `Root` as originally sketched above.
 
-**Verified against `pnpm intent` + installed `.d.ts` on 2026-08-18.** One factual error was found and corrected: there is **no `form.AppField` component** in this alpha. Registered field components (via `createFormHook`) are consumed through the *same* `form.Field` render prop as unregistered usage — the render-prop argument (`field`) simply gains the registered components as properties (e.g. `field.TextField`), and no separate `AppField`/`.AppField` wrapper for individual fields exists anywhere in the shipped types. `form.AppForm` does exist, but it is a context *provider* needed only for registered **form-level** components (`formComponents`) and `useFormContext()` — not required to use registered field components. Everything else checked (`createFormHook`, `getFormHookHelpers`, `fieldComponent.strict/.loose`, `fieldBrand.strict/.loose`, `field.value`/`.handleChange`/`.handleBlur`/`.errors`/`.meta.isInvalid`) matched the doc's claims exactly against the `.d.ts` sources. See corrections inline below and the updated "Open Questions" section.
+**Verified against `pnpm intent` + installed `.d.ts` on 2026-08-18.** One factual error was found and corrected: there is **no `form.AppField` component** in this alpha. Registered field components (via `createFormHook`) are consumed through the _same_ `form.Field` render prop as unregistered usage — the render-prop argument (`field`) simply gains the registered components as properties (e.g. `field.TextField`), and no separate `AppField`/`.AppField` wrapper for individual fields exists anywhere in the shipped types. `form.AppForm` does exist, but it is a context _provider_ needed only for registered **form-level** components (`formComponents`) and `useFormContext()` — not required to use registered field components. Everything else checked (`createFormHook`, `getFormHookHelpers`, `fieldComponent.strict/.loose`, `fieldBrand.strict/.loose`, `field.value`/`.handleChange`/`.handleBlur`/`.errors`/`.meta.isInvalid`) matched the doc's claims exactly against the `.d.ts` sources. See corrections inline below and the updated "Open Questions" section.
 
 Package versions installed: `@tanstack/react-form@2.0.0-alpha.1` (deps on `@tanstack/form-core@2.0.0-alpha.1`, `@tanstack/react-store@^0.11.0`), `@tanstack/react-form-devtools@1.0.0-alpha.1`.
 
@@ -44,32 +44,35 @@ Key type facts pulled from `node_modules/@tanstack/react-form/dist/ReactForm/Com
 - `form.FormGroup` / `FormGroupApi` — a way to scope a sub-tree of the form (own `state.submissionAttempts`, own validators) without it being a fully separate form. Not deeply needed for this integration but affects `errorVisibility` scoping (state reads are scoped to nearest group).
 - `formOptions(...)`, `formOptions.strictSchema(...)`, `formOptions.looseSchema(...)` — three modes for how a Standard Schema validator (Zod, etc.) interacts with typed `defaultValues`. Default mode: literal `defaultValues` own the type, callback validators infer from them. `strictSchema`: schema input/output own the boundary (good for pipelines/transforms); parsed result surfaces via `onSubmit({ schemaOutputs })`, not `value`. `looseSchema`: schema is a pure ruleset, but `defaultValues` may be `null`/nullable for editable-empty-state UX (e.g. an unset date field) while still validating against a non-nullable schema at submit time. This is directly relevant to our `date-time-picker`/`time-field`/`number-field` components, whose "empty" state is naturally `null`.
 - `errorVisibility` is a **callback**, not a v1-style string preset (`'touched'` etc. does not exist in v2). Built via `createErrorVisibility(({ fieldState, state }) => boolean)`, e.g. `fieldState.meta.isBlurred || state.submissionAttempts > 0`. This callback is what should gate whether our `FieldError` slot renders, described further below.
-- `createValidator({ triggers, triggerDebounceMs, ... })` packages *when* validation runs (separately from *when errors are shown*, which is `errorVisibility`'s job).
+- `createValidator({ triggers, triggerDebounceMs, ... })` packages _when_ validation runs (separately from _when errors are shown_, which is `errorVisibility`'s job).
 
 ### The field-component registration mechanism (`createFormHook` + `getFormHookHelpers`) — this is our integration seam
 
 From `node_modules/@tanstack/react-form/dist/AppForm/getFormHookHelpers.public.d.ts` and `createFormHook.public.d.ts`:
 
 ```tsx
-import { createFormHook, getFormHookHelpers } from '@tanstack/react-form'
-import type { FieldWithValue } from '@tanstack/react-form'
+import { createFormHook, getFormHookHelpers } from '@tanstack/react-form';
+import type { FieldWithValue } from '@tanstack/react-form';
 
 function TextInput({ field, label }: { field: FieldWithValue<string>; label: string }) {
   return (
     <label>
       {label}
-      <input value={field.value} onChange={(e) => field.handleChange(e.target.value)} />
+      <input
+        value={field.value}
+        onChange={(e) => field.handleChange(e.target.value)}
+      />
     </label>
-  )
+  );
 }
 
-const { fieldComponent } = getFormHookHelpers()
-const TextField = fieldComponent.strict(TextInput, 'field')
+const { fieldComponent } = getFormHookHelpers();
+const TextField = fieldComponent.strict(TextInput, 'field');
 
 export const { useAppForm } = createFormHook({
   fieldComponents: { TextField },
   formComponents: {},
-})
+});
 ```
 
 `fieldComponent.strict(Component, fieldPropKey)` wraps a component so that App Form auto-injects the current field API into the named prop (`'field'` above), and **removes that prop from the component's public signature** when rendered inside `useAppForm()`'s `form.AppField` (implied by `AppFormComponent`/`ReactAppFormApi` types — the exact runtime component name for consuming registered field components wasn't in the `.d.ts` excerpts read, worth re-verifying, see Open Questions). `.strict` requires the field's value type to exactly match `FieldWithValue<TValue>`; `.loose` (also on `fieldComponent`) accepts any assignable/wider value type — e.g. useful for a generic `FieldError` display component that should be offered for every field regardless of value type. There's also `fieldBrand.strict<TValue>()`/`fieldBrand.loose<TValue>()` for components that DON'T need the field API injected (e.g. a static "Required" adornment) but should still only be type-offered for compatible fields.
@@ -118,9 +121,9 @@ Note `field.handleChange` matches RAC's `onChange(value: string)` shape directly
 Registered-component wiring (proposed, using `createFormHook`), sketched as `src/common/lib/form-fields.tsx` (not implemented, illustrative only):
 
 ```tsx
-import { createFormHook, getFormHookHelpers } from '@tanstack/react-form'
-import type { FieldWithValue } from '@tanstack/react-form'
-import { TextField as TextFieldComponent } from '#src/common/components/text-field'
+import { createFormHook, getFormHookHelpers } from '@tanstack/react-form';
+import type { FieldWithValue } from '@tanstack/react-form';
+import { TextField as TextFieldComponent } from '#src/common/components/text-field';
 
 function TextFieldAdapter({
   field,
@@ -128,9 +131,9 @@ function TextFieldAdapter({
   description,
   ...rootProps
 }: {
-  field: FieldWithValue<string>
-  label?: React.ReactNode
-  description?: React.ReactNode
+  field: FieldWithValue<string>;
+  label?: React.ReactNode;
+  description?: React.ReactNode;
 } & Omit<TextFieldComponent.RootProps, 'value' | 'onChange' | 'onBlur' | 'children'>) {
   return (
     <TextFieldComponent.Root
@@ -146,10 +149,10 @@ function TextFieldAdapter({
       {description ? <TextFieldComponent.Description>{description}</TextFieldComponent.Description> : null}
       <TextFieldComponent.FieldError />
     </TextFieldComponent.Root>
-  )
+  );
 }
 
-const { fieldComponent } = getFormHookHelpers()
+const { fieldComponent } = getFormHookHelpers();
 
 export const { useAppForm } = createFormHook({
   fieldComponents: {
@@ -157,7 +160,7 @@ export const { useAppForm } = createFormHook({
     // DateTimePicker, TimeField, NumberField, ... follow the same shape
   },
   formComponents: {},
-})
+});
 ```
 
 Consumer usage becomes (**corrected**: there is no `form.AppField` component. Registered field components ride along on the ordinary `form.Field` render prop — the `field` argument gains a property per registered component, confirmed by the worked examples embedded in `node_modules/@tanstack/react-form/dist/AppForm/createFormHookTypes.public.d.ts`'s `AppFormHookResult.appFormOptions`/`useAppForm` JSDoc):
@@ -174,9 +177,7 @@ const form = useAppForm({ defaultValues: { email: '' } })
 
 ```tsx
 <form.AppForm>
-  <form.Field name="name">
-    {(field) => <field.TextField label="Name" />}
-  </form.Field>
+  <form.Field name="name">{(field) => <field.TextField label="Name" />}</form.Field>
   <SubmitButton /> {/* a registered formComponent using useFormContext() */}
 </form.AppForm>
 ```
@@ -233,7 +234,11 @@ Written 2026-08-18, after implementing all 8 components under `src/common/compon
 `Checkbox.Root` wraps RAC `Checkbox`; `Switch` wraps RAC `Switch`. Both emit `onChange(isSelected: boolean)` and have no `value`/`checked` controlled prop — RAC's boolean toggles are controlled via `isSelected`/`defaultSelected`, not `value`. So the adapter maps `field.value: boolean` to `isSelected` (not `value`) and `field.handleChange` to `onChange`, e.g.:
 
 ```tsx
-<Checkbox.Root isSelected={field.value} onChange={field.handleChange} onBlur={field.handleBlur} />
+<Checkbox.Root
+  isSelected={field.value}
+  onChange={field.handleChange}
+  onBlur={field.handleBlur}
+/>
 ```
 
 This is the simplest adapter of the whole set, as predicted in the "Planned" note above — just note the `value` → `isSelected` prop-name mismatch, since a naive port of the `text-field` adapter shape (`value={field.value}`) would silently no-op.
@@ -250,11 +255,11 @@ This is the simplest adapter of the whole set, as predicted in the "Planned" not
 
 ### slider — number or number[], depends on single vs. multi-thumb
 
-`Slider.Root` wraps RAC `Slider`, controlled via `value`/`onChange`, and RAC's `Slider` is *overloaded*: for a single thumb, `value: number` / `onChange(value: number)`; for multiple thumbs (rendering more than one `Slider.Thumb`), `value: number[]` / `onChange(value: number[])`. This is a real, per-usage design decision the adapter can't make generically — **flagging as open question**: should this library ship two distinct registered field components (`Slider` for `FieldWithValue<number>`, `SliderRange` for `FieldWithValue<number[]>`), or one generic adapter typed against a generic `TValue extends number | number[]` and left to the consumer to specialize per-field? RAC itself resolves this via the shape of the `value`/`defaultValue` prop at the type level (function overloads on `SliderProps`), so a single adapter component would need the same conditional generic to stay type-safe — recommend deciding this only once a real multi-thumb use case exists in a consuming app, per this doc's existing "flag, don't decide" convention.
+`Slider.Root` wraps RAC `Slider`, controlled via `value`/`onChange`, and RAC's `Slider` is _overloaded_: for a single thumb, `value: number` / `onChange(value: number)`; for multiple thumbs (rendering more than one `Slider.Thumb`), `value: number[]` / `onChange(value: number[])`. This is a real, per-usage design decision the adapter can't make generically — **flagging as open question**: should this library ship two distinct registered field components (`Slider` for `FieldWithValue<number>`, `SliderRange` for `FieldWithValue<number[]>`), or one generic adapter typed against a generic `TValue extends number | number[]` and left to the consumer to specialize per-field? RAC itself resolves this via the shape of the `value`/`defaultValue` prop at the type level (function overloads on `SliderProps`), so a single adapter component would need the same conditional generic to stay type-safe — recommend deciding this only once a real multi-thumb use case exists in a consuming app, per this doc's existing "flag, don't decide" convention.
 
 ### tag-group — string[], no transform
 
-`TagGroup.Root` wraps RAC `TagGroup`, controlled via `selectedKeys`/`onSelectionChange` for which *tags exist as selectable/removable chips* — but the more relevant read for a "chips of arbitrary values" field (e.g. a free-form tag list bound to a `string[]` form field) is `TagGroup.List`'s `items` prop (the actual set of tags rendered) combined with the `Tag`'s `onRemove`-style handling via `TagGroup.Root`'s `onRemove(keys: Set<Key>)` callback — RAC's `TagGroup` models "remove one tag from the set" as a `Set<Key>` event, not a full new-array `onChange`. **Flagging as open question**: the adapter needs to decide how a `Key`-based removal event reduces back onto a `string[]` form value (likely `field.handleChange(field.value.filter((v) => !removedKeys.has(v)))` assuming `Key === string` for this use case), and how *adding* a new tag (e.g. from a paired text input, which `TagGroup` does not itself provide) composes with the same field — this is closer in shape to `select`/`combobox`'s `Key`-vs-value-object question below than to a simple 1:1 value mapping, and should get its own design pass alongside those once a real consuming form needs it.
+`TagGroup.Root` wraps RAC `TagGroup`, controlled via `selectedKeys`/`onSelectionChange` for which _tags exist as selectable/removable chips_ — but the more relevant read for a "chips of arbitrary values" field (e.g. a free-form tag list bound to a `string[]` form field) is `TagGroup.List`'s `items` prop (the actual set of tags rendered) combined with the `Tag`'s `onRemove`-style handling via `TagGroup.Root`'s `onRemove(keys: Set<Key>)` callback — RAC's `TagGroup` models "remove one tag from the set" as a `Set<Key>` event, not a full new-array `onChange`. **Flagging as open question**: the adapter needs to decide how a `Key`-based removal event reduces back onto a `string[]` form value (likely `field.handleChange(field.value.filter((v) => !removedKeys.has(v)))` assuming `Key === string` for this use case), and how _adding_ a new tag (e.g. from a paired text input, which `TagGroup` does not itself provide) composes with the same field — this is closer in shape to `select`/`combobox`'s `Key`-vs-value-object question below than to a simple 1:1 value mapping, and should get its own design pass alongside those once a real consuming form needs it.
 
 ### select — Key, needs a value-shape decision
 
@@ -266,14 +271,14 @@ This is the simplest adapter of the whole set, as predicted in the "Planned" not
 
 ### Per-component onChange emission summary (for quick reference when writing adapters)
 
-| Component | Controlled prop(s) | Emitted value | Transform needed |
-|---|---|---|---|
-| `Checkbox.Root` | `isSelected` | `boolean` | prop-name only (`value` → `isSelected`) |
-| `Checkbox.Group` | `value` | `string[]` | none |
-| `Switch` | `isSelected` | `boolean` | prop-name only (`value` → `isSelected`) |
-| `RadioGroup.Root` | `value` | `string` | none |
-| `SearchField.Root` | `value` | `string` | none |
-| `Slider.Root` | `value` | `number` (single thumb) or `number[]` (multi-thumb) | none, but shape is usage-dependent (flagged) |
-| `TagGroup.Root`/`.List` | `selectedKeys`/`items` + `onRemove(Set<Key>)` | `Set<Key>` removal events, not a `string[]` `onChange` | reduction logic needed (flagged) |
-| `Select.Root` | `selectedKey` | `Key` (`string \| number`) | `Key`-vs-option-object decision (flagged) |
-| `ComboBox.Root` | `selectedKey` + `inputValue` | `Key` + `string`, two independent streams | selection/typed-text split decision (flagged) |
+| Component               | Controlled prop(s)                            | Emitted value                                          | Transform needed                              |
+| ----------------------- | --------------------------------------------- | ------------------------------------------------------ | --------------------------------------------- |
+| `Checkbox.Root`         | `isSelected`                                  | `boolean`                                              | prop-name only (`value` → `isSelected`)       |
+| `Checkbox.Group`        | `value`                                       | `string[]`                                             | none                                          |
+| `Switch`                | `isSelected`                                  | `boolean`                                              | prop-name only (`value` → `isSelected`)       |
+| `RadioGroup.Root`       | `value`                                       | `string`                                               | none                                          |
+| `SearchField.Root`      | `value`                                       | `string`                                               | none                                          |
+| `Slider.Root`           | `value`                                       | `number` (single thumb) or `number[]` (multi-thumb)    | none, but shape is usage-dependent (flagged)  |
+| `TagGroup.Root`/`.List` | `selectedKeys`/`items` + `onRemove(Set<Key>)` | `Set<Key>` removal events, not a `string[]` `onChange` | reduction logic needed (flagged)              |
+| `Select.Root`           | `selectedKey`                                 | `Key` (`string \| number`)                             | `Key`-vs-option-object decision (flagged)     |
+| `ComboBox.Root`         | `selectedKey` + `inputValue`                  | `Key` + `string`, two independent streams              | selection/typed-text split decision (flagged) |
