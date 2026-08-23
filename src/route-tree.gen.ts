@@ -15,6 +15,7 @@ import { Route as DocsColorsRouteImport } from './routes/_docs/colors'
 import { Route as DocsComponentsRouteRouteImport } from './routes/_docs/components/route'
 import { Route as DocsComponentsIndexRouteImport } from './routes/_docs/components/index'
 import { Route as DocsComponentsComponentIDRouteImport } from './routes/_docs/components/$componentID'
+import { Route as PlaygroundTableIndexRouteImport } from './routes/playground/table/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,6 +47,11 @@ const DocsComponentsComponentIDRoute =
     path: '/$componentID',
     getParentRoute: () => DocsComponentsRouteRoute,
   } as any)
+const PlaygroundTableIndexRoute = PlaygroundTableIndexRouteImport.update({
+  id: '/playground/table/',
+  path: '/playground/table/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -53,12 +59,14 @@ export interface FileRoutesByFullPath {
   '/colors': typeof DocsColorsRoute
   '/components/$componentID': typeof DocsComponentsComponentIDRoute
   '/components/': typeof DocsComponentsIndexRoute
+  '/playground/table/': typeof PlaygroundTableIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/colors': typeof DocsColorsRoute
   '/components/$componentID': typeof DocsComponentsComponentIDRoute
   '/components': typeof DocsComponentsIndexRoute
+  '/playground/table': typeof PlaygroundTableIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/_docs/colors': typeof DocsColorsRoute
   '/_docs/components/$componentID': typeof DocsComponentsComponentIDRoute
   '/_docs/components/': typeof DocsComponentsIndexRoute
+  '/playground/table/': typeof PlaygroundTableIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -77,8 +86,14 @@ export interface FileRouteTypes {
     | '/colors'
     | '/components/$componentID'
     | '/components/'
+    | '/playground/table/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/colors' | '/components/$componentID' | '/components'
+  to:
+    | '/'
+    | '/colors'
+    | '/components/$componentID'
+    | '/components'
+    | '/playground/table'
   id:
     | '__root__'
     | '/'
@@ -87,11 +102,13 @@ export interface FileRouteTypes {
     | '/_docs/colors'
     | '/_docs/components/$componentID'
     | '/_docs/components/'
+    | '/playground/table/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DocsRouteRoute: typeof DocsRouteRouteWithChildren
+  PlaygroundTableIndexRoute: typeof PlaygroundTableIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -138,6 +155,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsComponentsComponentIDRouteImport
       parentRoute: typeof DocsComponentsRouteRoute
     }
+    '/playground/table/': {
+      id: '/playground/table/'
+      path: '/playground/table'
+      fullPath: '/playground/table/'
+      preLoaderRoute: typeof PlaygroundTableIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -171,6 +195,7 @@ const DocsRouteRouteWithChildren = DocsRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DocsRouteRoute: DocsRouteRouteWithChildren,
+  PlaygroundTableIndexRoute: PlaygroundTableIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

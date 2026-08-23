@@ -2,8 +2,8 @@ import { createTableHook } from '@tanstack/react-table';
 
 import { StringCell } from '#src/common/components/data-table/components/cell/string-cell';
 import { TemporalCell } from '#src/common/components/data-table/components/cell/temporal-cell';
+import { DynamicGlobalFilter } from '#src/common/components/data-table/components/table/filter/global';
 
-// import { HeaderStringFilter } from '#src/common/components/data-table/components/data-table-string-filter';
 import { tableContext, cellContext, headerContext } from './context';
 import { dynamicFilter } from './dynamic-filter/dynamic-filter-function';
 import { dataTableFeatures } from './features';
@@ -18,11 +18,10 @@ export const { appFeatures, createAppColumnHelper, useAppTable, useHeaderContext
       filterFn: dynamicFilter,
     },
     columnResizeMode: 'onChange',
-    // defaultColumn: { filterFn: dynamicFilterFn },
-    tableComponents: {},
-    headerComponents: {
-      // HeaderStringFilter,
+    tableComponents: {
+      DynamicGlobalFilter,
     },
+    headerComponents: {},
     cellComponents: {
       StringCell,
       TemporalCell,

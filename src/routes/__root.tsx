@@ -5,6 +5,7 @@ import { formDevtoolsPlugin } from '@tanstack/react-form-devtools';
 import { ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools';
 import { Outlet, createRootRouteWithContext, HeadContent, Scripts } from '@tanstack/react-router';
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
+import { tableDevtoolsPlugin } from '@tanstack/react-table-devtools';
 
 import type { TanStackRouterContext } from '#src/configs/tanstack-router';
 
@@ -71,7 +72,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
           //   debug: true,
           //   connectToServerBus: true,
           // }}
-          plugins={[formDevtoolsPlugin(), routerDevtoolsPlugin, queryDevtoolsPlugin]}
+          plugins={[formDevtoolsPlugin(), tableDevtoolsPlugin(), routerDevtoolsPlugin, queryDevtoolsPlugin]}
         />
       </body>
     </html>
