@@ -1,4 +1,5 @@
 import { NumberField as NumberFieldRoot } from './components/number-field';
+import { NumberFieldRootDebounced } from './components/number-field-debounced';
 import { NumberFieldDecrementButton } from './components/number-field-decrement-button';
 import { Description } from './components/number-field-description';
 import { FieldError } from './components/number-field-field-error';
@@ -11,6 +12,7 @@ import { NumberFieldStepButtons } from './components/number-field-step-buttons';
 
 export const NumberField = Object.assign(NumberFieldRoot, {
   Root: NumberFieldRoot,
+  RootDebounced: NumberFieldRootDebounced,
   LabelInputContainer,
   Label,
   Group: NumberFieldGroup,
