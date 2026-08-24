@@ -1,17 +1,16 @@
 ---
 title: Table
-date: 2026-08-19
+date: 2026-08-24
 author:
   - Tim Hazlett
 ---
 
 # Table
 
-A plain, presentational data table — header, sortable/resizable columns, body,
-rows, and cells — built on top of `react-aria-components`' `Table` primitives,
-styled with `tailwind-variants`. This component has no data-modeling opinions
-(no sorting/filtering/selection state); it's the styled markup layer that
-`data-table` (the TanStack Table integration) renders into.
+A data table built on top of `react-aria-components`' `Table`, styled with
+`tailwind-variants`. This page covers the base table primitive only — for sorting,
+filtering, and pagination backed by `@tanstack/react-table`, see the data-table
+integration separately.
 
 <H2 id="import">Import</H2>
 
@@ -21,14 +20,15 @@ styled with `tailwind-variants`. This component has no data-modeling opinions
 
 <H2 id="composition">Composition</H2>
 
+Use the following composition to build a `Table`:
+
 <pre>
-  <code>{`Table.ResizableContainer (optional)
-└── Table
-    ├── Table.Header
-    │   └── Table.Column
-    └── Table.Body
-        └── Table.Row
-            └── Table.Cell`}</code>
+  <code>{`Table
+├── Table.TableHeader
+│   └── Table.TableColumn (one per column)
+└── Table.TableBody
+    └── Table.TableRow (one per row)
+        └── Table.TableDataCell (one per column)`}</code>
 </pre>
 
 <H2 id="anatomy">Anatomy</H2>
@@ -44,209 +44,197 @@ styled with `tailwind-variants`. This component has no data-modeling opinions
   <tbody>
     <tr>
       <td>{'Table / Table.Root'}</td>
-      <td>{'The <table> element.'}</td>
+      <td>{'The table container.'}</td>
       <td>{'No'}</td>
     </tr>
     <tr>
-      <td>{'Table.Header'}</td>
-      <td>{'The <thead>, contains Table.Column elements.'}</td>
+      <td>{'Table.TableHeader'}</td>
+      <td>{'Wraps the column definitions.'}</td>
       <td>{'No'}</td>
     </tr>
     <tr>
-      <td>{'Table.Column'}</td>
-      <td>{'A <th>; supports allowsSorting and isResizable.'}</td>
+      <td>{'Table.TableColumn'}</td>
+      <td>{'A single column header cell.'}</td>
       <td>{'No'}</td>
     </tr>
     <tr>
-      <td>{'Table.Body'}</td>
-      <td>{'The <tbody>, contains Table.Row elements.'}</td>
+      <td>{'Table.TableBody'}</td>
+      <td>{'Wraps the rows.'}</td>
       <td>{'No'}</td>
     </tr>
     <tr>
-      <td>{'Table.Row'}</td>
-      <td>{'A <tr>; supports hover/selected states.'}</td>
+      <td>{'Table.TableRow'}</td>
+      <td>{'A single row.'}</td>
       <td>{'No'}</td>
     </tr>
     <tr>
-      <td>{'Table.Cell'}</td>
-      <td>{'A <td>.'}</td>
+      <td>{'Table.TableDataCell'}</td>
+      <td>{'A single data cell.'}</td>
       <td>{'No'}</td>
-    </tr>
-    <tr>
-      <td>{'Table.ResizableContainer'}</td>
-      <td>{'Wraps Table to enable column resizing.'}</td>
-      <td>{'Yes (required for resizable columns)'}</td>
     </tr>
   </tbody>
 </table>
+
+Each part is a plain, self-contained component — none of them require a parent `Table`
+to render, but they're styled to be composed together.
 
 <H2 id="examples">Examples</H2>
 
 <H3 id="default">Default</H3>
 
 <Preview
-  code={`<Table aria-label="Invoices" className="w-full">
-  <Table.Header>
-    <Table.Column isRowHeader>Invoice</Table.Column>
-    <Table.Column>Status</Table.Column>
-    <Table.Column>Amount</Table.Column>
-  </Table.Header>
-  <Table.Body>
-    <Table.Row>
-      <Table.Cell>INV001</Table.Cell>
-      <Table.Cell>Paid</Table.Cell>
-      <Table.Cell>$250.00</Table.Cell>
-    </Table.Row>
-    <Table.Row>
-      <Table.Cell>INV002</Table.Cell>
-      <Table.Cell>Pending</Table.Cell>
-      <Table.Cell>$150.00</Table.Cell>
-    </Table.Row>
-  </Table.Body>
+  code={`<Table aria-label="Recent invoices">
+  <Table.TableHeader>
+    <Table.TableColumn isRowHeader>Invoice</Table.TableColumn>
+    <Table.TableColumn>Amount</Table.TableColumn>
+    <Table.TableColumn>Status</Table.TableColumn>
+  </Table.TableHeader>
+  <Table.TableBody>
+    <Table.TableRow>
+      <Table.TableDataCell>INV-001</Table.TableDataCell>
+      <Table.TableDataCell>$250.00</Table.TableDataCell>
+      <Table.TableDataCell>Paid</Table.TableDataCell>
+    </Table.TableRow>
+    <Table.TableRow>
+      <Table.TableDataCell>INV-002</Table.TableDataCell>
+      <Table.TableDataCell>$150.00</Table.TableDataCell>
+      <Table.TableDataCell>Pending</Table.TableDataCell>
+    </Table.TableRow>
+    <Table.TableRow>
+      <Table.TableDataCell>INV-003</Table.TableDataCell>
+      <Table.TableDataCell>$350.00</Table.TableDataCell>
+      <Table.TableDataCell>Overdue</Table.TableDataCell>
+    </Table.TableRow>
+  </Table.TableBody>
 </Table>`}
 >
-  <Table
-    aria-label="Invoices"
-    className="w-full"
-  >
-    <Table.Header>
-      <Table.Column isRowHeader>{'Invoice'}</Table.Column>
-      <Table.Column>{'Status'}</Table.Column>
-      <Table.Column>{'Amount'}</Table.Column>
-    </Table.Header>
-    <Table.Body>
-      <Table.Row>
-        <Table.Cell>{'INV001'}</Table.Cell>
-        <Table.Cell>{'Paid'}</Table.Cell>
-        <Table.Cell>{'$250.00'}</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>{'INV002'}</Table.Cell>
-        <Table.Cell>{'Pending'}</Table.Cell>
-        <Table.Cell>{'$150.00'}</Table.Cell>
-      </Table.Row>
-    </Table.Body>
+  <Table aria-label="Recent invoices">
+    <Table.TableHeader>
+      <Table.TableColumn isRowHeader>{'Invoice'}</Table.TableColumn>
+      <Table.TableColumn>{'Amount'}</Table.TableColumn>
+      <Table.TableColumn>{'Status'}</Table.TableColumn>
+    </Table.TableHeader>
+    <Table.TableBody>
+      <Table.TableRow>
+        <Table.TableDataCell>{'INV-001'}</Table.TableDataCell>
+        <Table.TableDataCell>{'$250.00'}</Table.TableDataCell>
+        <Table.TableDataCell>{'Paid'}</Table.TableDataCell>
+      </Table.TableRow>
+      <Table.TableRow>
+        <Table.TableDataCell>{'INV-002'}</Table.TableDataCell>
+        <Table.TableDataCell>{'$150.00'}</Table.TableDataCell>
+        <Table.TableDataCell>{'Pending'}</Table.TableDataCell>
+      </Table.TableRow>
+      <Table.TableRow>
+        <Table.TableDataCell>{'INV-003'}</Table.TableDataCell>
+        <Table.TableDataCell>{'$350.00'}</Table.TableDataCell>
+        <Table.TableDataCell>{'Overdue'}</Table.TableDataCell>
+      </Table.TableRow>
+    </Table.TableBody>
   </Table>
 </Preview>
 
-<H3 id="sortable-columns">Sortable columns</H3>
+<H3 id="selection">Selection</H3>
 
 <Preview
-  code={`<Table aria-label="Sortable invoices" className="w-full" sortDescriptor={{ column: 'invoice', direction: 'ascending' }}>
-  <Table.Header>
-    <Table.Column id="invoice" isRowHeader allowsSorting>Invoice</Table.Column>
-    <Table.Column id="status" allowsSorting>Status</Table.Column>
-    <Table.Column id="amount">Amount</Table.Column>
-  </Table.Header>
-  <Table.Body>
-    <Table.Row>
-      <Table.Cell>INV001</Table.Cell>
-      <Table.Cell>Paid</Table.Cell>
-      <Table.Cell>$250.00</Table.Cell>
-    </Table.Row>
-    <Table.Row>
-      <Table.Cell>INV002</Table.Cell>
-      <Table.Cell>Pending</Table.Cell>
-      <Table.Cell>$150.00</Table.Cell>
-    </Table.Row>
-  </Table.Body>
-</Table>`}
+  code={`export function TableWithSelectionExample() {
+  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set());
+
+return (
+
+<Table
+  aria-label="Team members"
+  selectionMode="multiple"
+  selectedKeys={selectedKeys}
+  onSelectionChange={setSelectedKeys}
 >
-  <Table
-    aria-label="Sortable invoices"
-    className="w-full"
-    sortDescriptor={{ column: 'invoice', direction: 'ascending' }}
-  >
-    <Table.Header>
-      <Table.Column
-        id="invoice"
-        isRowHeader
-        allowsSorting
-      >
-        {'Invoice'}
-      </Table.Column>
-      <Table.Column
-        id="status"
-        allowsSorting
-      >
-        {'Status'}
-      </Table.Column>
-      <Table.Column id="amount">{'Amount'}</Table.Column>
-    </Table.Header>
-    <Table.Body>
-      <Table.Row>
-        <Table.Cell>{'INV001'}</Table.Cell>
-        <Table.Cell>{'Paid'}</Table.Cell>
-        <Table.Cell>{'$250.00'}</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>{'INV002'}</Table.Cell>
-        <Table.Cell>{'Pending'}</Table.Cell>
-        <Table.Cell>{'$150.00'}</Table.Cell>
-      </Table.Row>
-    </Table.Body>
-  </Table>
+  <Table.TableHeader>
+    <Table.TableColumn isRowHeader>Name</Table.TableColumn>
+    <Table.TableColumn>Role</Table.TableColumn>
+    <Table.TableColumn>Status</Table.TableColumn>
+  </Table.TableHeader>
+  <Table.TableBody items={rows}>
+    {(row) => (
+      <Table.TableRow>
+        <Table.TableDataCell>{row.name}</Table.TableDataCell>
+        <Table.TableDataCell>{row.role}</Table.TableDataCell>
+        <Table.TableDataCell>{row.status}</Table.TableDataCell>
+      </Table.TableRow>
+    )}
+  </Table.TableBody>
+</Table>
+);
+}`}
+
+>
+
+  <TableWithSelectionExample />
 </Preview>
 
-<H3 id="resizable-columns">Resizable columns</H3>
+<H3 id="in-a-card">In a Card</H3>
 
 <Preview
-  code={`<Table.ResizableContainer className="w-full overflow-auto rounded-md border border-foreground/15">
-  <Table aria-label="Resizable invoices" className="w-full">
-    <Table.Header>
-      <Table.Column isRowHeader isResizable>Invoice</Table.Column>
-      <Table.Column isResizable>Status</Table.Column>
-      <Table.Column>Amount</Table.Column>
-    </Table.Header>
-    <Table.Body>
-      <Table.Row>
-        <Table.Cell>INV001</Table.Cell>
-        <Table.Cell>Paid</Table.Cell>
-        <Table.Cell>$250.00</Table.Cell>
-      </Table.Row>
-    </Table.Body>
-  </Table>
-</Table.ResizableContainer>`}
->
-  <Table.ResizableContainer className="w-full overflow-auto rounded-md border border-foreground/15">
-    <Table
-      aria-label="Resizable invoices"
-      className="w-full"
-    >
-      <Table.Header>
-        <Table.Column
-          isRowHeader
-          isResizable
-        >
-          {'Invoice'}
-        </Table.Column>
-        <Table.Column isResizable>{'Status'}</Table.Column>
-        <Table.Column>{'Amount'}</Table.Column>
-      </Table.Header>
-      <Table.Body>
-        <Table.Row>
-          <Table.Cell>{'INV001'}</Table.Cell>
-          <Table.Cell>{'Paid'}</Table.Cell>
-          <Table.Cell>{'$250.00'}</Table.Cell>
-        </Table.Row>
-      </Table.Body>
+  code={`<Card variant="default" className="w-fit">
+  <Card.Header>
+    <Card.Title>Recent invoices</Card.Title>
+    <Card.Description>Your last 3 invoices.</Card.Description>
+  </Card.Header>
+  <Card.Content>
+    <Table aria-label="Recent invoices">
+      <Table.TableHeader>
+        <Table.TableColumn isRowHeader>Invoice</Table.TableColumn>
+        <Table.TableColumn>Amount</Table.TableColumn>
+      </Table.TableHeader>
+      <Table.TableBody>
+        <Table.TableRow>
+          <Table.TableDataCell>INV-001</Table.TableDataCell>
+          <Table.TableDataCell>$250.00</Table.TableDataCell>
+        </Table.TableRow>
+        <Table.TableRow>
+          <Table.TableDataCell>INV-002</Table.TableDataCell>
+          <Table.TableDataCell>$150.00</Table.TableDataCell>
+        </Table.TableRow>
+      </Table.TableBody>
     </Table>
-  </Table.ResizableContainer>
+  </Card.Content>
+</Card>`}
+>
+  <Card
+    variant="default"
+    className="w-fit"
+  >
+    <Card.Header>
+      <Card.Title>{'Recent invoices'}</Card.Title>
+      <Card.Description>{'Your last 3 invoices.'}</Card.Description>
+    </Card.Header>
+    <Card.Content>
+      <Table aria-label="Recent invoices">
+        <Table.TableHeader>
+          <Table.TableColumn isRowHeader>{'Invoice'}</Table.TableColumn>
+          <Table.TableColumn>{'Amount'}</Table.TableColumn>
+        </Table.TableHeader>
+        <Table.TableBody>
+          <Table.TableRow>
+            <Table.TableDataCell>{'INV-001'}</Table.TableDataCell>
+            <Table.TableDataCell>{'$250.00'}</Table.TableDataCell>
+          </Table.TableRow>
+          <Table.TableRow>
+            <Table.TableDataCell>{'INV-002'}</Table.TableDataCell>
+            <Table.TableDataCell>{'$150.00'}</Table.TableDataCell>
+          </Table.TableRow>
+        </Table.TableBody>
+      </Table>
+    </Card.Content>
+  </Card>
 </Preview>
-
-<H2 id="data-table">For data-driven tables</H2>
-
-This component intentionally has no sorting/filtering/selection state — see
-[Data Table](/components/data-table) for the TanStack Table v9 integration that
-renders row/column models into these same `Table.*` parts.
 
 <H2 id="api">API</H2>
 
 <PropsTable
   rows={[
-    { name: 'aria-label / aria-labelledby', type: 'string', default: 'undefined' },
-    { name: 'sortDescriptor', type: '{ column: Key; direction: "ascending" | "descending" }', default: 'undefined' },
-    { name: 'onSortChange', type: '(descriptor: SortDescriptor) => void', default: 'undefined' },
+    { name: 'aria-label', type: 'string', default: 'undefined' },
     { name: 'selectionMode', type: "'none' | 'single' | 'multiple'", default: "'none'" },
+    { name: 'selectedKeys', type: 'Selection', default: 'undefined' },
+    { name: 'onSelectionChange', type: '(keys: Selection) => void', default: 'undefined' },
   ]}
 />

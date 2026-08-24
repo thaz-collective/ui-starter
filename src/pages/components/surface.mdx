@@ -21,45 +21,25 @@ A single-slot background primitive that swaps between the app's layered surface 
 <H3 id="transparent">Transparent</H3>
 
 <Preview code={`<Surface variant="transparent">Transparent</Surface>`}>
-  <Surface
-    variant="transparent"
-    className="rounded-lg p-4"
-  >
-    {'Transparent'}
-  </Surface>
+  <SurfaceTransparentExample />
 </Preview>
 
 <H3 id="default">Default</H3>
 
 <Preview code={`<Surface variant="default">Default</Surface>`}>
-  <Surface
-    variant="default"
-    className="rounded-lg p-4"
-  >
-    {'Default'}
-  </Surface>
+  <SurfaceDefaultExample />
 </Preview>
 
 <H3 id="secondary">Secondary</H3>
 
 <Preview code={`<Surface variant="secondary">Secondary</Surface>`}>
-  <Surface
-    variant="secondary"
-    className="rounded-lg p-4"
-  >
-    {'Secondary'}
-  </Surface>
+  <SurfaceSecondaryExample />
 </Preview>
 
 <H3 id="tertiary">Tertiary</H3>
 
 <Preview code={`<Surface variant="tertiary">Tertiary</Surface>`}>
-  <Surface
-    variant="tertiary"
-    className="rounded-lg p-4"
-  >
-    {'Tertiary'}
-  </Surface>
+  <SurfaceTertiaryExample />
 </Preview>
 
 Each non-transparent variant also sets a `--field` CSS variable pointing at the next

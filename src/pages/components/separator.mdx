@@ -1,0 +1,66 @@
+---
+title: Separator
+date: 2026-08-24
+author:
+  - Tim Hazlett
+---
+
+# Separator
+
+A visual or semantic divider built on top of `react-aria-components`' `Separator`, styled
+with `tailwind-variants`.
+
+<H2 id="import">Import</H2>
+
+<pre>
+  <code>{`import { Separator } from '#src/common/components/separator';`}</code>
+</pre>
+
+<H2 id="examples">Examples</H2>
+
+<H3 id="horizontal">Horizontal</H3>
+
+<Preview
+  code={`<div>
+  <p className="text-sm">Above the separator</p>
+  <Separator className="my-3" />
+  <p className="text-sm">Below the separator</p>
+</div>`}
+>
+  <SeparatorHorizontalExample />
+</Preview>
+
+<H3 id="vertical">Vertical</H3>
+
+<Preview
+  code={`<div className="flex h-6 items-center gap-3">
+  <span className="text-sm">Left</span>
+  <Separator orientation="vertical" />
+  <span className="text-sm">Right</span>
+</div>`}
+>
+  <SeparatorVerticalExample />
+</Preview>
+
+<H3 id="in-a-card">In a Card</H3>
+
+<Preview
+  code={`<Card variant="default" className="w-64">
+  <Card.Header>
+    <Card.Title>Account</Card.Title>
+    <Card.Description>Manage your account settings.</Card.Description>
+  </Card.Header>
+  <Separator />
+  <Card.Footer>
+    <button type="button" className="text-xs font-medium text-primary hover:underline">
+      Edit
+    </button>
+  </Card.Footer>
+</Card>`}
+>
+  <SeparatorInACardExample />
+</Preview>
+
+<H2 id="api">API</H2>
+
+<PropsTable rows={[{ name: 'orientation', type: "'horizontal' | 'vertical'", default: "'horizontal'" }]} />

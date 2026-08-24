@@ -38,7 +38,7 @@ catalog:
   '@tanstack/react-virtual': 3.14.9
   '@tanstack/router-plugin': 1.168.32
   '@tanstack/store': 0.11.1
-  '@thaz/form-util': 1.0.0-rc.2
+  '@thaz/form-util': 1.0.0-rc.5
   '@thaz/network-util': 1.0.0-rc.1
   '@thaz/oxfmt-config': 1.0.0-rc.3
   '@thaz/oxlint-config': 1.0.0-rc.2
@@ -55,7 +55,7 @@ catalog:
   eslint-plugin-react-hooks-extra: 2.13.0
   eslint-plugin-react-naming-convention: 2.13.0
   eslint-plugin-react-web-api: 2.13.0
-  lucide-react: 1.31.0
+  lucide-react: 1.33.0
   react: 19.2.8
   #  react-aria: 3.47.0
   react-aria-components: 1.20.0
@@ -77,7 +77,7 @@ catalogMode: prefer
 minimumReleaseAge: 4320 # 3 days just to be safe with the uptick of supply chain attacks
 
 minimumReleaseAgeExclude:
-  - '@thaz/form-util@1.0.0-rc.2'
+  - '@thaz/form-util@1.0.0-rc.5'
   - '@thaz/network-util@1.0.0-rc.1'
   - '@thaz/oxfmt-config@1.0.0-rc.3'
   - '@thaz/oxlint-config@1.0.0-rc.2'

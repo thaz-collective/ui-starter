@@ -5,8 +5,6 @@ author:
   - Tim Hazlett
 ---
 
-import { Plus } from 'lucide-react';
-
 # Button
 
 An accessible button built on top of `react-aria-components`' `Button`, styled with
@@ -23,43 +21,43 @@ An accessible button built on top of `react-aria-components`' `Button`, styled w
 <H3 id="primary">Primary</H3>
 
 <Preview code={`<Button variant="primary">Primary</Button>`}>
-  <Button variant="primary">Primary</Button>
+  <ButtonPrimaryExample />
 </Preview>
 
 <H3 id="secondary">Secondary</H3>
 
 <Preview code={`<Button variant="secondary">Secondary</Button>`}>
-  <Button variant="secondary">Secondary</Button>
+  <ButtonSecondaryExample />
 </Preview>
 
 <H3 id="danger">Danger</H3>
 
 <Preview code={`<Button variant="danger">Danger</Button>`}>
-  <Button variant="danger">Danger</Button>
+  <ButtonDangerExample />
 </Preview>
 
 <H3 id="success">Success</H3>
 
 <Preview code={`<Button variant="success">Success</Button>`}>
-  <Button variant="success">Success</Button>
+  <ButtonSuccessExample />
 </Preview>
 
 <H3 id="warning">Warning</H3>
 
 <Preview code={`<Button variant="warning">Warning</Button>`}>
-  <Button variant="warning">Warning</Button>
+  <ButtonWarningExample />
 </Preview>
 
 <H3 id="ghost">Ghost</H3>
 
 <Preview code={`<Button variant="ghost">Ghost</Button>`}>
-  <Button variant="ghost">Ghost</Button>
+  <ButtonGhostExample />
 </Preview>
 
 <H3 id="outline">Outline</H3>
 
 <Preview code={`<Button variant="outline">Outline</Button>`}>
-  <Button variant="outline">Outline</Button>
+  <ButtonOutlineExample />
 </Preview>
 
 <H2 id="sizes">Sizes</H2>
@@ -67,19 +65,19 @@ An accessible button built on top of `react-aria-components`' `Button`, styled w
 <H3 id="small">Small</H3>
 
 <Preview code={`<Button size="sm">Small</Button>`}>
-  <Button size="sm">Small</Button>
+  <ButtonSmallExample />
 </Preview>
 
 <H3 id="medium">Medium</H3>
 
 <Preview code={`<Button size="md">Medium</Button>`}>
-  <Button size="md">Medium</Button>
+  <ButtonMediumExample />
 </Preview>
 
 <H3 id="large">Large</H3>
 
 <Preview code={`<Button size="lg">Large</Button>`}>
-  <Button size="lg">Large</Button>
+  <ButtonLargeExample />
 </Preview>
 
 Icon-only sizes pair with a square, icon-sized button and take a single icon child
@@ -88,40 +86,25 @@ Icon-only sizes pair with a square, icon-sized button and take a single icon chi
 <H3 id="small-icon">Small Icon</H3>
 
 <Preview code={`<Button size="smIcon" aria-label="Add"><Plus /></Button>`}>
-  <Button
-    size="smIcon"
-    aria-label="Add"
-  >
-    <Plus />
-  </Button>
+  <ButtonSmallIconExample />
 </Preview>
 
 <H3 id="medium-icon">Medium Icon</H3>
 
 <Preview code={`<Button size="mdIcon" aria-label="Add"><Plus /></Button>`}>
-  <Button
-    size="mdIcon"
-    aria-label="Add"
-  >
-    <Plus />
-  </Button>
+  <ButtonMediumIconExample />
 </Preview>
 
 <H3 id="large-icon">Large Icon</H3>
 
 <Preview code={`<Button size="lgIcon" aria-label="Add"><Plus /></Button>`}>
-  <Button
-    size="lgIcon"
-    aria-label="Add"
-  >
-    <Plus />
-  </Button>
+  <ButtonLargeIconExample />
 </Preview>
 
 <H2 id="full-width">Full Width</H2>
 
 <Preview code={`<Button fullWidth>Full Width</Button>`}>
-  <Button fullWidth>Full Width</Button>
+  <ButtonFullWidthExample />
 </Preview>
 
 <H2 id="inverted">Inverted</H2>
@@ -133,66 +116,31 @@ inverted styles — `ghost` and `outline` are unaffected by `isInverted`.
 <H3 id="primary-inverted">Primary Inverted</H3>
 
 <Preview code={`<Button variant="primary" isInverted>Primary</Button>`}>
-  <div className="rounded bg-black p-4">
-    <Button
-      variant="primary"
-      isInverted
-    >
-      {'Primary'}
-    </Button>
-  </div>
+  <ButtonPrimaryInvertedExample />
 </Preview>
 
 <H3 id="secondary-inverted">Secondary Inverted</H3>
 
 <Preview code={`<Button variant="secondary" isInverted>Secondary</Button>`}>
-  <div className="rounded bg-black p-4">
-    <Button
-      variant="secondary"
-      isInverted
-    >
-      {'Secondary'}
-    </Button>
-  </div>
+  <ButtonSecondaryInvertedExample />
 </Preview>
 
 <H3 id="danger-inverted">Danger Inverted</H3>
 
 <Preview code={`<Button variant="danger" isInverted>Danger</Button>`}>
-  <div className="rounded bg-black p-4">
-    <Button
-      variant="danger"
-      isInverted
-    >
-      {'Danger'}
-    </Button>
-  </div>
+  <ButtonDangerInvertedExample />
 </Preview>
 
 <H3 id="success-inverted">Success Inverted</H3>
 
 <Preview code={`<Button variant="success" isInverted>Success</Button>`}>
-  <div className="rounded bg-black p-4">
-    <Button
-      variant="success"
-      isInverted
-    >
-      {'Success'}
-    </Button>
-  </div>
+  <ButtonSuccessInvertedExample />
 </Preview>
 
 <H3 id="warning-inverted">Warning Inverted</H3>
 
 <Preview code={`<Button variant="warning" isInverted>Warning</Button>`}>
-  <div className="rounded bg-black p-4">
-    <Button
-      variant="warning"
-      isInverted
-    >
-      {'Warning'}
-    </Button>
-  </div>
+  <ButtonWarningInvertedExample />
 </Preview>
 
 <H2 id="api">API</H2>
