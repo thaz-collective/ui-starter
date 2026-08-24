@@ -1,25 +1,27 @@
-import type { ComponentProps } from 'react';
+import type { ComponentPropsWithRef } from 'react';
 import { useState } from 'react';
 
 import type { DebouncerOptions } from '@tanstack/react-pacer/debouncer';
 import { useDebouncedCallback } from '@tanstack/react-pacer/debouncer';
 
-import { TextField } from './text-field';
+import { TextFieldRoot } from './text-field-root';
 
 const DEFAULT_DEBOUNCE_WAIT_MS = 300;
 
-type StringDebouncerOptions = DebouncerOptions<(value: string) => void>;
+type TextFieldRootProps = ComponentPropsWithRef<typeof TextFieldRoot>;
 
-export interface TextFieldRootDebouncedProps extends Omit<ComponentProps<typeof TextField>, 'defaultValue'> {
-  value: string;
-  onChange: (value: string) => void;
-  debounceOptions?: Partial<StringDebouncerOptions>;
+type TextFieldRootOnChange = NonNullable<TextFieldRootProps['onChange']>;
+
+type TextFieldRootDebouncerOptions = DebouncerOptions<TextFieldRootOnChange>;
+
+interface TextFieldRootDebouncedProps extends TextFieldRootProps {
+  debounceOptions?: Partial<TextFieldRootDebouncerOptions>;
 }
 
 export function TextFieldRootDebounced(props: TextFieldRootDebouncedProps) {
   const { value, onChange, debounceOptions } = props;
 
-  const debounceOptionsFinal: StringDebouncerOptions = {
+  const debounceOptionsFinal: TextFieldRootDebouncerOptions = {
     ...debounceOptions,
     wait: debounceOptions?.wait ?? DEFAULT_DEBOUNCE_WAIT_MS,
   };
@@ -34,16 +36,14 @@ export function TextFieldRootDebounced(props: TextFieldRootDebouncedProps) {
 
   const debouncedUpdateValue = useDebouncedCallback(onChange, debounceOptionsFinal);
 
-  const handleChange = (nextValue: string) => {
-    setInputValue(nextValue);
-    debouncedUpdateValue(nextValue);
-  };
-
   return (
-    <TextField
+    <TextFieldRoot
       {...props}
       value={inputValue}
-      onChange={handleChange}
+      onChange={(nextValue) => {
+        setInputValue(nextValue);
+        debouncedUpdateValue(nextValue);
+      }}
     />
   );
 }

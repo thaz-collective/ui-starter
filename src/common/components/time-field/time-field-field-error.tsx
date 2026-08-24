@@ -5,8 +5,6 @@ import type { VariantProps } from 'tailwind-variants';
 import { composeRenderProps, FieldError as RACFieldError } from 'react-aria-components';
 import { tv } from 'tailwind-variants';
 
-import { useTagGroupContext } from '#src/common/components/tag-group/context';
-
 const fieldErrorVariants = tv({
   base: [
     'group/field-error',
@@ -14,32 +12,21 @@ const fieldErrorVariants = tv({
     'text-xs text-danger',
 
     'hidden',
+
+    'group-data-[invalid="true"]/time-field:block',
   ],
 });
 
-type FieldErrorVariants = VariantProps<typeof fieldErrorVariants>;
-
-export interface FieldErrorProps extends RACFieldErrorProps, FieldErrorVariants {
+interface FieldErrorProps extends RACFieldErrorProps, VariantProps<typeof fieldErrorVariants> {
   children: ReactNode;
 }
 
 export function FieldError(props: FieldErrorProps) {
-  const context = useTagGroupContext();
-
-  if (context === undefined) {
-    throw new Error('TagGroup.FieldError must be used within a component that extends a TagGroupContextProvider');
-  }
-
-  const { slots } = context;
-
   return (
     <RACFieldError
       {...props}
-      data-slot="field-error"
       className={composeRenderProps(props.className, (className, renderProps) => {
-        const slotClassName = slots.fieldError({ ...props, ...renderProps, className });
-
-        return fieldErrorVariants({ ...props, ...renderProps, className: slotClassName });
+        return fieldErrorVariants({ ...props, ...renderProps, className });
       })}
     />
   );

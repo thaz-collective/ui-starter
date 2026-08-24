@@ -1,11 +1,10 @@
-import { TextField as TextFieldRoot } from './components/text-field';
-import { TextFieldRootDebounced } from './components/text-field-debounced';
-import { Description } from './components/text-field-description';
-import { FieldError } from './components/text-field-field-error';
-import { Input } from './components/text-field-input';
-import { Label } from './components/text-field-label';
-import { LabelInputContainer } from './components/text-field-label-input-container';
-import { TextArea } from './components/text-field-text-area';
+import { Description } from './text-field-description';
+import { FieldError } from './text-field-field-error';
+import { Input } from './text-field-input';
+import { Label } from './text-field-label';
+import { LabelInputContainer } from './text-field-label-input-container';
+import { TextFieldRoot } from './text-field-root';
+import { TextFieldRootDebounced } from './text-field-root-debounced';
 
 export const TextField = Object.assign(TextFieldRoot, {
   Root: TextFieldRoot,
@@ -13,12 +12,6 @@ export const TextField = Object.assign(TextFieldRoot, {
   LabelInputContainer,
   Label,
   Input,
-  TextArea,
   Description,
   FieldError,
 });
-
-export type { TextFieldProps } from './components/text-field';
-
-export type { TextFieldVariants, SlotsTextFieldVariants, RequiredTextFieldVariants } from './variants';
-export { textFieldVariants } from './variants';
