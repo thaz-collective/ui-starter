@@ -5,16 +5,14 @@ author:
   - Tim Hazlett
 ---
 
-import { Time } from '@internationalized/date';
-
 # Time Field
 
-A time input built on top of `react-aria-components`' `TimeField`, where each part of the time
+A time input built on top of `react-aria-components`' `TimeFieldRoot`, where each part of the time
 (hour, minute, second, AM/PM) is displayed as an individually editable segment, styled with
 `tailwind-variants`. It reuses the same segmented `DateInput` building block as
 [`DateTimePicker`](/components/date-time-picker).
 
-Use `TimeField` when you need a time value decoupled from any date — for a combined date and
+Use `TimeFieldRoot` when you need a time value decoupled from any date — for a combined date and
 time input, use `DateTimePicker` with a higher `granularity` instead.
 
 <H2 id="import">Import</H2>
@@ -25,7 +23,7 @@ time input, use `DateTimePicker` with a higher `granularity` instead.
 
 <H2 id="composition">Composition</H2>
 
-Use the following composition to build a `TimeField`:
+Use the following composition to build a `TimeFieldRoot`:
 
 <pre>
   <code>{`TimeField
@@ -80,7 +78,7 @@ Use the following composition to build a `TimeField`:
   </tbody>
 </table>
 
-Every slot must be rendered inside `TimeField`/`TimeField.Root` — they read shared context and
+Every slot must be rendered inside `TimeFieldRoot`/`TimeField.Root` — they read shared context and
 throw if used standalone.
 
 <H2 id="examples">Examples</H2>
@@ -88,44 +86,47 @@ throw if used standalone.
 <H3 id="default">Default</H3>
 
 <Preview
-  code={`<TimeField className="w-48">
-  <TimeField.LabelInputContainer>
-    <TimeField.Label>Meeting time</TimeField.Label>
-    <TimeField.Input />
-  </TimeField.LabelInputContainer>
-  <TimeField.Description>Choose a start time.</TimeField.Description>
-</TimeField>`}
+  code={`export function TimeFieldExample() {
+  const [value, setValue] = useState<Temporal.PlainTime | null>(null);
+
+return (
+
+<TimeField className="w-48" value={value} onChange={setValue}>
+<TimeField.LabelInputContainer>
+<TimeField.Label>Meeting time</TimeField.Label>
+<TimeField.Input />
+</TimeField.LabelInputContainer>
+<TimeField.Description>Choose a start time.</TimeField.Description>
+</TimeField>
+);
+}`}
+
 >
-  <TimeField className="w-48">
-    <TimeField.LabelInputContainer>
-      <TimeField.Label>{'Meeting time'}</TimeField.Label>
-      <TimeField.Input />
-    </TimeField.LabelInputContainer>
-    <TimeField.Description>{'Choose a start time.'}</TimeField.Description>
-  </TimeField>
+
+  <TimeFieldExample />
 </Preview>
 
 <H3 id="granularity">Granularity (with seconds)</H3>
 
 <Preview
-  code={`<TimeField className="w-48" granularity="second">
-  <TimeField.LabelInputContainer>
-    <TimeField.Label>Lap time</TimeField.Label>
-    <TimeField.Input />
-  </TimeField.LabelInputContainer>
-  <TimeField.Description>Includes seconds.</TimeField.Description>
-</TimeField>`}
+  code={`export function TimeFieldWithSecondsExample() {
+  const [value, setValue] = useState<Temporal.PlainTime | null>(null);
+
+return (
+
+<TimeField className="w-48" granularity="second" value={value} onChange={setValue}>
+<TimeField.LabelInputContainer>
+<TimeField.Label>Lap time</TimeField.Label>
+<TimeField.Input />
+</TimeField.LabelInputContainer>
+<TimeField.Description>Includes seconds.</TimeField.Description>
+</TimeField>
+);
+}`}
+
 >
-  <TimeField
-    className="w-48"
-    granularity="second"
-  >
-    <TimeField.LabelInputContainer>
-      <TimeField.Label>{'Lap time'}</TimeField.Label>
-      <TimeField.Input />
-    </TimeField.LabelInputContainer>
-    <TimeField.Description>{'Includes seconds.'}</TimeField.Description>
-  </TimeField>
+
+  <TimeFieldWithSecondsExample />
 </Preview>
 
 <H2 id="states">States</H2>
@@ -133,125 +134,126 @@ throw if used standalone.
 <H3 id="error">Error</H3>
 
 <Preview
-  code={`<TimeField className="w-48" isInvalid>
-  <TimeField.LabelInputContainer>
-    <TimeField.Label>Meeting time</TimeField.Label>
-    <TimeField.Input />
-  </TimeField.LabelInputContainer>
-  <TimeField.FieldError>Please enter a valid time.</TimeField.FieldError>
-</TimeField>`}
+  code={`export function TimeFieldWithErrorStateExample() {
+  const [value, setValue] = useState<Temporal.PlainTime | null>(null);
+
+return (
+
+<TimeField className="w-48" value={value} onChange={setValue} isInvalid>
+<TimeField.LabelInputContainer>
+<TimeField.Label>Meeting time</TimeField.Label>
+<TimeField.Input />
+</TimeField.LabelInputContainer>
+<TimeField.FieldError>Please choose a valid time.</TimeField.FieldError>
+</TimeField>
+);
+}`}
+
 >
-  <TimeField
-    className="w-48"
-    isInvalid
-  >
-    <TimeField.LabelInputContainer>
-      <TimeField.Label>{'Meeting time'}</TimeField.Label>
-      <TimeField.Input />
-    </TimeField.LabelInputContainer>
-    <TimeField.FieldError>{'Please enter a valid time.'}</TimeField.FieldError>
-  </TimeField>
+
+  <TimeFieldWithErrorStateExample />
 </Preview>
 
 <H3 id="disabled">Disabled</H3>
 
 <Preview
-  code={`<TimeField className="w-48" isDisabled>
-  <TimeField.LabelInputContainer>
-    <TimeField.Label>Meeting time</TimeField.Label>
-    <TimeField.Input />
-  </TimeField.LabelInputContainer>
-</TimeField>`}
+  code={`export function TimeFieldWithDisabledStateExample() {
+  const [value, setValue] = useState<Temporal.PlainTime | null>(
+    Temporal.PlainTime.from({ hour: 14, minute: 30 }),
+  );
+
+return (
+
+<TimeField className="w-48" value={value} onChange={setValue} isDisabled>
+<TimeField.LabelInputContainer>
+<TimeField.Label>Meeting time</TimeField.Label>
+<TimeField.Input />
+</TimeField.LabelInputContainer>
+<TimeField.Description>This field is disabled.</TimeField.Description>
+</TimeField>
+);
+}`}
+
 >
-  <TimeField
-    className="w-48"
-    isDisabled
-  >
-    <TimeField.LabelInputContainer>
-      <TimeField.Label>{'Meeting time'}</TimeField.Label>
-      <TimeField.Input />
-    </TimeField.LabelInputContainer>
-  </TimeField>
+
+  <TimeFieldWithDisabledStateExample />
 </Preview>
 
 <H3 id="readonly">Readonly</H3>
 
 <Preview
-  code={`<TimeField className="w-48" isReadOnly defaultValue={new Time(14, 30)}>
-  <TimeField.LabelInputContainer>
-    <TimeField.Label>Meeting time</TimeField.Label>
-    <TimeField.Input />
-  </TimeField.LabelInputContainer>
-</TimeField>`}
+  code={`export function TimeFieldWithReadonlyStateExample() {
+  const [value, setValue] = useState<Temporal.PlainTime | null>(
+    Temporal.PlainTime.from({ hour: 14, minute: 30 }),
+  );
+
+return (
+
+<TimeField className="w-48" value={value} onChange={setValue} isReadOnly>
+<TimeField.LabelInputContainer>
+<TimeField.Label>Meeting time</TimeField.Label>
+<TimeField.Input />
+</TimeField.LabelInputContainer>
+<TimeField.Description>This field is read-only.</TimeField.Description>
+</TimeField>
+);
+}`}
+
 >
-  <TimeField
-    className="w-48"
-    isReadOnly
-    defaultValue={new Time(14, 30)}
-  >
-    <TimeField.LabelInputContainer>
-      <TimeField.Label>{'Meeting time'}</TimeField.Label>
-      <TimeField.Input />
-    </TimeField.LabelInputContainer>
-  </TimeField>
+
+  <TimeFieldWithReadonlyStateExample />
 </Preview>
 
 <H3 id="required">Required</H3>
 
 <Preview
-  code={`<TimeField className="w-48" isRequired>
-  <TimeField.LabelInputContainer>
-    <TimeField.Label>Meeting time</TimeField.Label>
-    <TimeField.Input />
-  </TimeField.LabelInputContainer>
-</TimeField>`}
+  code={`export function TimeFieldWithRequiredStateExample() {
+  const [value, setValue] = useState<Temporal.PlainTime | null>(null);
+
+return (
+
+<TimeField className="w-48" value={value} onChange={setValue} isRequired>
+<TimeField.LabelInputContainer>
+<TimeField.Label>Meeting time</TimeField.Label>
+<TimeField.Input />
+</TimeField.LabelInputContainer>
+</TimeField>
+);
+}`}
+
 >
-  <TimeField
-    className="w-48"
-    isRequired
-  >
-    <TimeField.LabelInputContainer>
-      <TimeField.Label>{'Meeting time'}</TimeField.Label>
-      <TimeField.Input />
-    </TimeField.LabelInputContainer>
-  </TimeField>
+
+  <TimeFieldWithRequiredStateExample />
 </Preview>
 
 <H2 id="in-a-card">In a Card</H2>
 
 <Preview
-  code={`<Card variant="default" className="w-80">
-  <Card.Header>
-    <Card.Title>Schedule a call</Card.Title>
-    <Card.Description>Pick a time that works for you.</Card.Description>
-  </Card.Header>
-  <Card.Content className="flex flex-col gap-5">
-    <TimeField>
-      <TimeField.LabelInputContainer>
-        <TimeField.Label>Time</TimeField.Label>
-        <TimeField.Input />
-      </TimeField.LabelInputContainer>
-    </TimeField>
-  </Card.Content>
-</Card>`}
+  code={`export function TimeFieldInACardExample() {
+  const [value, setValue] = useState<Temporal.PlainTime | null>(null);
+
+return (
+
+<Card variant="default" className="w-80">
+<Card.Header>
+<Card.Title>Schedule a call</Card.Title>
+<Card.Description>Pick a time that works for you.</Card.Description>
+</Card.Header>
+<Card.Content className="flex flex-col gap-5">
+<TimeField value={value} onChange={setValue}>
+<TimeField.LabelInputContainer>
+<TimeField.Label>Time</TimeField.Label>
+<TimeField.Input />
+</TimeField.LabelInputContainer>
+</TimeField>
+</Card.Content>
+</Card>
+);
+}`}
+
 >
-  <Card
-    variant="default"
-    className="w-80"
-  >
-    <Card.Header>
-      <Card.Title>{'Schedule a call'}</Card.Title>
-      <Card.Description>{'Pick a time that works for you.'}</Card.Description>
-    </Card.Header>
-    <Card.Content className="flex flex-col gap-5">
-      <TimeField>
-        <TimeField.LabelInputContainer>
-          <TimeField.Label>{'Time'}</TimeField.Label>
-          <TimeField.Input />
-        </TimeField.LabelInputContainer>
-      </TimeField>
-    </Card.Content>
-  </Card>
+
+  <TimeFieldInACardExample />
 </Preview>
 
 <H2 id="api">API</H2>

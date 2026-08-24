@@ -24,7 +24,7 @@ Use the following composition to build a `TextField`:
   <code>{`TextField
 ├── TextField.LabelInputContainer (optional)
 │   ├── TextField.Label (optional)
-│   └── TextField.Input (or TextField.TextArea)
+│   └── TextField.Input
 ├── TextField.Description (optional)
 └── TextField.FieldError (optional)`}</code>
 </pre>
@@ -47,7 +47,7 @@ Use the following composition to build a `TextField`:
     </tr>
     <tr>
       <td>{'TextField.LabelInputContainer'}</td>
-      <td>{'Wraps the label and input/textarea.'}</td>
+      <td>{'Wraps the label and input.'}</td>
       <td>{'Yes'}</td>
     </tr>
     <tr>
@@ -58,12 +58,7 @@ Use the following composition to build a `TextField`:
     <tr>
       <td>{'TextField.Input'}</td>
       <td>{'A single-line text input.'}</td>
-      <td>{'No (use instead of TextArea, not alongside it)'}</td>
-    </tr>
-    <tr>
-      <td>{'TextField.TextArea'}</td>
-      <td>{'A multi-line textarea.'}</td>
-      <td>{'No (use instead of Input, not alongside it)'}</td>
+      <td>{'No'}</td>
     </tr>
     <tr>
       <td>{'TextField.Description'}</td>
@@ -86,41 +81,24 @@ context and throw if used standalone.
 <H3 id="default">Default</H3>
 
 <Preview
-  code={`<TextField className="w-64">
-  <TextField.LabelInputContainer>
-    <TextField.Label>Full name</TextField.Label>
-    <TextField.Input placeholder="Jane Smith" />
-  </TextField.LabelInputContainer>
-  <TextField.Description>Used on your public profile.</TextField.Description>
-</TextField>`}
->
-  <TextField className="w-64">
-    <TextField.LabelInputContainer>
-      <TextField.Label>{'Full name'}</TextField.Label>
-      <TextField.Input placeholder="Jane Smith" />
-    </TextField.LabelInputContainer>
-    <TextField.Description>{'Used on your public profile.'}</TextField.Description>
-  </TextField>
-</Preview>
+  code={`export function TextFieldExample() {
+  const [value, setValue] = useState('');
 
-<H3 id="textarea">Textarea</H3>
+return (
 
-<Preview
-  code={`<TextField className="w-64">
-  <TextField.LabelInputContainer>
-    <TextField.Label>Bio</TextField.Label>
-    <TextField.TextArea placeholder="Tell us about yourself…" />
-  </TextField.LabelInputContainer>
-  <TextField.Description>Shown below your display name.</TextField.Description>
-</TextField>`}
+<TextField className="w-64" value={value} onChange={setValue}>
+<TextField.LabelInputContainer>
+<TextField.Label>Full name</TextField.Label>
+<TextField.Input placeholder="Jane Smith" />
+</TextField.LabelInputContainer>
+<TextField.Description>Used on your public profile.</TextField.Description>
+</TextField>
+);
+}`}
+
 >
-  <TextField className="w-64">
-    <TextField.LabelInputContainer>
-      <TextField.Label>{'Bio'}</TextField.Label>
-      <TextField.TextArea placeholder="Tell us about yourself…" />
-    </TextField.LabelInputContainer>
-    <TextField.Description>{'Shown below your display name.'}</TextField.Description>
-  </TextField>
+
+  <TextFieldExample />
 </Preview>
 
 <H2 id="states">States</H2>
@@ -128,151 +106,130 @@ context and throw if used standalone.
 <H3 id="error">Error</H3>
 
 <Preview
-  code={`<TextField className="w-64" isInvalid>
-  <TextField.LabelInputContainer>
-    <TextField.Label>Email</TextField.Label>
-    <TextField.Input placeholder="you@example.com" />
-  </TextField.LabelInputContainer>
-  <TextField.FieldError>Please enter a valid email address.</TextField.FieldError>
-</TextField>`}
+  code={`export function TextFieldWithErrorStateExample() {
+  const [value, setValue] = useState('');
+
+return (
+
+<TextField className="w-64" value={value} onChange={setValue} isInvalid>
+<TextField.LabelInputContainer>
+<TextField.Label>Email</TextField.Label>
+<TextField.Input placeholder="you@example.com" />
+</TextField.LabelInputContainer>
+<TextField.FieldError>Please enter a valid email address.</TextField.FieldError>
+</TextField>
+);
+}`}
+
 >
-  <TextField
-    className="w-64"
-    isInvalid
-  >
-    <TextField.LabelInputContainer>
-      <TextField.Label>{'Email'}</TextField.Label>
-      <TextField.Input placeholder="you@example.com" />
-    </TextField.LabelInputContainer>
-    <TextField.FieldError>{'Please enter a valid email address.'}</TextField.FieldError>
-  </TextField>
+
+  <TextFieldWithErrorStateExample />
 </Preview>
 
 <H3 id="disabled">Disabled</H3>
 
 <Preview
-  code={`<TextField className="w-64" isDisabled>
-  <TextField.LabelInputContainer>
-    <TextField.Label>Email</TextField.Label>
-    <TextField.Input value="jane@example.com" />
-  </TextField.LabelInputContainer>
-</TextField>`}
+  code={`export function TextFieldWithDisabledStateExample() {
+  const [value, setValue] = useState('jane@example.com');
+
+return (
+
+<TextField className="w-64" value={value} onChange={setValue} isDisabled>
+<TextField.LabelInputContainer>
+<TextField.Label>Email</TextField.Label>
+<TextField.Input />
+</TextField.LabelInputContainer>
+</TextField>
+);
+}`}
+
 >
-  <TextField
-    className="w-64"
-    isDisabled
-  >
-    <TextField.LabelInputContainer>
-      <TextField.Label>{'Email'}</TextField.Label>
-      <TextField.Input value="jane@example.com" />
-    </TextField.LabelInputContainer>
-  </TextField>
+
+  <TextFieldWithDisabledStateExample />
 </Preview>
 
 <H3 id="readonly">Readonly</H3>
 
 <Preview
-  code={`<TextField className="w-64" isReadOnly>
-  <TextField.LabelInputContainer>
-    <TextField.Label>Email</TextField.Label>
-    <TextField.Input value="jane@example.com" />
-  </TextField.LabelInputContainer>
-  <TextField.Description>Contact support to change this.</TextField.Description>
-</TextField>`}
+  code={`export function TextFieldWithReadonlyStateExample() {
+  const [value, setValue] = useState('jane@example.com');
+
+return (
+
+<TextField className="w-64" value={value} onChange={setValue} isReadOnly>
+<TextField.LabelInputContainer>
+<TextField.Label>Email</TextField.Label>
+<TextField.Input />
+</TextField.LabelInputContainer>
+<TextField.Description>Contact support to change this.</TextField.Description>
+</TextField>
+);
+}`}
+
 >
-  <TextField
-    className="w-64"
-    isReadOnly
-  >
-    <TextField.LabelInputContainer>
-      <TextField.Label>{'Email'}</TextField.Label>
-      <TextField.Input value="jane@example.com" />
-    </TextField.LabelInputContainer>
-    <TextField.Description>{'Contact support to change this.'}</TextField.Description>
-  </TextField>
+
+  <TextFieldWithReadonlyStateExample />
 </Preview>
 
 <H3 id="required">Required</H3>
 
 <Preview
-  code={`<TextField className="w-64" isRequired>
-  <TextField.LabelInputContainer>
-    <TextField.Label>Email</TextField.Label>
-    <TextField.Input placeholder="you@example.com" />
-  </TextField.LabelInputContainer>
-  <TextField.Description>Required to create your account.</TextField.Description>
-</TextField>`}
+  code={`export function TextFieldWithRequiredStateExample() {
+  const [value, setValue] = useState('');
+
+return (
+
+<TextField className="w-64" value={value} onChange={setValue} isRequired>
+<TextField.LabelInputContainer>
+<TextField.Label>Email</TextField.Label>
+<TextField.Input placeholder="you@example.com" />
+</TextField.LabelInputContainer>
+<TextField.Description>Required to create your account.</TextField.Description>
+</TextField>
+);
+}`}
+
 >
-  <TextField
-    className="w-64"
-    isRequired
-  >
-    <TextField.LabelInputContainer>
-      <TextField.Label>{'Email'}</TextField.Label>
-      <TextField.Input placeholder="you@example.com" />
-    </TextField.LabelInputContainer>
-    <TextField.Description>{'Required to create your account.'}</TextField.Description>
-  </TextField>
+
+  <TextFieldWithRequiredStateExample />
 </Preview>
 
 <H2 id="in-a-card">In a Card</H2>
 
 <Preview
-  code={`<Card variant="default" className="w-80">
-  <Card.Header>
-    <Card.Title>Sign in</Card.Title>
-    <Card.Description>Enter your credentials to continue.</Card.Description>
-  </Card.Header>
-  <Card.Content className="flex flex-col gap-5">
-    <TextField isRequired>
-      <TextField.LabelInputContainer>
-        <TextField.Label>Email</TextField.Label>
-        <TextField.Input type="email" placeholder="you@example.com" />
-      </TextField.LabelInputContainer>
-    </TextField>
-    <TextField isRequired isInvalid>
-      <TextField.LabelInputContainer>
-        <TextField.Label>Password</TextField.Label>
-        <TextField.Input type="password" placeholder="••••••••" />
-      </TextField.LabelInputContainer>
-      <TextField.FieldError>Incorrect password. Please try again.</TextField.FieldError>
-    </TextField>
-  </Card.Content>
-</Card>`}
+  code={`export function TextFieldInACardExample() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+return (
+
+<Card variant="default" className="w-80">
+<Card.Header>
+<Card.Title>Sign in</Card.Title>
+<Card.Description>Enter your credentials to continue.</Card.Description>
+</Card.Header>
+<Card.Content className="flex flex-col gap-5">
+<TextField value={email} onChange={setEmail} isRequired>
+<TextField.LabelInputContainer>
+<TextField.Label>Email</TextField.Label>
+<TextField.Input type="email" placeholder="you@example.com" />
+</TextField.LabelInputContainer>
+</TextField>
+<TextField value={password} onChange={setPassword} isRequired isInvalid>
+<TextField.LabelInputContainer>
+<TextField.Label>Password</TextField.Label>
+<TextField.Input type="password" placeholder="••••••••" />
+</TextField.LabelInputContainer>
+<TextField.FieldError>Incorrect password. Please try again.</TextField.FieldError>
+</TextField>
+</Card.Content>
+</Card>
+);
+}`}
+
 >
-  <Card
-    variant="default"
-    className="w-80"
-  >
-    <Card.Header>
-      <Card.Title>{'Sign in'}</Card.Title>
-      <Card.Description>{'Enter your credentials to continue.'}</Card.Description>
-    </Card.Header>
-    <Card.Content className="flex flex-col gap-5">
-      <TextField isRequired>
-        <TextField.LabelInputContainer>
-          <TextField.Label>{'Email'}</TextField.Label>
-          <TextField.Input
-            type="email"
-            placeholder="you@example.com"
-          />
-        </TextField.LabelInputContainer>
-      </TextField>
-      <TextField
-        isRequired
-        isInvalid
-      >
-        <TextField.LabelInputContainer>
-          <TextField.Label>{'Password'}</TextField.Label>
-          <TextField.Input
-            type="password"
-            placeholder="••••••••"
-          />
-        </TextField.LabelInputContainer>
-        <TextField.FieldError>{'Incorrect password. Please try again.'}</TextField.FieldError>
-      </TextField>
-    </Card.Content>
-  </Card>
+
+  <TextFieldInACardExample />
 </Preview>
 
 <H2 id="api">API</H2>

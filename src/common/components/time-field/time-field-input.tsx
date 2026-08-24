@@ -53,7 +53,7 @@ export function Input(props: InputProps) {
           {...segmentProps}
           segment={dateSegment}
           className={composeRenderProps(segmentProps?.className, (className, renderProps) => {
-            return dateTimeInputVariants({ ...segmentProps, ...renderProps, className });
+            return dateTimeSegmentVariants({ ...segmentProps, ...renderProps, className });
           })}
         />
       )}
