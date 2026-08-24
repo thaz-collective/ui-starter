@@ -1,15 +1,19 @@
-import type { ReactNode } from 'react';
+import type { ComponentPropsWithRef } from 'react';
 
+import type { SetRequired } from 'type-fest';
 import { tv } from 'tailwind-variants';
 
 const stepButtonsVariants = tv({
   base: ['flex flex-col self-stretch overflow-hidden rounded-r-md border-l border-surface-tertiary'],
 });
 
-interface NumberFieldStepButtonsProps {
-  children: ReactNode;
-}
+type NumberFieldStepButtonsProps = SetRequired<ComponentPropsWithRef<'div'>, 'children'>;
 
-export function NumberFieldStepButtons({ children }: NumberFieldStepButtonsProps) {
-  return <div className={stepButtonsVariants()}>{children}</div>;
+export function NumberFieldStepButtons(props: NumberFieldStepButtonsProps) {
+  return (
+    <div
+      {...props}
+      className={stepButtonsVariants({ className: props.className })}
+    />
+  );
 }

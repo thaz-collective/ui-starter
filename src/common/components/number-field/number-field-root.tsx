@@ -1,4 +1,4 @@
-import type { ReactNode, ComponentPropsWithRef } from 'react';
+import type { ComponentPropsWithRef } from 'react';
 
 import type { VariantProps } from 'tailwind-variants';
 import type { SetRequired } from 'type-fest';
@@ -17,12 +17,11 @@ const numberFieldVariants = tv({
   ],
 });
 
-interface NumberFieldRootProps
-  extends
-    Omit<SetRequired<ComponentPropsWithRef<typeof RACNumberField>, 'value' | 'onChange'>, 'defaultValue'>,
-    VariantProps<typeof numberFieldVariants> {
-  children: ReactNode;
-}
+type NumberFieldRootProps = SetRequired<
+  Omit<ComponentPropsWithRef<typeof RACNumberField>, 'defaultValue'>,
+  'value' | 'onChange' | 'children'
+> &
+  VariantProps<typeof numberFieldVariants>;
 
 export function NumberFieldRoot(props: NumberFieldRootProps) {
   return (

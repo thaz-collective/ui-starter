@@ -1,8 +1,11 @@
+import type { ComponentPropsWithRef } from 'react';
+
 import type { VariantProps } from 'tailwind-variants';
-import type { SetNonNullable } from 'type-fest';
+import type { SetRequired } from 'type-fest';
+import { Button as RACButton, composeRenderProps } from 'react-aria-components';
 import { tv } from 'tailwind-variants';
 
-export const buttonVariants = tv({
+const buttonVariants = tv({
   base: [
     'group/button',
     'relative inline-flex items-center justify-center gap-2',
@@ -10,10 +13,7 @@ export const buttonVariants = tv({
     '[-webkit-tap-highlight-color:transparent]',
     'data-disabled:pointer-events-none data-disabled:opacity-50',
     'data-focus-visible:ring-2 data-focus-visible:ring-offset-2',
-    // 'data-focused:',
-    // 'data-hovered:',
     'data-pending:cursor-wait',
-    // 'data-pressed:',
   ],
   defaultVariants: {
     variant: 'primary',
@@ -79,7 +79,6 @@ export const buttonVariants = tv({
     fullWidth: {
       true: 'w-full',
     },
-    // Create other variants for outlined, text, contained buttons?
     isInverted: { true: '' },
   },
   compoundVariants: [
@@ -131,6 +130,16 @@ export const buttonVariants = tv({
   ],
 });
 
-export type ButtonVariants = VariantProps<typeof buttonVariants>;
-// export type SlotsButtonVariants = ReturnType<typeof buttonVariants>;
-export type RequiredButtonVariants = Required<SetNonNullable<ButtonVariants>>;
+type ButtonProps = SetRequired<ComponentPropsWithRef<typeof RACButton>, 'children'> &
+  VariantProps<typeof buttonVariants>;
+
+export function Button(props: ButtonProps) {
+  return (
+    <RACButton
+      {...props}
+      className={composeRenderProps(props.className, (className, renderProps) => {
+        return buttonVariants({ ...props, ...renderProps, className });
+      })}
+    />
+  );
+}

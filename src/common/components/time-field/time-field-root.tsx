@@ -1,9 +1,10 @@
-import type { ReactNode, ComponentPropsWithRef } from 'react';
+import type { ComponentPropsWithRef } from 'react';
 
 import type { TemporalTimeValue, MapTemporalToInternationalizedTime } from '@thaz/form-util/util';
 import { temporalToInternationalizedTime, internationalizedToTemporalTime } from '@thaz/form-util/util';
 
 import type { VariantProps } from 'tailwind-variants';
+import type { SetRequired } from 'type-fest';
 import { composeRenderProps, TimeField as RACTimeField } from 'react-aria-components';
 import { tv } from 'tailwind-variants';
 
@@ -19,17 +20,17 @@ const timeFieldVariants = tv({
   ],
 });
 
-interface TimeFieldRootProps<T extends TemporalTimeValue>
-  extends
-    Omit<
-      ComponentPropsWithRef<typeof RACTimeField<MapTemporalToInternationalizedTime<T>>>,
-      'defaultValue' | 'value' | 'onChange'
-    >,
-    VariantProps<typeof timeFieldVariants> {
-  value: T | null;
-  onChange: (value: T | null) => void;
-  children: ReactNode;
-}
+type TimeFieldRootProps<T extends TemporalTimeValue> = SetRequired<
+  Omit<
+    ComponentPropsWithRef<typeof RACTimeField<MapTemporalToInternationalizedTime<T>>>,
+    'defaultValue' | 'value' | 'onChange'
+  >,
+  'children'
+> &
+  VariantProps<typeof timeFieldVariants> & {
+    value: T | null;
+    onChange: (value: T | null) => void;
+  };
 
 export function TimeFieldRoot<T extends TemporalTimeValue>(props: TimeFieldRootProps<T>) {
   const { value, onChange, ...rest } = props;

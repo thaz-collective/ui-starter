@@ -1,9 +1,10 @@
-import type { ReactNode, ComponentPropsWithRef } from 'react';
+import type { ComponentPropsWithRef } from 'react';
 
 import type { TemporalDateValue, MapTemporalToInternationalizedDate } from '@thaz/form-util/util';
 import { temporalToInternationalizedDate, internationalizedToTemporalDate } from '@thaz/form-util/util';
 
 import type { VariantProps } from 'tailwind-variants';
+import type { SetRequired } from 'type-fest';
 import { composeRenderProps, DatePicker as RACDatePicker } from 'react-aria-components';
 import { tv } from 'tailwind-variants';
 
@@ -19,17 +20,17 @@ const dateTimePickerVariants = tv({
   ],
 });
 
-interface DateTimePickerRootProps<T extends TemporalDateValue>
-  extends
-    Omit<
-      ComponentPropsWithRef<typeof RACDatePicker<MapTemporalToInternationalizedDate<T>>>,
-      'defaultValue' | 'value' | 'onChange'
-    >,
-    VariantProps<typeof dateTimePickerVariants> {
-  value: T | null;
-  onChange: (value: T | null) => void;
-  children: ReactNode;
-}
+type DateTimePickerRootProps<T extends TemporalDateValue> = SetRequired<
+  Omit<
+    ComponentPropsWithRef<typeof RACDatePicker<MapTemporalToInternationalizedDate<T>>>,
+    'defaultValue' | 'value' | 'onChange'
+  >,
+  'children'
+> &
+  VariantProps<typeof dateTimePickerVariants> & {
+    value: T | null;
+    onChange: (value: T | null) => void;
+  };
 
 export function DateTimePickerRoot<T extends TemporalDateValue>(props: DateTimePickerRootProps<T>) {
   const { value, onChange, ...rest } = props;

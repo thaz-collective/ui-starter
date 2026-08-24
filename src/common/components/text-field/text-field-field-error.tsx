@@ -1,6 +1,7 @@
-import type { ReactNode, ComponentPropsWithRef } from 'react';
+import type { ComponentPropsWithRef } from 'react';
 
 import type { VariantProps } from 'tailwind-variants';
+import type { SetRequired } from 'type-fest';
 import { composeRenderProps, FieldError as RACFieldError } from 'react-aria-components';
 import { tv } from 'tailwind-variants';
 
@@ -16,9 +17,8 @@ const fieldErrorVariants = tv({
   ],
 });
 
-interface FieldErrorProps extends ComponentPropsWithRef<typeof RACFieldError>, VariantProps<typeof fieldErrorVariants> {
-  children: ReactNode;
-}
+type FieldErrorProps = SetRequired<ComponentPropsWithRef<typeof RACFieldError>, 'children'> &
+  VariantProps<typeof fieldErrorVariants>;
 
 export function FieldError(props: FieldErrorProps) {
   return (

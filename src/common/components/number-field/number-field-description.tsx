@@ -1,6 +1,7 @@
-import type { ReactNode, ComponentPropsWithRef } from 'react';
+import type { ComponentPropsWithRef } from 'react';
 
 import type { VariantProps } from 'tailwind-variants';
+import type { SetRequired } from 'type-fest';
 import { Text as RACText } from 'react-aria-components';
 import { tv } from 'tailwind-variants';
 
@@ -14,10 +15,8 @@ const descriptionVariants = tv({
   ],
 });
 
-interface DescriptionProps
-  extends Omit<ComponentPropsWithRef<typeof RACText>, 'slot'>, VariantProps<typeof descriptionVariants> {
-  children: ReactNode;
-}
+type DescriptionProps = SetRequired<Omit<ComponentPropsWithRef<typeof RACText>, 'slot'>, 'children'> &
+  VariantProps<typeof descriptionVariants>;
 
 export function Description(props: DescriptionProps) {
   return (

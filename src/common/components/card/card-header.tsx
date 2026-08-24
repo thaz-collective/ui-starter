@@ -4,12 +4,12 @@ import type { SetRequired } from 'type-fest';
 import { tv } from 'tailwind-variants';
 
 const headerVariants = tv({
-  base: ['flex items-center justify-between gap-2'],
+  base: ['group/card-header flex flex-col gap-0.5 px-4 pt-4 pb-2'],
 });
 
-export type CalendarHeaderProps = SetRequired<ComponentPropsWithRef<'div'>, 'children'>;
+type CardHeaderProps = SetRequired<ComponentPropsWithRef<'div'>, 'children'>;
 
-export function CalendarHeader(props: CalendarHeaderProps) {
+export function CardHeader(props: CardHeaderProps) {
   return (
     <div
       {...props}

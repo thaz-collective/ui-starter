@@ -1,4 +1,4 @@
-import type { ReactNode, ComponentPropsWithRef } from 'react';
+import type { ComponentPropsWithRef } from 'react';
 
 import type { VariantProps } from 'tailwind-variants';
 import type { SetRequired } from 'type-fest';
@@ -17,12 +17,11 @@ const textFieldVariants = tv({
   ],
 });
 
-interface TextFieldRootProps
-  extends
-    Omit<SetRequired<ComponentPropsWithRef<typeof RACTextField>, 'value' | 'onChange'>, 'defaultValue'>,
-    VariantProps<typeof textFieldVariants> {
-  children: ReactNode;
-}
+type TextFieldRootProps = SetRequired<
+  Omit<ComponentPropsWithRef<typeof RACTextField>, 'defaultValue'>,
+  'value' | 'onChange' | 'children'
+> &
+  VariantProps<typeof textFieldVariants>;
 
 export function TextFieldRoot(props: TextFieldRootProps) {
   return (

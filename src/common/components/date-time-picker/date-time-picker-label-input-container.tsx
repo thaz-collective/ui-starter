@@ -1,6 +1,7 @@
-import type { ComponentPropsWithRef, ReactNode } from 'react';
+import type { ComponentPropsWithRef } from 'react';
 
 import type { VariantProps } from 'tailwind-variants';
+import type { SetRequired } from 'type-fest';
 import { tv } from 'tailwind-variants';
 
 const labelInputContainerVariants = tv({
@@ -27,10 +28,8 @@ const labelInputContainerVariants = tv({
   ],
 });
 
-interface LabelInputContainerProps
-  extends ComponentPropsWithRef<'div'>, VariantProps<typeof labelInputContainerVariants> {
-  children: ReactNode;
-}
+type LabelInputContainerProps = SetRequired<ComponentPropsWithRef<'div'>, 'children'> &
+  VariantProps<typeof labelInputContainerVariants>;
 
 export function LabelInputContainer(props: LabelInputContainerProps) {
   return (
