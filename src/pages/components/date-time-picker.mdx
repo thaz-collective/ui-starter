@@ -5,8 +5,6 @@ author:
   - Tim Hazlett
 ---
 
-import { CalendarDate } from '@internationalized/date';
-
 # Date Time Picker
 
 A date picker combines a segmented date/time field with a `Calendar` popover, letting users type
@@ -15,7 +13,7 @@ a date directly or pick one visually. Built on top of `react-aria-components`' `
 
 `DateTimePicker` covers date-only, date+time, and time-of-day-within-a-date use cases through its
 `granularity` prop — there is no separate `DateField` component. If you need a time value that
-isn't tied to any date, use [`TimeField`](/components/time-field) instead.
+isn't tied to any date, use [`TimeFieldRoot`](/components/time-field) instead.
 
 <H2 id="import">Import</H2>
 
@@ -118,74 +116,64 @@ throw if used standalone.
 <H3 id="default">Default</H3>
 
 <Preview
-  code={`<DateTimePicker className="w-64">
-  <DateTimePicker.LabelInputContainer>
-    <DateTimePicker.Label>Event date</DateTimePicker.Label>
-    <DateTimePicker.Group>
-      <DateTimePicker.Input />
-      <DateTimePicker.TriggerButton />
-    </DateTimePicker.Group>
-  </DateTimePicker.LabelInputContainer>
-  <DateTimePicker.Popover>
-    <DateTimePicker.Dialog>
-      <DateTimePicker.Calendar />
-    </DateTimePicker.Dialog>
-  </DateTimePicker.Popover>
-  <DateTimePicker.Description>Choose a date for your event.</DateTimePicker.Description>
-</DateTimePicker>`}
+  code={`export function DateTimePickerExample() {
+  const [value, setValue] = useState<Temporal.PlainDate | null>(null);
+
+return (
+
+<DateTimePicker className="w-64" value={value} onChange={setValue}>
+<DateTimePicker.LabelInputContainer>
+<DateTimePicker.Label>Event date</DateTimePicker.Label>
+<DateTimePicker.Group>
+<DateTimePicker.Input />
+<DateTimePicker.TriggerButton />
+</DateTimePicker.Group>
+</DateTimePicker.LabelInputContainer>
+<DateTimePicker.Popover>
+<DateTimePicker.Dialog>
+<DateTimePicker.Calendar />
+</DateTimePicker.Dialog>
+</DateTimePicker.Popover>
+<DateTimePicker.Description>Choose a date for your event.</DateTimePicker.Description>
+</DateTimePicker>
+);
+}`}
+
 >
-  <DateTimePicker className="w-64">
-    <DateTimePicker.LabelInputContainer>
-      <DateTimePicker.Label>{'Event date'}</DateTimePicker.Label>
-      <DateTimePicker.Group>
-        <DateTimePicker.Input />
-        <DateTimePicker.TriggerButton />
-      </DateTimePicker.Group>
-    </DateTimePicker.LabelInputContainer>
-    <DateTimePicker.Popover>
-      <DateTimePicker.Dialog>
-        <DateTimePicker.Calendar />
-      </DateTimePicker.Dialog>
-    </DateTimePicker.Popover>
-    <DateTimePicker.Description>{'Choose a date for your event.'}</DateTimePicker.Description>
-  </DateTimePicker>
+
+  <DateTimePickerExample />
 </Preview>
 
 <H3 id="default-value">Default value</H3>
 
 <Preview
-  code={`<DateTimePicker className="w-64" defaultValue={new CalendarDate(2026, 7, 17)}>
-  <DateTimePicker.LabelInputContainer>
-    <DateTimePicker.Label>Event date</DateTimePicker.Label>
-    <DateTimePicker.Group>
-      <DateTimePicker.Input />
-      <DateTimePicker.TriggerButton />
-    </DateTimePicker.Group>
-  </DateTimePicker.LabelInputContainer>
-  <DateTimePicker.Popover>
-    <DateTimePicker.Dialog>
-      <DateTimePicker.Calendar />
-    </DateTimePicker.Dialog>
-  </DateTimePicker.Popover>
-</DateTimePicker>`}
+  code={`export function DateTimePickerWithDefaultValueExample() {
+  const [value, setValue] = useState<Temporal.PlainDate | null>(
+    Temporal.PlainDate.from({ year: 2026, month: 7, day: 17 }),
+  );
+
+return (
+
+<DateTimePicker className="w-64" value={value} onChange={setValue}>
+<DateTimePicker.LabelInputContainer>
+<DateTimePicker.Label>Event date</DateTimePicker.Label>
+<DateTimePicker.Group>
+<DateTimePicker.Input />
+<DateTimePicker.TriggerButton />
+</DateTimePicker.Group>
+</DateTimePicker.LabelInputContainer>
+<DateTimePicker.Popover>
+<DateTimePicker.Dialog>
+<DateTimePicker.Calendar />
+</DateTimePicker.Dialog>
+</DateTimePicker.Popover>
+</DateTimePicker>
+);
+}`}
+
 >
-  <DateTimePicker
-    className="w-64"
-    defaultValue={new CalendarDate(2026, 7, 17)}
-  >
-    <DateTimePicker.LabelInputContainer>
-      <DateTimePicker.Label>{'Event date'}</DateTimePicker.Label>
-      <DateTimePicker.Group>
-        <DateTimePicker.Input />
-        <DateTimePicker.TriggerButton />
-      </DateTimePicker.Group>
-    </DateTimePicker.LabelInputContainer>
-    <DateTimePicker.Popover>
-      <DateTimePicker.Dialog>
-        <DateTimePicker.Calendar />
-      </DateTimePicker.Dialog>
-    </DateTimePicker.Popover>
-  </DateTimePicker>
+
+  <DateTimePickerWithDefaultValueExample />
 </Preview>
 
 <H3 id="granularity">Granularity (date + time)</H3>
@@ -194,40 +182,32 @@ Raise `granularity` to `"minute"` or `"second"` to add time segments to the same
 calendar popover still selects the date portion; the extra segments are typed directly.
 
 <Preview
-  code={`<DateTimePicker className="w-72" granularity="minute">
-  <DateTimePicker.LabelInputContainer>
-    <DateTimePicker.Label>Appointment</DateTimePicker.Label>
-    <DateTimePicker.Group>
-      <DateTimePicker.Input />
-      <DateTimePicker.TriggerButton />
-    </DateTimePicker.Group>
-  </DateTimePicker.LabelInputContainer>
-  <DateTimePicker.Popover>
-    <DateTimePicker.Dialog>
-      <DateTimePicker.Calendar />
-    </DateTimePicker.Dialog>
-  </DateTimePicker.Popover>
-  <DateTimePicker.Description>Includes hours and minutes.</DateTimePicker.Description>
-</DateTimePicker>`}
+  code={`export function DateTimePickerWithGranularityExample() {
+  const [value, setValue] = useState<Temporal.PlainDateTime | null>(null);
+
+return (
+
+<DateTimePicker className="w-72" granularity="minute" value={value} onChange={setValue}>
+<DateTimePicker.LabelInputContainer>
+<DateTimePicker.Label>Appointment</DateTimePicker.Label>
+<DateTimePicker.Group>
+<DateTimePicker.Input />
+<DateTimePicker.TriggerButton />
+</DateTimePicker.Group>
+</DateTimePicker.LabelInputContainer>
+<DateTimePicker.Popover>
+<DateTimePicker.Dialog>
+<DateTimePicker.Calendar />
+</DateTimePicker.Dialog>
+</DateTimePicker.Popover>
+<DateTimePicker.Description>Includes hours and minutes.</DateTimePicker.Description>
+</DateTimePicker>
+);
+}`}
+
 >
-  <DateTimePicker
-    className="w-72"
-    granularity="minute"
-  >
-    <DateTimePicker.LabelInputContainer>
-      <DateTimePicker.Label>{'Appointment'}</DateTimePicker.Label>
-      <DateTimePicker.Group>
-        <DateTimePicker.Input />
-        <DateTimePicker.TriggerButton />
-      </DateTimePicker.Group>
-    </DateTimePicker.LabelInputContainer>
-    <DateTimePicker.Popover>
-      <DateTimePicker.Dialog>
-        <DateTimePicker.Calendar />
-      </DateTimePicker.Dialog>
-    </DateTimePicker.Popover>
-    <DateTimePicker.Description>{'Includes hours and minutes.'}</DateTimePicker.Description>
-  </DateTimePicker>
+
+  <DateTimePickerWithGranularityExample />
 </Preview>
 
 <H2 id="states">States</H2>
@@ -235,157 +215,154 @@ calendar popover still selects the date portion; the extra segments are typed di
 <H3 id="error">Error</H3>
 
 <Preview
-  code={`<DateTimePicker className="w-64" isInvalid>
-  <DateTimePicker.LabelInputContainer>
-    <DateTimePicker.Label>Event date</DateTimePicker.Label>
-    <DateTimePicker.Group>
-      <DateTimePicker.Input />
-      <DateTimePicker.TriggerButton />
-    </DateTimePicker.Group>
-  </DateTimePicker.LabelInputContainer>
-  <DateTimePicker.Popover>
-    <DateTimePicker.Dialog>
-      <DateTimePicker.Calendar />
-    </DateTimePicker.Dialog>
-  </DateTimePicker.Popover>
-  <DateTimePicker.FieldError>Please choose a valid date.</DateTimePicker.FieldError>
-</DateTimePicker>`}
+  code={`export function DateTimePickerWithErrorStateExample() {
+  const [value, setValue] = useState<Temporal.PlainDate | null>(null);
+
+return (
+
+<DateTimePicker className="w-64" value={value} onChange={setValue} isInvalid>
+<DateTimePicker.LabelInputContainer>
+<DateTimePicker.Label>Event date</DateTimePicker.Label>
+<DateTimePicker.Group>
+<DateTimePicker.Input />
+<DateTimePicker.TriggerButton />
+</DateTimePicker.Group>
+</DateTimePicker.LabelInputContainer>
+<DateTimePicker.Popover>
+<DateTimePicker.Dialog>
+<DateTimePicker.Calendar />
+</DateTimePicker.Dialog>
+</DateTimePicker.Popover>
+<DateTimePicker.FieldError>Please choose a valid date.</DateTimePicker.FieldError>
+</DateTimePicker>
+);
+}`}
+
 >
-  <DateTimePicker
-    className="w-64"
-    isInvalid
-  >
-    <DateTimePicker.LabelInputContainer>
-      <DateTimePicker.Label>{'Event date'}</DateTimePicker.Label>
-      <DateTimePicker.Group>
-        <DateTimePicker.Input />
-        <DateTimePicker.TriggerButton />
-      </DateTimePicker.Group>
-    </DateTimePicker.LabelInputContainer>
-    <DateTimePicker.Popover>
-      <DateTimePicker.Dialog>
-        <DateTimePicker.Calendar />
-      </DateTimePicker.Dialog>
-    </DateTimePicker.Popover>
-    <DateTimePicker.FieldError>{'Please choose a valid date.'}</DateTimePicker.FieldError>
-  </DateTimePicker>
+
+  <DateTimePickerWithErrorStateExample />
 </Preview>
 
 <H3 id="disabled">Disabled</H3>
 
 <Preview
-  code={`<DateTimePicker className="w-64" isDisabled>
-  <DateTimePicker.LabelInputContainer>
-    <DateTimePicker.Label>Event date</DateTimePicker.Label>
-    <DateTimePicker.Group>
-      <DateTimePicker.Input />
-      <DateTimePicker.TriggerButton />
-    </DateTimePicker.Group>
-  </DateTimePicker.LabelInputContainer>
-</DateTimePicker>`}
+  code={`export function DateTimePickerWithDisabledStateExample() {
+  const [value, setValue] = useState<Temporal.PlainDate | null>(
+    Temporal.PlainDate.from({ year: 2026, month: 7, day: 17 }),
+  );
+
+return (
+
+<DateTimePicker className="w-64" value={value} onChange={setValue} isDisabled>
+<DateTimePicker.LabelInputContainer>
+<DateTimePicker.Label>Event date</DateTimePicker.Label>
+<DateTimePicker.Group>
+<DateTimePicker.Input />
+<DateTimePicker.TriggerButton />
+</DateTimePicker.Group>
+</DateTimePicker.LabelInputContainer>
+</DateTimePicker>
+);
+}`}
+
 >
-  <DateTimePicker
-    className="w-64"
-    isDisabled
-  >
-    <DateTimePicker.LabelInputContainer>
-      <DateTimePicker.Label>{'Event date'}</DateTimePicker.Label>
-      <DateTimePicker.Group>
-        <DateTimePicker.Input />
-        <DateTimePicker.TriggerButton />
-      </DateTimePicker.Group>
-    </DateTimePicker.LabelInputContainer>
-  </DateTimePicker>
+
+  <DateTimePickerWithDisabledStateExample />
+</Preview>
+
+<H3 id="readonly">Readonly</H3>
+
+<Preview
+  code={`export function DateTimePickerWithReadonlyStateExample() {
+  const [value, setValue] = useState<Temporal.PlainDate | null>(
+    Temporal.PlainDate.from({ year: 2026, month: 7, day: 17 }),
+  );
+
+return (
+
+<DateTimePicker className="w-64" value={value} onChange={setValue} isReadOnly>
+<DateTimePicker.LabelInputContainer>
+<DateTimePicker.Label>Event date</DateTimePicker.Label>
+<DateTimePicker.Group>
+<DateTimePicker.Input />
+<DateTimePicker.TriggerButton />
+</DateTimePicker.Group>
+</DateTimePicker.LabelInputContainer>
+</DateTimePicker>
+);
+}`}
+
+>
+
+  <DateTimePickerWithReadonlyStateExample />
 </Preview>
 
 <H3 id="required">Required</H3>
 
 <Preview
-  code={`<DateTimePicker className="w-64" isRequired>
-  <DateTimePicker.LabelInputContainer>
-    <DateTimePicker.Label>Event date</DateTimePicker.Label>
-    <DateTimePicker.Group>
-      <DateTimePicker.Input />
-      <DateTimePicker.TriggerButton />
-    </DateTimePicker.Group>
-  </DateTimePicker.LabelInputContainer>
-  <DateTimePicker.Popover>
-    <DateTimePicker.Dialog>
-      <DateTimePicker.Calendar />
-    </DateTimePicker.Dialog>
-  </DateTimePicker.Popover>
-</DateTimePicker>`}
+  code={`export function DateTimePickerWithRequiredStateExample() {
+  const [value, setValue] = useState<Temporal.PlainDate | null>(null);
+
+return (
+
+<DateTimePicker className="w-64" value={value} onChange={setValue} isRequired>
+<DateTimePicker.LabelInputContainer>
+<DateTimePicker.Label>Event date</DateTimePicker.Label>
+<DateTimePicker.Group>
+<DateTimePicker.Input />
+<DateTimePicker.TriggerButton />
+</DateTimePicker.Group>
+</DateTimePicker.LabelInputContainer>
+<DateTimePicker.Popover>
+<DateTimePicker.Dialog>
+<DateTimePicker.Calendar />
+</DateTimePicker.Dialog>
+</DateTimePicker.Popover>
+</DateTimePicker>
+);
+}`}
+
 >
-  <DateTimePicker
-    className="w-64"
-    isRequired
-  >
-    <DateTimePicker.LabelInputContainer>
-      <DateTimePicker.Label>{'Event date'}</DateTimePicker.Label>
-      <DateTimePicker.Group>
-        <DateTimePicker.Input />
-        <DateTimePicker.TriggerButton />
-      </DateTimePicker.Group>
-    </DateTimePicker.LabelInputContainer>
-    <DateTimePicker.Popover>
-      <DateTimePicker.Dialog>
-        <DateTimePicker.Calendar />
-      </DateTimePicker.Dialog>
-    </DateTimePicker.Popover>
-  </DateTimePicker>
+
+  <DateTimePickerWithRequiredStateExample />
 </Preview>
 
 <H2 id="in-a-card">In a Card</H2>
 
 <Preview
-  code={`<Card variant="default" className="w-80">
-  <Card.Header>
-    <Card.Title>Book a room</Card.Title>
-    <Card.Description>Select a check-in date.</Card.Description>
-  </Card.Header>
-  <Card.Content className="flex flex-col gap-5">
-    <DateTimePicker>
-      <DateTimePicker.LabelInputContainer>
-        <DateTimePicker.Label>Check-in</DateTimePicker.Label>
-        <DateTimePicker.Group>
-          <DateTimePicker.Input />
-          <DateTimePicker.TriggerButton />
-        </DateTimePicker.Group>
-      </DateTimePicker.LabelInputContainer>
-      <DateTimePicker.Popover>
-        <DateTimePicker.Dialog>
-          <DateTimePicker.Calendar />
-        </DateTimePicker.Dialog>
-      </DateTimePicker.Popover>
-    </DateTimePicker>
-  </Card.Content>
-</Card>`}
+  code={`export function DateTimePickerInACardExample() {
+  const [checkIn, setCheckIn] = useState<Temporal.PlainDate | null>(null);
+
+return (
+
+<Card variant="default" className="w-80">
+<Card.Header>
+<Card.Title>Book a room</Card.Title>
+<Card.Description>Select a check-in date.</Card.Description>
+</Card.Header>
+<Card.Content className="flex flex-col gap-5">
+<DateTimePicker value={checkIn} onChange={setCheckIn}>
+<DateTimePicker.LabelInputContainer>
+<DateTimePicker.Label>Check-in</DateTimePicker.Label>
+<DateTimePicker.Group>
+<DateTimePicker.Input />
+<DateTimePicker.TriggerButton />
+</DateTimePicker.Group>
+</DateTimePicker.LabelInputContainer>
+<DateTimePicker.Popover>
+<DateTimePicker.Dialog>
+<DateTimePicker.Calendar />
+</DateTimePicker.Dialog>
+</DateTimePicker.Popover>
+</DateTimePicker>
+</Card.Content>
+</Card>
+);
+}`}
+
 >
-  <Card
-    variant="default"
-    className="w-80"
-  >
-    <Card.Header>
-      <Card.Title>{'Book a room'}</Card.Title>
-      <Card.Description>{'Select a check-in date.'}</Card.Description>
-    </Card.Header>
-    <Card.Content className="flex flex-col gap-5">
-      <DateTimePicker>
-        <DateTimePicker.LabelInputContainer>
-          <DateTimePicker.Label>{'Check-in'}</DateTimePicker.Label>
-          <DateTimePicker.Group>
-            <DateTimePicker.Input />
-            <DateTimePicker.TriggerButton />
-          </DateTimePicker.Group>
-        </DateTimePicker.LabelInputContainer>
-        <DateTimePicker.Popover>
-          <DateTimePicker.Dialog>
-            <DateTimePicker.Calendar />
-          </DateTimePicker.Dialog>
-        </DateTimePicker.Popover>
-      </DateTimePicker>
-    </Card.Content>
-  </Card>
+
+  <DateTimePickerInACardExample />
 </Preview>
 
 <H2 id="api">API</H2>

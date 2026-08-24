@@ -10,9 +10,7 @@ const DEFAULT_DEBOUNCE_WAIT_MS = 300;
 
 type TextFieldRootProps = ComponentPropsWithRef<typeof TextFieldRoot>;
 
-type TextFieldRootOnChange = NonNullable<TextFieldRootProps['onChange']>;
-
-type TextFieldRootDebouncerOptions = DebouncerOptions<TextFieldRootOnChange>;
+type TextFieldRootDebouncerOptions = DebouncerOptions<NonNullable<TextFieldRootProps['onChange']>>;
 
 interface TextFieldRootDebouncedProps extends TextFieldRootProps {
   debounceOptions?: Partial<TextFieldRootDebouncerOptions>;

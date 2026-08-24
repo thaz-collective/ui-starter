@@ -1,17 +1,19 @@
-import { DateTimePicker as DateTimePickerRoot } from './components/date-time-picker';
-import { DateTimePickerCalendar } from './components/date-time-picker-calendar';
-import { Description } from './components/date-time-picker-description';
-import { DateTimePickerDialog } from './components/date-time-picker-dialog';
-import { FieldError } from './components/date-time-picker-field-error';
-import { DateTimePickerGroup } from './components/date-time-picker-group';
-import { Input } from './components/date-time-picker-input';
-import { Label } from './components/date-time-picker-label';
-import { LabelInputContainer } from './components/date-time-picker-label-input-container';
-import { DateTimePickerPopover } from './components/date-time-picker-popover';
-import { DateTimePickerTriggerButton } from './components/date-time-picker-trigger-button';
+import { DateTimePickerCalendar } from './date-time-picker-calendar';
+import { Description } from './date-time-picker-description';
+import { DateTimePickerDialog } from './date-time-picker-dialog';
+import { FieldError } from './date-time-picker-field-error';
+import { DateTimePickerGroup } from './date-time-picker-group';
+import { Input } from './date-time-picker-input';
+import { Label } from './date-time-picker-label';
+import { LabelInputContainer } from './date-time-picker-label-input-container';
+import { DateTimePickerPopover } from './date-time-picker-popover';
+import { DateTimePickerRoot } from './date-time-picker-root';
+import { DateTimePickerRootDebounced } from './date-time-picker-root-debounced';
+import { DateTimePickerTriggerButton } from './date-time-picker-trigger-button';
 
 export const DateTimePicker = Object.assign(DateTimePickerRoot, {
   Root: DateTimePickerRoot,
+  RootDebounced: DateTimePickerRootDebounced,
   LabelInputContainer,
   Label,
   Group: DateTimePickerGroup,
@@ -23,13 +25,3 @@ export const DateTimePicker = Object.assign(DateTimePickerRoot, {
   Description,
   FieldError,
 });
-
-export type { DateTimePickerProps } from './components/date-time-picker';
-export type { DateTimePickerCalendarProps } from './components/date-time-picker-calendar';
-export type { DateTimePickerDialogProps } from './components/date-time-picker-dialog';
-export type { DateTimePickerGroupProps } from './components/date-time-picker-group';
-export type { DateTimePickerPopoverProps } from './components/date-time-picker-popover';
-export type { DateTimePickerTriggerButtonProps } from './components/date-time-picker-trigger-button';
-
-export type { DateTimePickerVariants, RequiredDateTimePickerVariants, SlotsDateTimePickerVariants } from './variants';
-export { dateTimePickerVariants } from './variants';

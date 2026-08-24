@@ -105,105 +105,82 @@ context and throw if used standalone.
 <H3 id="default">Default</H3>
 
 <Preview
-  code={`<NumberField className="w-48">
-  <NumberField.LabelInputContainer>
-    <NumberField.Label>Quantity</NumberField.Label>
-    <NumberField.Group>
-      <NumberField.Input placeholder="0" />
-      <NumberField.StepButtons>
-        <NumberField.IncrementButton />
-        <NumberField.DecrementButton />
-      </NumberField.StepButtons>
-    </NumberField.Group>
-  </NumberField.LabelInputContainer>
-  <NumberField.Description>Number of items to order.</NumberField.Description>
-</NumberField>`}
+  code={`export function NumberFieldExample() {
+  return (
+    <NumberField className="w-48">
+      <NumberField.LabelInputContainer>
+        <NumberField.Label>Quantity</NumberField.Label>
+        <NumberField.Group>
+          <NumberField.Input placeholder="0" />
+          <NumberField.StepButtons>
+            <NumberField.IncrementButton />
+            <NumberField.DecrementButton />
+          </NumberField.StepButtons>
+        </NumberField.Group>
+      </NumberField.LabelInputContainer>
+      <NumberField.Description>Number of items to order.</NumberField.Description>
+    </NumberField>
+  );
+}`}
+
 >
-  <NumberField className="w-48">
-    <NumberField.LabelInputContainer>
-      <NumberField.Label>{'Quantity'}</NumberField.Label>
-      <NumberField.Group>
-        <NumberField.Input placeholder="0" />
-        <NumberField.StepButtons>
-          <NumberField.IncrementButton />
-          <NumberField.DecrementButton />
-        </NumberField.StepButtons>
-      </NumberField.Group>
-    </NumberField.LabelInputContainer>
-    <NumberField.Description>{'Number of items to order.'}</NumberField.Description>
-  </NumberField>
+
+  <NumberFieldExample />
 </Preview>
 
 <H3 id="formatted">Formatted (currency)</H3>
 
 <Preview
-  code={`<NumberField className="w-48" formatOptions={{ style: 'currency', currency: 'USD' }}>
-  <NumberField.LabelInputContainer>
-    <NumberField.Label>Price</NumberField.Label>
-    <NumberField.Group>
-      <NumberField.Input placeholder="0.00" />
-      <NumberField.StepButtons>
-        <NumberField.IncrementButton />
-        <NumberField.DecrementButton />
-      </NumberField.StepButtons>
-    </NumberField.Group>
-  </NumberField.LabelInputContainer>
-  <NumberField.Description>Formatted as USD currency.</NumberField.Description>
-</NumberField>`}
+  code={`export function NumberFieldFormattedExample() {
+  return (
+    <NumberField className="w-48" formatOptions={{ style: 'currency', currency: 'USD' }}>
+      <NumberField.LabelInputContainer>
+        <NumberField.Label>Price</NumberField.Label>
+        <NumberField.Group>
+          <NumberField.Input placeholder="0.00" />
+          <NumberField.StepButtons>
+            <NumberField.IncrementButton />
+            <NumberField.DecrementButton />
+          </NumberField.StepButtons>
+        </NumberField.Group>
+      </NumberField.LabelInputContainer>
+      <NumberField.Description>Formatted as USD currency.</NumberField.Description>
+    </NumberField>
+  );
+}`}
+
 >
-  <NumberField
-    className="w-48"
-    formatOptions={{ style: 'currency', currency: 'USD' }}
-  >
-    <NumberField.LabelInputContainer>
-      <NumberField.Label>{'Price'}</NumberField.Label>
-      <NumberField.Group>
-        <NumberField.Input placeholder="0.00" />
-        <NumberField.StepButtons>
-          <NumberField.IncrementButton />
-          <NumberField.DecrementButton />
-        </NumberField.StepButtons>
-      </NumberField.Group>
-    </NumberField.LabelInputContainer>
-    <NumberField.Description>{'Formatted as USD currency.'}</NumberField.Description>
-  </NumberField>
+
+  <NumberFieldFormattedExample />
 </Preview>
 
 <H3 id="min-max">Min / Max</H3>
 
 <Preview
-  code={`<NumberField className="w-48" minValue={0} maxValue={100} defaultValue={50}>
-  <NumberField.LabelInputContainer>
-    <NumberField.Label>Percentage</NumberField.Label>
-    <NumberField.Group>
-      <NumberField.Input placeholder="0" />
-      <NumberField.StepButtons>
-        <NumberField.IncrementButton />
-        <NumberField.DecrementButton />
-      </NumberField.StepButtons>
-    </NumberField.Group>
-  </NumberField.LabelInputContainer>
-  <NumberField.Description>Clamped between 0 and 100.</NumberField.Description>
-</NumberField>`}
+  code={`export function NumberFieldWithMinMaxExample() {
+  const [value, setValue] = useState(50);
+
+return (
+
+<NumberField className="w-48" value={value} onChange={setValue} minValue={0} maxValue={100}>
+<NumberField.LabelInputContainer>
+<NumberField.Label>Percentage</NumberField.Label>
+<NumberField.Group>
+<NumberField.Input placeholder="0" />
+<NumberField.StepButtons>
+<NumberField.IncrementButton />
+<NumberField.DecrementButton />
+</NumberField.StepButtons>
+</NumberField.Group>
+</NumberField.LabelInputContainer>
+<NumberField.Description>Clamped between 0 and 100.</NumberField.Description>
+</NumberField>
+);
+}`}
+
 >
-  <NumberField
-    className="w-48"
-    minValue={0}
-    maxValue={100}
-    defaultValue={50}
-  >
-    <NumberField.LabelInputContainer>
-      <NumberField.Label>{'Percentage'}</NumberField.Label>
-      <NumberField.Group>
-        <NumberField.Input placeholder="0" />
-        <NumberField.StepButtons>
-          <NumberField.IncrementButton />
-          <NumberField.DecrementButton />
-        </NumberField.StepButtons>
-      </NumberField.Group>
-    </NumberField.LabelInputContainer>
-    <NumberField.Description>{'Clamped between 0 and 100.'}</NumberField.Description>
-  </NumberField>
+
+  <NumberFieldWithMinMaxExample />
 </Preview>
 
 <H2 id="states">States</H2>
@@ -211,154 +188,98 @@ context and throw if used standalone.
 <H3 id="error">Error</H3>
 
 <Preview
-  code={`<NumberField className="w-48" isInvalid defaultValue={-1}>
-  <NumberField.LabelInputContainer>
-    <NumberField.Label>Quantity</NumberField.Label>
-    <NumberField.Group>
-      <NumberField.Input placeholder="0" />
-      <NumberField.StepButtons>
-        <NumberField.IncrementButton />
-        <NumberField.DecrementButton />
-      </NumberField.StepButtons>
-    </NumberField.Group>
-  </NumberField.LabelInputContainer>
-  <NumberField.FieldError>Value must be 0 or greater.</NumberField.FieldError>
-</NumberField>`}
+  code={`export function NumberFieldWithErrorStateExample() {
+  const [value, setValue] = useState(-1);
+
+return (
+
+<NumberField className="w-48" value={value} onChange={setValue} isInvalid>
+<NumberField.LabelInputContainer>
+<NumberField.Label>Quantity</NumberField.Label>
+<NumberField.Group>
+<NumberField.Input placeholder="0" />
+<NumberField.StepButtons>
+<NumberField.IncrementButton />
+<NumberField.DecrementButton />
+</NumberField.StepButtons>
+</NumberField.Group>
+</NumberField.LabelInputContainer>
+<NumberField.FieldError>Value must be 0 or greater.</NumberField.FieldError>
+</NumberField>
+);
+}`}
+
 >
-  <NumberField
-    className="w-48"
-    isInvalid
-    defaultValue={-1}
-  >
-    <NumberField.LabelInputContainer>
-      <NumberField.Label>{'Quantity'}</NumberField.Label>
-      <NumberField.Group>
-        <NumberField.Input placeholder="0" />
-        <NumberField.StepButtons>
-          <NumberField.IncrementButton />
-          <NumberField.DecrementButton />
-        </NumberField.StepButtons>
-      </NumberField.Group>
-    </NumberField.LabelInputContainer>
-    <NumberField.FieldError>{'Value must be 0 or greater.'}</NumberField.FieldError>
-  </NumberField>
+
+  <NumberFieldWithErrorStateExample />
 </Preview>
 
 <H3 id="disabled">Disabled</H3>
 
 <Preview
-  code={`<NumberField className="w-48" isDisabled defaultValue={10}>
-  <NumberField.LabelInputContainer>
-    <NumberField.Label>Quantity</NumberField.Label>
-    <NumberField.Group>
-      <NumberField.Input placeholder="0" />
-      <NumberField.StepButtons>
-        <NumberField.IncrementButton />
-        <NumberField.DecrementButton />
-      </NumberField.StepButtons>
-    </NumberField.Group>
-  </NumberField.LabelInputContainer>
-</NumberField>`}
+  code={`export function NumberFieldWithDisabledStateExample() {
+  const [value, setValue] = useState(10);
+
+return (
+
+<NumberField className="w-48" value={value} onChange={setValue} isDisabled>
+<NumberField.LabelInputContainer>
+<NumberField.Label>Quantity</NumberField.Label>
+<NumberField.Group>
+<NumberField.Input placeholder="0" />
+<NumberField.StepButtons>
+<NumberField.IncrementButton />
+<NumberField.DecrementButton />
+</NumberField.StepButtons>
+</NumberField.Group>
+</NumberField.LabelInputContainer>
+</NumberField>
+);
+}`}
+
 >
-  <NumberField
-    className="w-48"
-    isDisabled
-    defaultValue={10}
-  >
-    <NumberField.LabelInputContainer>
-      <NumberField.Label>{'Quantity'}</NumberField.Label>
-      <NumberField.Group>
-        <NumberField.Input placeholder="0" />
-        <NumberField.StepButtons>
-          <NumberField.IncrementButton />
-          <NumberField.DecrementButton />
-        </NumberField.StepButtons>
-      </NumberField.Group>
-    </NumberField.LabelInputContainer>
-  </NumberField>
+
+  <NumberFieldWithDisabledStateExample />
 </Preview>
 
 <H3 id="readonly">Readonly</H3>
 
 <Preview
-  code={`<NumberField className="w-48" isReadOnly value={42}>
-  <NumberField.LabelInputContainer>
-    <NumberField.Label>Quantity</NumberField.Label>
-    <NumberField.Group>
-      <NumberField.Input />
-      <NumberField.StepButtons>
-        <NumberField.IncrementButton />
-        <NumberField.DecrementButton />
-      </NumberField.StepButtons>
-    </NumberField.Group>
-  </NumberField.LabelInputContainer>
-</NumberField>`}
+  code={`export function NumberFieldWithReadonlyStateExample() {
+  const [value, setValue] = useState(42);
+
+return (
+
+<NumberField className="w-48" value={value} onChange={setValue} isReadOnly>
+<NumberField.LabelInputContainer>
+<NumberField.Label>Quantity</NumberField.Label>
+<NumberField.Group>
+<NumberField.Input />
+<NumberField.StepButtons>
+<NumberField.IncrementButton />
+<NumberField.DecrementButton />
+</NumberField.StepButtons>
+</NumberField.Group>
+</NumberField.LabelInputContainer>
+</NumberField>
+);
+}`}
+
 >
-  <NumberField
-    className="w-48"
-    isReadOnly
-    value={42}
-  >
-    <NumberField.LabelInputContainer>
-      <NumberField.Label>{'Quantity'}</NumberField.Label>
-      <NumberField.Group>
-        <NumberField.Input />
-        <NumberField.StepButtons>
-          <NumberField.IncrementButton />
-          <NumberField.DecrementButton />
-        </NumberField.StepButtons>
-      </NumberField.Group>
-    </NumberField.LabelInputContainer>
-  </NumberField>
+
+  <NumberFieldWithReadonlyStateExample />
 </Preview>
 
 <H3 id="required">Required</H3>
 
 <Preview
-  code={`<NumberField className="w-48" isRequired>
-  <NumberField.LabelInputContainer>
-    <NumberField.Label>Quantity</NumberField.Label>
-    <NumberField.Group>
-      <NumberField.Input placeholder="0" />
-      <NumberField.StepButtons>
-        <NumberField.IncrementButton />
-        <NumberField.DecrementButton />
-      </NumberField.StepButtons>
-    </NumberField.Group>
-  </NumberField.LabelInputContainer>
-</NumberField>`}
->
-  <NumberField
-    className="w-48"
-    isRequired
-  >
-    <NumberField.LabelInputContainer>
-      <NumberField.Label>{'Quantity'}</NumberField.Label>
-      <NumberField.Group>
-        <NumberField.Input placeholder="0" />
-        <NumberField.StepButtons>
-          <NumberField.IncrementButton />
-          <NumberField.DecrementButton />
-        </NumberField.StepButtons>
-      </NumberField.Group>
-    </NumberField.LabelInputContainer>
-  </NumberField>
-</Preview>
-
-<H2 id="in-a-card">In a Card</H2>
-
-<Preview
-  code={`<Card variant="default" className="w-80">
-  <Card.Header>
-    <Card.Title>Order details</Card.Title>
-    <Card.Description>Adjust quantities before checkout.</Card.Description>
-  </Card.Header>
-  <Card.Content className="flex flex-col gap-5">
-    <NumberField minValue={1}>
+  code={`export function NumberFieldWithRequiredStateExample() {
+  return (
+    <NumberField className="w-48" isRequired>
       <NumberField.LabelInputContainer>
         <NumberField.Label>Quantity</NumberField.Label>
         <NumberField.Group>
-          <NumberField.Input placeholder="1" />
+          <NumberField.Input placeholder="0" />
           <NumberField.StepButtons>
             <NumberField.IncrementButton />
             <NumberField.DecrementButton />
@@ -366,32 +287,48 @@ context and throw if used standalone.
         </NumberField.Group>
       </NumberField.LabelInputContainer>
     </NumberField>
-  </Card.Content>
-</Card>`}
+  );
+}`}
+
 >
-  <Card
-    variant="default"
-    className="w-80"
-  >
-    <Card.Header>
-      <Card.Title>{'Order details'}</Card.Title>
-      <Card.Description>{'Adjust quantities before checkout.'}</Card.Description>
-    </Card.Header>
-    <Card.Content className="flex flex-col gap-5">
-      <NumberField minValue={1}>
-        <NumberField.LabelInputContainer>
-          <NumberField.Label>{'Quantity'}</NumberField.Label>
-          <NumberField.Group>
-            <NumberField.Input placeholder="1" />
-            <NumberField.StepButtons>
-              <NumberField.IncrementButton />
-              <NumberField.DecrementButton />
-            </NumberField.StepButtons>
-          </NumberField.Group>
-        </NumberField.LabelInputContainer>
-      </NumberField>
-    </Card.Content>
-  </Card>
+
+  <NumberFieldWithRequiredStateExample />
+</Preview>
+
+<H2 id="in-a-card">In a Card</H2>
+
+<Preview
+  code={`export function NumberFieldInACardExample() {
+  const [quantity, setQuantity] = useState(1);
+
+return (
+
+<Card variant="default" className="w-80">
+<Card.Header>
+<Card.Title>Order details</Card.Title>
+<Card.Description>Adjust quantities before checkout.</Card.Description>
+</Card.Header>
+<Card.Content className="flex flex-col gap-5">
+<NumberField value={quantity} onChange={setQuantity} minValue={1}>
+<NumberField.LabelInputContainer>
+<NumberField.Label>Quantity</NumberField.Label>
+<NumberField.Group>
+<NumberField.Input placeholder="1" />
+<NumberField.StepButtons>
+<NumberField.IncrementButton />
+<NumberField.DecrementButton />
+</NumberField.StepButtons>
+</NumberField.Group>
+</NumberField.LabelInputContainer>
+</NumberField>
+</Card.Content>
+</Card>
+);
+}`}
+
+>
+
+  <NumberFieldInACardExample />
 </Preview>
 
 <H2 id="api">API</H2>

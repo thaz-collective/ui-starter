@@ -1,14 +1,14 @@
-import { NumberField as NumberFieldRoot } from './components/number-field';
-import { NumberFieldRootDebounced } from './components/number-field-debounced';
-import { NumberFieldDecrementButton } from './components/number-field-decrement-button';
-import { Description } from './components/number-field-description';
-import { FieldError } from './components/number-field-field-error';
-import { NumberFieldGroup } from './components/number-field-group';
-import { NumberFieldIncrementButton } from './components/number-field-increment-button';
-import { Input } from './components/number-field-input';
-import { LabelInputContainer } from './components/number-field-input-label-container';
-import { Label } from './components/number-field-label';
-import { NumberFieldStepButtons } from './components/number-field-step-buttons';
+import { NumberFieldDecrementButton } from './number-field-decrement-button';
+import { Description } from './number-field-description';
+import { FieldError } from './number-field-field-error';
+import { NumberFieldGroup } from './number-field-group';
+import { NumberFieldIncrementButton } from './number-field-increment-button';
+import { Input } from './number-field-input';
+import { Label } from './number-field-label';
+import { LabelInputContainer } from './number-field-label-input-container';
+import { NumberFieldRoot } from './number-field-root';
+import { NumberFieldRootDebounced } from './number-field-root-debounced';
+import { NumberFieldStepButtons } from './number-field-step-buttons';
 
 export const NumberField = Object.assign(NumberFieldRoot, {
   Root: NumberFieldRoot,
@@ -23,7 +23,3 @@ export const NumberField = Object.assign(NumberFieldRoot, {
   Description,
   FieldError,
 });
-
-export type { NumberFieldProps } from './components/number-field';
-export type { NumberFieldVariants, SlotsNumberFieldVariants, RequiredNumberFieldVariants } from './variants';
-export { numberFieldVariants } from './variants';

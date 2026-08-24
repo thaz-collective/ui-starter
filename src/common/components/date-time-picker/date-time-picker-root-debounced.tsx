@@ -4,26 +4,26 @@ import { useState } from 'react';
 import type { DebouncerOptions } from '@tanstack/react-pacer/debouncer';
 import { useDebouncedCallback } from '@tanstack/react-pacer/debouncer';
 
-import type { TemporalTimeValue } from '@thaz/form-util/util';
+import type { TemporalDateValue } from '@thaz/form-util/util';
 
-import { TimeFieldRoot } from './time-field-root';
+import { DateTimePickerRoot } from './date-time-picker-root';
 
 const DEFAULT_DEBOUNCE_WAIT_MS = 300;
 
-type TimeFieldRootProps<T extends TemporalTimeValue> = ComponentPropsWithRef<typeof TimeFieldRoot<T>>;
+type DateTimePickerRootProps<T extends TemporalDateValue> = ComponentPropsWithRef<typeof DateTimePickerRoot<T>>;
 
-type TimeFieldRootDebouncerOptions<T extends TemporalTimeValue> = DebouncerOptions<
-  NonNullable<TimeFieldRootProps<T>['onChange']>
+type DateTimePickerDebouncerOptions<T extends TemporalDateValue> = DebouncerOptions<
+  NonNullable<DateTimePickerRootProps<T>['onChange']>
 >;
 
-interface TimeFieldRootDebouncedProps<T extends TemporalTimeValue> extends TimeFieldRootProps<T> {
-  debounceOptions?: Partial<TimeFieldRootDebouncerOptions<T>>;
+interface DateTimePickerRootDebouncedProps<T extends TemporalDateValue> extends DateTimePickerRootProps<T> {
+  debounceOptions?: Partial<DateTimePickerDebouncerOptions<T>>;
 }
 
-export function TimeFieldRootDebounced<T extends TemporalTimeValue>(props: TimeFieldRootDebouncedProps<T>) {
+export function DateTimePickerRootDebounced<T extends TemporalDateValue>(props: DateTimePickerRootDebouncedProps<T>) {
   const { value, onChange, debounceOptions } = props;
 
-  const debounceOptionsFinal: TimeFieldRootDebouncerOptions<T> = {
+  const debounceOptionsFinal: DateTimePickerDebouncerOptions<T> = {
     ...debounceOptions,
     wait: debounceOptions?.wait ?? DEFAULT_DEBOUNCE_WAIT_MS,
   };
@@ -39,7 +39,7 @@ export function TimeFieldRootDebounced<T extends TemporalTimeValue>(props: TimeF
   const debouncedUpdateValue = useDebouncedCallback(onChange, debounceOptionsFinal);
 
   return (
-    <TimeFieldRoot
+    <DateTimePickerRoot
       {...props}
       value={inputValue}
       onChange={(nextValue) => {

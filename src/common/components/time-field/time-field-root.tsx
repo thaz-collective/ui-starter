@@ -23,7 +23,7 @@ interface TimeFieldRootProps<T extends TemporalTimeValue>
   extends
     Omit<
       ComponentPropsWithRef<typeof RACTimeField<MapTemporalToInternationalizedTime<T>>>,
-      'defaultValue' | 'value' | 'onChange' | 'children'
+      'defaultValue' | 'value' | 'onChange'
     >,
     VariantProps<typeof timeFieldVariants> {
   value: T | null;

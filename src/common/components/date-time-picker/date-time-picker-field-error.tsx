@@ -12,7 +12,7 @@ const fieldErrorVariants = tv({
 
     'hidden',
 
-    'group-data-[invalid="true"]/time-field:block',
+    'group-data-[invalid="true"]/date-time-picker:block',
   ],
 });
 

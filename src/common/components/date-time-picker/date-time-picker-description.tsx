@@ -10,7 +10,7 @@ const descriptionVariants = tv({
 
     'text-xs text-muted-foreground',
 
-    'group-data-[invalid="true"]/time-field:hidden',
+    'group-data-[invalid="true"]/date-time-picker:hidden',
   ],
 });
 
@@ -24,7 +24,9 @@ export function Description(props: DescriptionProps) {
     <RACText
       {...props}
       slot="description"
-      className={descriptionVariants({ ...props })}
+      className={descriptionVariants({
+        ...props,
+      })}
     />
   );
 }
