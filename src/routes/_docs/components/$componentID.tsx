@@ -11,6 +11,7 @@ import { buttonExamples } from '#src/examples/button';
 import { cardExamples } from '#src/examples/card';
 import { dateTimePickerExamples } from '#src/examples/date-time-picker';
 import { numberFieldExamples } from '#src/examples/number-field';
+import { selectExamples } from '#src/examples/select';
 import { separatorExamples } from '#src/examples/separator';
 import { surfaceExamples } from '#src/examples/surface';
 import { tableExamples } from '#src/examples/table';
@@ -70,6 +71,7 @@ function RouteComponent() {
         ...cardExamples,
         ...dateTimePickerExamples,
         ...numberFieldExamples,
+        ...selectExamples,
         ...separatorExamples,
         ...surfaceExamples,
         ...tableExamples,

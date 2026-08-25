@@ -1,0 +1,259 @@
+---
+title: Select
+date: 2026-08-24
+author:
+  - Tim Hazlett
+---
+
+# Select
+
+An accessible single-select dropdown built on top of `react-aria-components`' `Select`, styled with
+`tailwind-variants`.
+
+<H2 id="import">Import</H2>
+
+<pre>
+  <code>{`import { Select } from '#src/common/components/select';`}</code>
+</pre>
+
+<H2 id="composition">Composition</H2>
+
+Use the following composition to build a `Select`:
+
+<pre>
+  <code>{`Select
+├── Select.Trigger
+│   ├── Select.Label
+│   └── Select.Value
+├── Select.Description (optional)
+├── Select.FieldError (optional)
+└── Select.Popover
+    └── Select.ListBox
+        ├── Select.Item
+        └── Select.Section (optional)
+            ├── Select.Header
+            └── Select.Item`}</code>
+</pre>
+
+<H2 id="anatomy">Anatomy</H2>
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Component'}</th>
+      <th>{'Description'}</th>
+      <th>{'Optional'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'Select / Select.Root'}</td>
+      <td>{'The root, wraps everything and manages selection state.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Select.Trigger'}</td>
+      <td>{'The button that opens the popover; the field surface. Wraps Label and Value.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Select.Label'}</td>
+      <td>{"The select's label."}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Select.Value'}</td>
+      <td>{'Displays the selected value or placeholder.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Select.Description'}</td>
+      <td>{'Supporting text under the field.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'Select.FieldError'}</td>
+      <td>{'Validation error text, shown when invalid.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'Select.Popover'}</td>
+      <td>{'The dropdown surface.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Select.ListBox'}</td>
+      <td>{'Container for the options.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Select.Item'}</td>
+      <td>{'A single selectable option.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Select.Section / Select.Header'}</td>
+      <td>{'Groups related items under a heading.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'Select.Collection'}</td>
+      <td>{'Renders items from a dynamic collection.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+  </tbody>
+</table>
+
+<H2 id="examples">Examples</H2>
+
+<H3 id="default">Default</H3>
+
+<Preview
+  code={`<Select placeholder="Select a fruit">
+  <Select.Trigger>
+    <Select.Label>Favorite fruit</Select.Label>
+    <Select.Value />
+  </Select.Trigger>
+  <Select.Popover>
+    <Select.ListBox>
+      <Select.Item id="apple">Apple</Select.Item>
+      <Select.Item id="banana">Banana</Select.Item>
+      <Select.Item id="cherry">Cherry</Select.Item>
+      <Select.Item id="grape">Grape</Select.Item>
+    </Select.ListBox>
+  </Select.Popover>
+</Select>`}
+>
+  <SelectExample />
+</Preview>
+
+<H3 id="sections">Sections</H3>
+
+<Preview
+  code={`<Select placeholder="Select a food">
+  <Select.Trigger>
+    <Select.Label>Favorite food</Select.Label>
+    <Select.Value />
+  </Select.Trigger>
+  <Select.Popover>
+    <Select.ListBox>
+      <Select.Section>
+        <Select.Header>Fruits</Select.Header>
+        <Select.Item id="apple">Apple</Select.Item>
+        <Select.Item id="banana">Banana</Select.Item>
+      </Select.Section>
+      <Select.Section>
+        <Select.Header>Vegetables</Select.Header>
+        <Select.Item id="carrot">Carrot</Select.Item>
+        <Select.Item id="broccoli">Broccoli</Select.Item>
+      </Select.Section>
+    </Select.ListBox>
+  </Select.Popover>
+</Select>`}
+>
+  <SelectWithSectionsExample />
+</Preview>
+
+<H2 id="states">States</H2>
+
+<H3 id="required">Required</H3>
+
+<Preview
+  code={`<Select placeholder="Select a fruit" isRequired>
+  <Select.Trigger>
+    <Select.Label>Favorite fruit</Select.Label>
+    <Select.Value />
+  </Select.Trigger>
+  <Select.Popover>
+    <Select.ListBox>
+      <Select.Item id="apple">Apple</Select.Item>
+      <Select.Item id="banana">Banana</Select.Item>
+      <Select.Item id="cherry">Cherry</Select.Item>
+    </Select.ListBox>
+  </Select.Popover>
+</Select>`}
+>
+  <SelectWithRequiredStateExample />
+</Preview>
+
+<H3 id="error">Error</H3>
+
+<Preview
+  code={`<Select placeholder="Select a fruit" isInvalid>
+  <Select.Trigger>
+    <Select.Label>Favorite fruit</Select.Label>
+    <Select.Value />
+  </Select.Trigger>
+  <Select.FieldError>Please select a fruit.</Select.FieldError>
+  <Select.Popover>
+    <Select.ListBox>
+      <Select.Item id="apple">Apple</Select.Item>
+      <Select.Item id="banana">Banana</Select.Item>
+      <Select.Item id="cherry">Cherry</Select.Item>
+    </Select.ListBox>
+  </Select.Popover>
+</Select>`}
+>
+  <SelectWithErrorStateExample />
+</Preview>
+
+<H3 id="disabled">Disabled</H3>
+
+<Preview
+  code={`<Select placeholder="Select a fruit" isDisabled>
+  <Select.Trigger>
+    <Select.Label>Favorite fruit</Select.Label>
+    <Select.Value />
+  </Select.Trigger>
+  <Select.Popover>
+    <Select.ListBox>
+      <Select.Item id="apple">Apple</Select.Item>
+      <Select.Item id="banana">Banana</Select.Item>
+      <Select.Item id="cherry">Cherry</Select.Item>
+    </Select.ListBox>
+  </Select.Popover>
+</Select>`}
+>
+  <SelectWithDisabledStateExample />
+</Preview>
+
+<H2 id="in-a-card">In a Card</H2>
+
+<Preview
+  code={`<Card variant="default" className="w-72">
+  <Card.Header>
+    <Card.Title>Shipping</Card.Title>
+    <Card.Description>Choose a delivery method.</Card.Description>
+  </Card.Header>
+  <Card.Content>
+    <Select placeholder="Select a method">
+      <Select.Trigger>
+        <Select.Label>Delivery method</Select.Label>
+        <Select.Value />
+      </Select.Trigger>
+      <Select.Popover>
+        <Select.ListBox>
+          <Select.Item id="standard">Standard (5-7 days)</Select.Item>
+          <Select.Item id="express">Express (2-3 days)</Select.Item>
+          <Select.Item id="overnight">Overnight</Select.Item>
+        </Select.ListBox>
+      </Select.Popover>
+    </Select>
+  </Card.Content>
+</Card>`}
+>
+  <SelectInACardExample />
+</Preview>
+
+<H2 id="api">API</H2>
+
+<PropsTable
+  rows={[
+    { name: 'placeholder', type: 'string', default: 'undefined' },
+    { name: 'isRequired', type: 'boolean', default: 'false' },
+    { name: 'isInvalid', type: 'boolean', default: 'false' },
+    { name: 'isDisabled', type: 'boolean', default: 'false' },
+    { name: 'selectedKey', type: 'Key | null', default: 'undefined' },
+    { name: 'onSelectionChange', type: '(key: Key | null) => void', default: 'undefined' },
+  ]}
+/>

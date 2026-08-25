@@ -1,10 +1,11 @@
-import type { PopoverProps as RACPopoverProps } from 'react-aria-components';
+import type { ComponentPropsWithRef } from 'react';
+
 import { composeRenderProps, Popover as RACPopover } from 'react-aria-components';
 import { tv } from 'tailwind-variants';
 
 const popoverVariants = tv({
   base: [
-    'border-border rounded-lg border bg-surface-default text-surface-default-foreground shadow-lg',
+    'border-border w-[--trigger-width] rounded-lg border bg-surface-default text-surface-default-foreground shadow-lg',
     'outline-none',
     'transition-[opacity,transform] duration-150',
     'data-entering:scale-95 data-entering:opacity-0',
@@ -12,14 +13,13 @@ const popoverVariants = tv({
   ],
 });
 
-export type PopoverProps = RACPopoverProps;
+export type SelectPopoverProps = ComponentPropsWithRef<typeof RACPopover>;
 
-export function Popover(props: PopoverProps) {
+export function SelectPopover(props: SelectPopoverProps) {
   return (
     <RACPopover
       offset={8}
       {...props}
-      data-slot="popover"
       className={composeRenderProps(props.className, (className, renderProps) => {
         return popoverVariants({ ...props, ...renderProps, className });
       })}
