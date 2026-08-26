@@ -1,0 +1,184 @@
+---
+title: Checkbox
+date: 2026-08-24
+author:
+  - Tim Hazlett
+---
+
+# Checkbox
+
+An accessible checkbox built on top of `react-aria-components`' `Checkbox`, styled with `tailwind-variants`. Can be
+used standalone or grouped with `Checkbox.Group`.
+
+<H2 id="import">Import</H2>
+
+<pre>
+  <code>{`import { Checkbox } from '#src/common/components/checkbox';`}</code>
+</pre>
+
+<H2 id="composition">Composition</H2>
+
+Use the following composition to build a standalone `Checkbox`:
+
+<pre>
+  <code>{`Checkbox (Checkbox.Field)
+├── Checkbox.Button
+└── Checkbox.FieldError (optional)`}</code>
+</pre>
+
+Or group multiple checkboxes under a shared label, description, and validation state:
+
+<pre>
+  <code>{`Checkbox.Group
+├── Checkbox.GroupLabel (optional)
+├── Checkbox.GroupDescription (optional)
+├── Checkbox.GroupField (one or more)
+│   └── Checkbox.Button
+└── Checkbox.FieldError (optional)`}</code>
+</pre>
+
+<H2 id="anatomy">Anatomy</H2>
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Component'}</th>
+      <th>{'Description'}</th>
+      <th>{'Optional'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'Checkbox / Checkbox.Field'}</td>
+      <td>{'A single checkbox control. Usable standalone or within a Group.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Checkbox.Button'}</td>
+      <td>{'The interactive, styled checkbox box and its label content.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Checkbox.Group'}</td>
+      <td>{'Groups related checkboxes and manages their shared value.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'Checkbox.GroupField'}</td>
+      <td>{'A single checkbox within a Group. Usable only within Checkbox.Group.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Checkbox.GroupLabel'}</td>
+      <td>{"The group's label."}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'Checkbox.GroupDescription'}</td>
+      <td>{'Supporting text under the group.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'Checkbox.FieldError'}</td>
+      <td>{'Validation error text, shown when the field or group is invalid.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+  </tbody>
+</table>
+
+<H2 id="examples">Examples</H2>
+
+<H3 id="default">Default</H3>
+
+<Preview code={`<Checkbox>
+  <Checkbox.Button>Accept terms and conditions</Checkbox.Button>
+</Checkbox>`}>
+  <CheckboxExample />
+</Preview>
+
+<H2 id="states">States</H2>
+
+<H3 id="indeterminate">Indeterminate</H3>
+
+<Preview
+  code={`<Checkbox isIndeterminate>
+  <Checkbox.Button>Select all</Checkbox.Button>
+</Checkbox>`}
+>
+  <CheckboxWithIndeterminateStateExample />
+</Preview>
+
+<H3 id="disabled">Disabled</H3>
+
+<Preview
+  code={`<Checkbox isDisabled>
+  <Checkbox.Button>Accept terms and conditions</Checkbox.Button>
+</Checkbox>`}
+>
+  <CheckboxWithDisabledStateExample />
+</Preview>
+
+<H3 id="error">Error</H3>
+
+<Preview
+  code={`<Checkbox isInvalid>
+  <Checkbox.Button>Accept terms and conditions</Checkbox.Button>
+  <Checkbox.FieldError>You must accept the terms to continue.</Checkbox.FieldError>
+</Checkbox>`}
+>
+  <CheckboxWithErrorStateExample />
+</Preview>
+
+<H2 id="group">Group</H2>
+
+<Preview
+  code={`<Checkbox.Group defaultValue={['sms']}>
+  <Checkbox.GroupLabel>Notifications</Checkbox.GroupLabel>
+  <Checkbox.GroupDescription>Choose how you want to be notified.</Checkbox.GroupDescription>
+  <Checkbox.GroupField value="email">
+    <Checkbox.Button>Email</Checkbox.Button>
+  </Checkbox.GroupField>
+  <Checkbox.GroupField value="sms">
+    <Checkbox.Button>SMS</Checkbox.Button>
+  </Checkbox.GroupField>
+  <Checkbox.GroupField value="push">
+    <Checkbox.Button>Push notification</Checkbox.Button>
+  </Checkbox.GroupField>
+</Checkbox.Group>`}
+>
+  <CheckboxGroupExample />
+</Preview>
+
+<H3 id="group-error">Group with error</H3>
+
+<Preview
+  code={`<Checkbox.Group isInvalid>
+  <Checkbox.GroupLabel>Notifications</Checkbox.GroupLabel>
+  <Checkbox.GroupField value="email">
+    <Checkbox.Button>Email</Checkbox.Button>
+  </Checkbox.GroupField>
+  <Checkbox.GroupField value="sms">
+    <Checkbox.Button>SMS</Checkbox.Button>
+  </Checkbox.GroupField>
+  <Checkbox.GroupField value="push">
+    <Checkbox.Button>Push notification</Checkbox.Button>
+  </Checkbox.GroupField>
+  <Checkbox.FieldError>Please select at least one option.</Checkbox.FieldError>
+</Checkbox.Group>`}
+>
+  <CheckboxGroupWithErrorStateExample />
+</Preview>
+
+<H2 id="api">API</H2>
+
+<PropsTable
+  rows={[
+    { name: 'isSelected', type: 'boolean', default: 'undefined' },
+    { name: 'defaultSelected', type: 'boolean', default: 'false' },
+    { name: 'isIndeterminate', type: 'boolean', default: 'false' },
+    { name: 'isInvalid', type: 'boolean', default: 'false' },
+    { name: 'isDisabled', type: 'boolean', default: 'false' },
+    { name: 'value', type: 'string', default: 'undefined' },
+    { name: 'onChange', type: '(isSelected: boolean) => void', default: 'undefined' },
+  ]}
+/>
