@@ -1,6 +1,7 @@
 import type { ComponentPropsWithRef } from 'react';
 
-import { ChevronsUpDown } from 'lucide-react';
+import type { VariantProps } from 'tailwind-variants';
+import type { SetRequired } from 'type-fest';
 import { Button as RACButton, composeRenderProps } from 'react-aria-components';
 import { tv } from 'tailwind-variants';
 
@@ -8,7 +9,7 @@ const triggerVariants = tv({
   base: [
     'group/trigger',
 
-    'flex w-full min-w-0 cursor-default items-center justify-between gap-2 rounded-md px-3 py-1.5 text-left text-sm outline-none',
+    'flex w-full min-w-0 cursor-default items-center gap-2 rounded-md px-3 text-left text-sm outline-none',
 
     'text-foreground',
 
@@ -25,22 +26,16 @@ const triggerVariants = tv({
   ],
 });
 
-type SelectTriggerProps = ComponentPropsWithRef<typeof RACButton>;
+type SelectTriggerProps = SetRequired<ComponentPropsWithRef<typeof RACButton>, 'children'> &
+  VariantProps<typeof triggerVariants>;
 
 export function SelectTrigger(props: SelectTriggerProps) {
   return (
     <RACButton
       {...props}
       className={composeRenderProps(props.className, (className, renderProps) => {
-        return triggerVariants({ ...renderProps, className });
+        return triggerVariants({ ...props, ...renderProps, className });
       })}
-    >
-      {composeRenderProps(props.children, (children) => (
-        <>
-          <span className="flex min-w-0 flex-1 flex-col items-start gap-0.5">{children}</span>
-          <ChevronsUpDown className="size-4 shrink-0 self-center text-muted-foreground" />
-        </>
-      ))}
-    </RACButton>
+    />
   );
 }

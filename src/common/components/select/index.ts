@@ -1,9 +1,11 @@
+import { SelectChevron } from './select-chevron';
 import { SelectCollection } from './select-collection';
 import { Description } from './select-description';
 import { FieldError } from './select-field-error';
 import { SelectHeader } from './select-header';
 import { SelectItem } from './select-item';
 import { Label } from './select-label';
+import { LabelValueContainer } from './select-label-value-container';
 import { SelectListBox } from './select-list-box';
 import { SelectPopover } from './select-popover';
 import { SelectRoot } from './select-root';
@@ -13,9 +15,11 @@ import { SelectValue } from './select-value';
 
 export const Select = Object.assign(SelectRoot, {
   Root: SelectRoot,
-  Label,
   Trigger: SelectTrigger,
+  LabelValueContainer,
+  Label,
   Value: SelectValue,
+  Chevron: SelectChevron,
   Popover: SelectPopover,
   ListBox: SelectListBox,
   Item: SelectItem,
