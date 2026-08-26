@@ -15,10 +15,10 @@ const descriptionVariants = tv({
   ],
 });
 
-type DescriptionProps = SetRequired<Omit<ComponentPropsWithRef<typeof RACText>, 'slot'>, 'children'> &
+type GroupDescriptionProps = SetRequired<Omit<ComponentPropsWithRef<typeof RACText>, 'slot'>, 'children'> &
   VariantProps<typeof descriptionVariants>;
 
-export function Description(props: DescriptionProps) {
+export function GroupDescription(props: GroupDescriptionProps) {
   return (
     <RACText
       {...props}

@@ -15,9 +15,10 @@ const labelVariants = tv({
   ],
 });
 
-type LabelProps = SetRequired<ComponentPropsWithRef<typeof RACLabel>, 'children'> & VariantProps<typeof labelVariants>;
+type GroupLabelProps = SetRequired<ComponentPropsWithRef<typeof RACLabel>, 'children'> &
+  VariantProps<typeof labelVariants>;
 
-export function Label(props: LabelProps) {
+export function GroupLabel(props: GroupLabelProps) {
   return (
     <RACLabel
       {...props}
