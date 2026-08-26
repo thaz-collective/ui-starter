@@ -1,8 +1,8 @@
 import { CheckboxButton } from './checkbox-button';
-import { GroupDescription } from './checkbox-description';
 import { CheckboxField } from './checkbox-field';
 import { FieldError } from './checkbox-field-error';
 import { CheckboxGroup } from './checkbox-group';
+import { GroupDescription } from './checkbox-group-description';
 import { CheckboxGroupField } from './checkbox-group-field';
 import { GroupLabel } from './checkbox-group-label';
 

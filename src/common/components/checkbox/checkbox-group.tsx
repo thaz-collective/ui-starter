@@ -16,11 +16,13 @@ type CheckboxGroupProps = SetRequired<
   VariantProps<typeof checkboxGroupVariants>;
 
 export function CheckboxGroup(props: CheckboxGroupProps) {
+  const { className, ...groupProps } = props;
+
   return (
     <RACCheckboxGroup
-      {...props}
-      className={composeRenderProps(props.className, (className, renderProps) => {
-        return checkboxGroupVariants({ ...props, ...renderProps, className });
+      {...groupProps}
+      className={composeRenderProps(className, (resolvedClassName, renderProps) => {
+        return checkboxGroupVariants({ ...props, ...renderProps, className: resolvedClassName });
       })}
     />
   );

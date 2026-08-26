@@ -14,6 +14,7 @@ const fieldErrorVariants = tv({
     'hidden',
 
     'group-data-[invalid="true"]/checkbox-group:block',
+    'group-data-[invalid="true"]/checkbox-field:block',
   ],
 });
 
@@ -21,11 +22,13 @@ type FieldErrorProps = SetRequired<ComponentPropsWithRef<typeof RACFieldError>, 
   VariantProps<typeof fieldErrorVariants>;
 
 export function FieldError(props: FieldErrorProps) {
+  const { className, ...fieldErrorProps } = props;
+
   return (
     <RACFieldError
-      {...props}
-      className={composeRenderProps(props.className, (className, renderProps) => {
-        return fieldErrorVariants({ ...props, ...renderProps, className });
+      {...fieldErrorProps}
+      className={composeRenderProps(className, (resolvedClassName, renderProps) => {
+        return fieldErrorVariants({ ...props, ...renderProps, className: resolvedClassName });
       })}
     />
   );

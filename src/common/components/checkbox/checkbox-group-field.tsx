@@ -1,13 +1,14 @@
 import type { ComponentPropsWithRef } from 'react';
 
 import type { SetRequired } from 'type-fest';
-import { CheckboxField as RACCheckboxField } from 'react-aria-components';
+
+import { CheckboxFieldInner } from './checkbox-field-inner';
 
 type CheckboxGroupFieldProps = SetRequired<
-  Omit<ComponentPropsWithRef<typeof RACCheckboxField>, 'defaultSelected' | 'isSelected' | 'onChange'>,
-  'value' | 'children'
+  Omit<ComponentPropsWithRef<typeof CheckboxFieldInner>, 'isSelected' | 'onChange'>,
+  'value'
 >;
 
 export function CheckboxGroupField(props: CheckboxGroupFieldProps) {
-  return <RACCheckboxField {...props} />;
+  return <CheckboxFieldInner {...props} />;
 }
