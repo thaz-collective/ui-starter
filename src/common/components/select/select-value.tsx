@@ -1,7 +1,9 @@
-import type { ComponentPropsWithRef } from 'react';
+import type { ComponentPropsWithRef, ReactNode } from 'react';
 
 import { composeRenderProps, SelectValue as RACSelectValue } from 'react-aria-components';
 import { tv } from 'tailwind-variants';
+
+import { SelectTags } from './select-tags';
 
 const valueVariants = tv({
   base: [
@@ -25,14 +27,27 @@ export function SelectValue<T extends object>(props: SelectValueProps<T>) {
         return valueVariants({ ...props, ...renderProps, className });
       })}
     >
-      {(renderProps) => (
-        <span
-          className="contents"
-          data-has-value={!renderProps.isPlaceholder}
-        >
-          {renderProps.defaultChildren}
-        </span>
-      )}
+      {(renderProps) => {
+        let content: ReactNode = renderProps.defaultChildren;
+
+        if (!renderProps.isPlaceholder && renderProps.state.selectionManager.selectionMode === 'multiple') {
+          content = (
+            <SelectTags
+              aria-label="Selected options"
+              state={renderProps.state}
+            />
+          );
+        }
+
+        return (
+          <span
+            className="contents"
+            data-has-value={!renderProps.isPlaceholder}
+          >
+            {content}
+          </span>
+        );
+      }}
     </RACSelectValue>
   );
 }
