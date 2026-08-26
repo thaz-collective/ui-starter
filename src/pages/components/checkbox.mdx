@@ -39,6 +39,8 @@ Or group multiple checkboxes under a shared label, description, and validation s
 
 <H2 id="anatomy">Anatomy</H2>
 
+<H3 id="anatomy-individual">Individual</H3>
+
 <table>
   <thead>
     <tr>
@@ -50,7 +52,7 @@ Or group multiple checkboxes under a shared label, description, and validation s
   <tbody>
     <tr>
       <td>{'Checkbox / Checkbox.Field'}</td>
-      <td>{'A single checkbox control. Usable standalone or within a Group.'}</td>
+      <td>{'A single checkbox control. Usable standalone.'}</td>
       <td>{'No'}</td>
     </tr>
     <tr>
@@ -59,13 +61,37 @@ Or group multiple checkboxes under a shared label, description, and validation s
       <td>{'No'}</td>
     </tr>
     <tr>
+      <td>{'Checkbox.FieldError'}</td>
+      <td>{'Validation error text, shown when the field is invalid.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+  </tbody>
+</table>
+
+<H3 id="anatomy-group">Group</H3>
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Component'}</th>
+      <th>{'Description'}</th>
+      <th>{'Optional'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
       <td>{'Checkbox.Group'}</td>
       <td>{'Groups related checkboxes and manages their shared value.'}</td>
-      <td>{'Yes'}</td>
+      <td>{'No'}</td>
     </tr>
     <tr>
       <td>{'Checkbox.GroupField'}</td>
       <td>{'A single checkbox within a Group. Usable only within Checkbox.Group.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Checkbox.Button'}</td>
+      <td>{'The interactive, styled checkbox box and its label content.'}</td>
       <td>{'No'}</td>
     </tr>
     <tr>
@@ -80,7 +106,7 @@ Or group multiple checkboxes under a shared label, description, and validation s
     </tr>
     <tr>
       <td>{'Checkbox.FieldError'}</td>
-      <td>{'Validation error text, shown when the field or group is invalid.'}</td>
+      <td>{'Validation error text, shown when the group is invalid.'}</td>
       <td>{'Yes'}</td>
     </tr>
   </tbody>
