@@ -1,15 +1,26 @@
+import { useState } from 'react';
+
+import type { Key } from 'react-aria-components';
+
 import { Select } from '#src/common/components/select';
 
 export function SelectWithErrorStateExample() {
+  const [value, setValue] = useState<Key | null>(null);
+
   return (
     <Select
       className="w-64"
       placeholder="Select a fruit"
+      value={value}
+      onChange={setValue}
       isInvalid={true}
     >
       <Select.Trigger>
-        <Select.Label>{'Favorite fruit'}</Select.Label>
-        <Select.Value />
+        <Select.LabelValueContainer>
+          <Select.Label>{'Favorite fruit'}</Select.Label>
+          <Select.Value />
+        </Select.LabelValueContainer>
+        <Select.Chevron />
       </Select.Trigger>
       <Select.FieldError>{'Please select a fruit.'}</Select.FieldError>
       <Select.Popover>

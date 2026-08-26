@@ -1,7 +1,13 @@
+import { useState } from 'react';
+
+import type { Key } from 'react-aria-components';
+
 import { Card } from '#src/common/components/card';
 import { Select } from '#src/common/components/select';
 
 export function SelectInACardExample() {
+  const [value, setValue] = useState<Key | null>(null);
+
   return (
     <Card
       variant="default"
@@ -12,10 +18,17 @@ export function SelectInACardExample() {
         <Card.Description>{'Choose a delivery method.'}</Card.Description>
       </Card.Header>
       <Card.Content>
-        <Select placeholder="Select a method">
+        <Select
+          placeholder="Select a method"
+          value={value}
+          onChange={setValue}
+        >
           <Select.Trigger>
-            <Select.Label>{'Delivery method'}</Select.Label>
-            <Select.Value />
+            <Select.LabelValueContainer>
+              <Select.Label>{'Delivery method'}</Select.Label>
+              <Select.Value />
+            </Select.LabelValueContainer>
+            <Select.Chevron />
           </Select.Trigger>
           <Select.Popover>
             <Select.ListBox>

@@ -18,8 +18,8 @@ const selectVariants = tv({
 });
 
 type SelectRootProps<T extends object> = SetRequired<
-  Omit<ComponentPropsWithRef<typeof RACSelect<T>>, 'defaultSelectedKey'>,
-  'selectedKey' | 'onSelectionChange' | 'children'
+  Omit<ComponentPropsWithRef<typeof RACSelect<T>>, 'defaultValue'>,
+  'value' | 'onChange' | 'children'
 > &
   VariantProps<typeof selectVariants>;
 

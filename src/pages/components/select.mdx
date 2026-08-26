@@ -23,8 +23,10 @@ Use the following composition to build a `Select`:
 <pre>
   <code>{`Select
 ├── Select.Trigger
-│   ├── Select.Label
-│   └── Select.Value
+│   ├── Select.LabelValueContainer
+│   │   ├── Select.Label
+│   │   └── Select.Value
+│   └── Select.Chevron
 ├── Select.Description (optional)
 ├── Select.FieldError (optional)
 └── Select.Popover
@@ -53,7 +55,12 @@ Use the following composition to build a `Select`:
     </tr>
     <tr>
       <td>{'Select.Trigger'}</td>
-      <td>{'The button that opens the popover; the field surface. Wraps Label and Value.'}</td>
+      <td>{'The button that opens the popover; the bordered field surface. Wraps LabelValueContainer and Chevron.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Select.LabelValueContainer'}</td>
+      <td>{'Positions the floating Label over the Value.'}</td>
       <td>{'No'}</td>
     </tr>
     <tr>
@@ -64,6 +71,11 @@ Use the following composition to build a `Select`:
     <tr>
       <td>{'Select.Value'}</td>
       <td>{'Displays the selected value or placeholder.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Select.Chevron'}</td>
+      <td>{'The open/close indicator icon.'}</td>
       <td>{'No'}</td>
     </tr>
     <tr>
@@ -111,8 +123,11 @@ Use the following composition to build a `Select`:
 <Preview
   code={`<Select placeholder="Select a fruit">
   <Select.Trigger>
-    <Select.Label>Favorite fruit</Select.Label>
-    <Select.Value />
+    <Select.LabelValueContainer>
+      <Select.Label>Favorite fruit</Select.Label>
+      <Select.Value />
+    </Select.LabelValueContainer>
+    <Select.Chevron />
   </Select.Trigger>
   <Select.Popover>
     <Select.ListBox>
@@ -132,8 +147,11 @@ Use the following composition to build a `Select`:
 <Preview
   code={`<Select placeholder="Select a food">
   <Select.Trigger>
-    <Select.Label>Favorite food</Select.Label>
-    <Select.Value />
+    <Select.LabelValueContainer>
+      <Select.Label>Favorite food</Select.Label>
+      <Select.Value />
+    </Select.LabelValueContainer>
+    <Select.Chevron />
   </Select.Trigger>
   <Select.Popover>
     <Select.ListBox>
@@ -161,8 +179,11 @@ Use the following composition to build a `Select`:
 <Preview
   code={`<Select placeholder="Select a fruit" isRequired>
   <Select.Trigger>
-    <Select.Label>Favorite fruit</Select.Label>
-    <Select.Value />
+    <Select.LabelValueContainer>
+      <Select.Label>Favorite fruit</Select.Label>
+      <Select.Value />
+    </Select.LabelValueContainer>
+    <Select.Chevron />
   </Select.Trigger>
   <Select.Popover>
     <Select.ListBox>
@@ -181,8 +202,11 @@ Use the following composition to build a `Select`:
 <Preview
   code={`<Select placeholder="Select a fruit" isInvalid>
   <Select.Trigger>
-    <Select.Label>Favorite fruit</Select.Label>
-    <Select.Value />
+    <Select.LabelValueContainer>
+      <Select.Label>Favorite fruit</Select.Label>
+      <Select.Value />
+    </Select.LabelValueContainer>
+    <Select.Chevron />
   </Select.Trigger>
   <Select.FieldError>Please select a fruit.</Select.FieldError>
   <Select.Popover>
@@ -202,8 +226,11 @@ Use the following composition to build a `Select`:
 <Preview
   code={`<Select placeholder="Select a fruit" isDisabled>
   <Select.Trigger>
-    <Select.Label>Favorite fruit</Select.Label>
-    <Select.Value />
+    <Select.LabelValueContainer>
+      <Select.Label>Favorite fruit</Select.Label>
+      <Select.Value />
+    </Select.LabelValueContainer>
+    <Select.Chevron />
   </Select.Trigger>
   <Select.Popover>
     <Select.ListBox>
@@ -228,8 +255,11 @@ Use the following composition to build a `Select`:
   <Card.Content>
     <Select placeholder="Select a method">
       <Select.Trigger>
-        <Select.Label>Delivery method</Select.Label>
-        <Select.Value />
+        <Select.LabelValueContainer>
+          <Select.Label>Delivery method</Select.Label>
+          <Select.Value />
+        </Select.LabelValueContainer>
+        <Select.Chevron />
       </Select.Trigger>
       <Select.Popover>
         <Select.ListBox>
@@ -253,7 +283,7 @@ Use the following composition to build a `Select`:
     { name: 'isRequired', type: 'boolean', default: 'false' },
     { name: 'isInvalid', type: 'boolean', default: 'false' },
     { name: 'isDisabled', type: 'boolean', default: 'false' },
-    { name: 'selectedKey', type: 'Key | null', default: 'undefined' },
-    { name: 'onSelectionChange', type: '(key: Key | null) => void', default: 'undefined' },
+    { name: 'value', type: 'Key | null', default: 'undefined' },
+    { name: 'onChange', type: '(value: Key | null) => void', default: 'undefined' },
   ]}
 />
