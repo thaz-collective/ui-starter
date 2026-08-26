@@ -17,13 +17,15 @@ const selectVariants = tv({
   ],
 });
 
-type SelectRootProps<T extends object> = SetRequired<
-  Omit<ComponentPropsWithRef<typeof RACSelect<T>>, 'defaultValue'>,
+type SelectionMode = 'single' | 'multiple';
+
+type SelectRootProps<T extends object, M extends SelectionMode = 'single'> = SetRequired<
+  Omit<ComponentPropsWithRef<typeof RACSelect<T, M>>, 'defaultValue'>,
   'value' | 'onChange' | 'children'
 > &
   VariantProps<typeof selectVariants>;
 
-export function SelectRoot<T extends object>(props: SelectRootProps<T>) {
+export function SelectRoot<T extends object, M extends SelectionMode = 'single'>(props: SelectRootProps<T, M>) {
   return (
     <RACSelect
       {...props}

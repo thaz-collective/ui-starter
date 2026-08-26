@@ -7,8 +7,8 @@ author:
 
 # Select
 
-An accessible single-select dropdown built on top of `react-aria-components`' `Select`, styled with
-`tailwind-variants`.
+An accessible dropdown built on top of `react-aria-components`' `Select`, styled with `tailwind-variants`. Supports
+single or multiple selection, and an optional autocomplete search field.
 
 <H2 id="import">Import</H2>
 
@@ -30,7 +30,15 @@ Use the following composition to build a `Select`:
 ├── Select.Description (optional)
 ├── Select.FieldError (optional)
 └── Select.Popover
-    └── Select.ListBox
+    ├── Select.Autocomplete (optional)
+    │   ├── Select.SearchField
+    │   │   └── Select.SearchInput
+    │   └── Select.ListBox
+    │       ├── Select.Item
+    │       └── Select.Section (optional)
+    │           ├── Select.Header
+    │           └── Select.Item
+    └── Select.ListBox (when not using Autocomplete)
         ├── Select.Item
         └── Select.Section (optional)
             ├── Select.Header
@@ -92,6 +100,21 @@ Use the following composition to build a `Select`:
       <td>{'Select.Popover'}</td>
       <td>{'The dropdown surface.'}</td>
       <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Select.Autocomplete'}</td>
+      <td>{'Filters ListBox items as the SearchField value changes.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'Select.SearchField'}</td>
+      <td>{'Wraps the SearchInput. Used within Autocomplete.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'Select.SearchInput'}</td>
+      <td>{'The search input used to filter options.'}</td>
+      <td>{'Yes'}</td>
     </tr>
     <tr>
       <td>{'Select.ListBox'}</td>
@@ -170,6 +193,65 @@ Use the following composition to build a `Select`:
 </Select>`}
 >
   <SelectWithSectionsExample />
+</Preview>
+
+<H3 id="multiple-selection">Multiple selection</H3>
+
+Set `selectionMode="multiple"` to allow selecting more than one option. `value` and `onChange` then work with an
+array of keys instead of a single key.
+
+<Preview
+  code={`<Select selectionMode="multiple" placeholder="Select fruits">
+  <Select.Trigger>
+    <Select.LabelValueContainer>
+      <Select.Label>Favorite fruits</Select.Label>
+      <Select.Value />
+    </Select.LabelValueContainer>
+    <Select.Chevron />
+  </Select.Trigger>
+  <Select.Popover>
+    <Select.ListBox>
+      <Select.Item id="apple">Apple</Select.Item>
+      <Select.Item id="banana">Banana</Select.Item>
+      <Select.Item id="cherry">Cherry</Select.Item>
+      <Select.Item id="grape">Grape</Select.Item>
+    </Select.ListBox>
+  </Select.Popover>
+</Select>`}
+>
+  <SelectWithMultipleSelectionExample />
+</Preview>
+
+<H3 id="autocomplete">Autocomplete</H3>
+
+Wrap `Select.ListBox` in `Select.Autocomplete` and add a `Select.SearchField` with a `Select.SearchInput` to let
+users filter the options by typing.
+
+<Preview
+  code={`<Select placeholder="Select a fruit">
+  <Select.Trigger>
+    <Select.LabelValueContainer>
+      <Select.Label>Favorite fruit</Select.Label>
+      <Select.Value />
+    </Select.LabelValueContainer>
+    <Select.Chevron />
+  </Select.Trigger>
+  <Select.Popover className="flex flex-col">
+    <Select.Autocomplete>
+      <Select.SearchField aria-label="Search fruits">
+        <Select.SearchInput placeholder="Search fruits" autoFocus />
+      </Select.SearchField>
+      <Select.ListBox>
+        <Select.Item id="apple">Apple</Select.Item>
+        <Select.Item id="banana">Banana</Select.Item>
+        <Select.Item id="cherry">Cherry</Select.Item>
+        <Select.Item id="grape">Grape</Select.Item>
+      </Select.ListBox>
+    </Select.Autocomplete>
+  </Select.Popover>
+</Select>`}
+>
+  <SelectWithAutocompleteExample />
 </Preview>
 
 <H2 id="states">States</H2>
@@ -280,10 +362,11 @@ Use the following composition to build a `Select`:
 <PropsTable
   rows={[
     { name: 'placeholder', type: 'string', default: 'undefined' },
+    { name: 'selectionMode', type: "'single' | 'multiple'", default: "'single'" },
     { name: 'isRequired', type: 'boolean', default: 'false' },
     { name: 'isInvalid', type: 'boolean', default: 'false' },
     { name: 'isDisabled', type: 'boolean', default: 'false' },
-    { name: 'value', type: 'Key | null', default: 'undefined' },
-    { name: 'onChange', type: '(value: Key | null) => void', default: 'undefined' },
+    { name: 'value', type: 'Key | null | Key[]', default: 'undefined' },
+    { name: 'onChange', type: '(value: Key | null | Key[]) => void', default: 'undefined' },
   ]}
 />

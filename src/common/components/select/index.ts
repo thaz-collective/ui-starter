@@ -1,3 +1,4 @@
+import { SelectAutocomplete } from './select-autocomplete';
 import { SelectChevron } from './select-chevron';
 import { SelectCollection } from './select-collection';
 import { Description } from './select-description';
@@ -9,6 +10,8 @@ import { LabelValueContainer } from './select-label-value-container';
 import { SelectListBox } from './select-list-box';
 import { SelectPopover } from './select-popover';
 import { SelectRoot } from './select-root';
+import { SelectSearchField } from './select-search-field';
+import { SelectSearchInput } from './select-search-input';
 import { SelectSection } from './select-section';
 import { SelectTrigger } from './select-trigger';
 import { SelectValue } from './select-value';
@@ -28,4 +31,7 @@ export const Select = Object.assign(SelectRoot, {
   Collection: SelectCollection,
   Description,
   FieldError,
+  Autocomplete: SelectAutocomplete,
+  SearchField: SelectSearchField,
+  SearchInput: SelectSearchInput,
 });
