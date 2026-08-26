@@ -9,6 +9,7 @@ import { Preview } from '#src/common/docs/preview';
 import { PropsTable } from '#src/common/docs/props-table';
 import { buttonExamples } from '#src/examples/button';
 import { cardExamples } from '#src/examples/card';
+import { checkboxExamples } from '#src/examples/checkbox';
 import { dateTimePickerExamples } from '#src/examples/date-time-picker';
 import { numberFieldExamples } from '#src/examples/number-field';
 import { selectExamples } from '#src/examples/select';
@@ -69,6 +70,7 @@ function RouteComponent() {
       components={{
         ...buttonExamples,
         ...cardExamples,
+        ...checkboxExamples,
         ...dateTimePickerExamples,
         ...numberFieldExamples,
         ...selectExamples,
