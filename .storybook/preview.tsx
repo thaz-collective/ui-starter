@@ -9,6 +9,7 @@ const preview: Preview = {
   parameters: {
     backgrounds: {
       options: {
+        light: { name: 'Light', value: 'oklch(0.98 0.004 240)' },
         dark: { name: 'Dark', value: 'oklch(0.11 0.012 240)' },
       },
     },
