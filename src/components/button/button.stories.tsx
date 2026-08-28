@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Plus } from 'lucide-react';
 
 import { Button } from './button';
 
@@ -21,6 +22,7 @@ const meta = {
     size: { control: 'select', options: ['sm', 'md', 'lg'] },
     fullWidth: { control: 'boolean' },
     isInverted: { control: 'boolean' },
+    isIcon: { control: 'boolean' },
   },
   // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#story-args
   // args: { onClick: fn() },
@@ -98,5 +100,79 @@ export const Large: Story = {
   args: {
     size: 'lg',
     children: 'Button',
+  },
+};
+
+export const SmallIcon: Story = {
+  args: {
+    size: 'sm',
+    isIcon: true,
+    'aria-label': 'Add',
+    children: <Plus />,
+  },
+};
+
+export const MediumIcon: Story = {
+  args: {
+    size: 'md',
+    isIcon: true,
+    'aria-label': 'Add',
+    children: <Plus />,
+  },
+};
+
+export const LargeIcon: Story = {
+  args: {
+    size: 'lg',
+    isIcon: true,
+    'aria-label': 'Add',
+    children: <Plus />,
+  },
+};
+
+export const FullWidth: Story = {
+  args: {
+    fullWidth: true,
+    children: 'Full Width',
+  },
+};
+
+export const PrimaryInverted: Story = {
+  args: {
+    variant: 'primary',
+    isInverted: true,
+    children: 'Primary',
+  },
+};
+
+export const SecondaryInverted: Story = {
+  args: {
+    variant: 'secondary',
+    isInverted: true,
+    children: 'Secondary',
+  },
+};
+
+export const DangerInverted: Story = {
+  args: {
+    variant: 'danger',
+    isInverted: true,
+    children: 'Danger',
+  },
+};
+
+export const SuccessInverted: Story = {
+  args: {
+    variant: 'success',
+    isInverted: true,
+    children: 'Success',
+  },
+};
+
+export const WarningInverted: Story = {
+  args: {
+    variant: 'warning',
+    isInverted: true,
+    children: 'Warning',
   },
 };
