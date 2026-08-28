@@ -1,2 +1,7 @@
-# ui-starter
-Set of components to start projects with
+# [@thaz/ui-starter](https://github.com/thaz-collective/ui-starter)
+
+---
+
+## Requirements
+
+## References
