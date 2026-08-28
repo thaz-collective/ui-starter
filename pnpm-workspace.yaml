@@ -48,7 +48,6 @@ catalog:
   valibot: 1.4.2
   vite: npm:@voidzero-dev/vite-plus-core@0.2.9
   vite-plus: 0.2.9
-  vitest: 4.1.10
 
 catalogMode: prefer
 # Watch this issue: https://github.com/pnpm/pnpm/issues/11238
