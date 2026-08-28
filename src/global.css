@@ -1,0 +1,15 @@
+@import 'tailwindcss';
+
+/* TODO Might add a mono and other font here */
+@import '@fontsource-variable/inter';
+
+@import './styles/entry.css';
+
+@layer base {
+  html {
+    @apply font-sans;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

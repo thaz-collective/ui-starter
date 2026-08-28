@@ -1,0 +1,4 @@
+@theme {
+  /* Remove default colors. Only valid project ones should be used */
+  --color-*: initial;
+}

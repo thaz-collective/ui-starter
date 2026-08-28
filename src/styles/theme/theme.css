@@ -1,0 +1,94 @@
+@theme inline {
+  /* Static Colors that don't change with theme */
+  --color-white: var(--white);
+  --color-black: var(--black);
+
+  /* App colors that change with theme */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-surface-default: var(--surface-default);
+  --color-surface-default-foreground: var(--surface-default-foreground);
+  --color-surface-default-hover: var(--surface-default-hover);
+  --color-surface-default-border: var(--surface-default-border);
+
+  --color-surface-secondary: var(--surface-secondary);
+  --color-surface-secondary-foreground: var(--surface-secondary-foreground);
+  --color-surface-secondary-hover: var(--surface-secondary-hover);
+  --color-surface-secondary-border: var(--surface-secondary-border);
+
+  --color-surface-tertiary: var(--surface-tertiary);
+  --color-surface-tertiary-foreground: var(--surface-tertiary-foreground);
+  --color-surface-tertiary-hover: var(--surface-tertiary-hover);
+  --color-surface-tertiary-border: var(--surface-tertiary-border);
+
+  --color-surface-quaternary: var(--surface-quaternary);
+  --color-surface-quaternary-foreground: var(--surface-quaternary-foreground);
+  --color-surface-quaternary-hover: var(--surface-quaternary-hover);
+  --color-surface-quaternary-border: var(--surface-quaternary-border);
+
+  --color-surface-quinary: var(--surface-quinary);
+  --color-surface-quinary-foreground: var(--surface-quinary-foreground);
+  --color-surface-quinary-hover: var(--surface-quinary-hover);
+  --color-surface-quinary-border: var(--surface-quinary-border);
+
+  --color-surface: var(--surface);
+  --color-surface-foreground: var(--surface-foreground);
+  --color-surface-hover: var(--surface-hover);
+  --color-surface-border: var(--surface-border);
+
+  --color-field: var(--field);
+  --color-field-foreground: var(--field-foreground);
+  --color-field-hover: var(--field-hover);
+  --color-field-border: var(--field-border);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted-hover: var(--muted-hover);
+  --color-muted-border: var(--muted-border);
+
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-hover: var(--success-hover);
+  --color-success-border: var(--success-border);
+  --color-success-inv: var(--success-inv);
+  --color-success-inv-foreground: var(--success-inv-foreground);
+  --color-success-inv-hover: var(--success-inv-hover);
+  --color-success-inv-border: var(--success-inv-border);
+
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-hover: var(--warning-hover);
+  --color-warning-border: var(--warning-border);
+  --color-warning-inv: var(--warning-inv);
+  --color-warning-inv-foreground: var(--warning-inv-foreground);
+  --color-warning-inv-hover: var(--warning-inv-hover);
+  --color-warning-inv-border: var(--warning-inv-border);
+
+  --color-danger: var(--danger);
+  --color-danger-foreground: var(--danger-foreground);
+  --color-danger-hover: var(--danger-hover);
+  --color-danger-border: var(--danger-border);
+  --color-danger-inv: var(--danger-inv);
+  --color-danger-inv-foreground: var(--danger-inv-foreground);
+  --color-danger-inv-hover: var(--danger-inv-hover);
+  --color-danger-inv-border: var(--danger-inv-border);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-border: var(--primary-border);
+  --color-primary-inv: var(--primary-inv);
+  --color-primary-inv-foreground: var(--primary-inv-foreground);
+  --color-primary-inv-hover: var(--primary-inv-hover);
+  --color-primary-inv-border: var(--primary-inv-border);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-secondary-border: var(--secondary-border);
+  --color-secondary-inv: var(--secondary-inv);
+  --color-secondary-inv-foreground: var(--secondary-inv-foreground);
+  --color-secondary-inv-hover: var(--secondary-inv-hover);
+  --color-secondary-inv-border: var(--secondary-inv-border);
+}
