@@ -19,7 +19,9 @@
     "taze": "vpx taze@latest -Ilwr --maturity-period 3",
     "taze:major": "vpx taze@latest major -Ilwr --maturity-period 3",
     "taze:minor": "vpx taze@latest minor -Ilwr --maturity-period 3",
-    "taze:patch": "vpx taze@latest patch -Ilwr --maturity-period 3"
+    "taze:patch": "vpx taze@latest patch -Ilwr --maturity-period 3",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@fontsource-variable/inter": "catalog:",
@@ -41,6 +43,12 @@
     "valibot": "catalog:"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "latest",
+    "@storybook/addon-a11y": "^10.5.10",
+    "@storybook/addon-docs": "^10.5.10",
+    "@storybook/addon-onboarding": "^10.5.10",
+    "@storybook/addon-vitest": "^10.5.10",
+    "@storybook/react-vite": "^10.5.10",
     "@tailwindcss/vite": "catalog:",
     "@tanstack/eslint-plugin-query": "catalog:",
     "@tanstack/eslint-plugin-router": "catalog:",
@@ -52,14 +60,19 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",
+    "@vitest/browser-playwright": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
     "eslint-plugin-react-hooks-extra": "catalog:",
     "eslint-plugin-react-naming-convention": "catalog:",
     "eslint-plugin-react-web-api": "catalog:",
+    "playwright": "latest",
+    "storybook": "^10.5.10",
     "tailwindcss": "catalog:",
     "type-fest": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "vite-plus": "catalog:"
+    "vite-plus": "catalog:",
+    "vitest": "catalog:"
   },
   "engines": {
     "node": ">=24"
