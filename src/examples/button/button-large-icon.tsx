@@ -5,7 +5,8 @@ import { Button } from '#src/components/button';
 export function ButtonLargeIconExample() {
   return (
     <Button
-      size="lgIcon"
+      size="lg"
+      isIcon={true}
       aria-label="Add"
     >
       <Plus />

@@ -5,6 +5,12 @@ allowBuilds:
 blockExoticSubdeps: true
 
 catalog:
+  #  '@chromatic-com/storybook': 5.3.0
+  '@storybook/addon-a11y': 10.5.10
+  '@storybook/addon-docs': 10.5.10
+  '@storybook/addon-onboarding': 10.5.10
+  #  '@storybook/addon-vitest': 10.5.10
+  '@storybook/react-vite': 10.5.10
   '@fontsource-variable/inter': 5.3.0
   '@internationalized/date': 3.12.3
   '@js-temporal/polyfill': 0.5.1
@@ -31,14 +37,19 @@ catalog:
   '@types/react': 19.2.18
   '@types/react-dom': 19.2.4
   '@vitejs/plugin-react': 6.0.5
+  #  '@vitest/coverage-istanbul': 4.1.10
+  #  '@vitest/browser-playwright': 4.1.10
+  #  '@vitest/ui': 4.1.10
   eslint-plugin-react-hooks-extra: 2.13.0
   eslint-plugin-react-naming-convention: 2.13.0
   eslint-plugin-react-web-api: 2.13.0
   lucide-react: 1.33.0
+  #  playwright: 1.62.1
   react: 19.2.8
   #  react-aria: 3.47.0
   react-aria-components: 1.20.0
   react-dom: 19.2.8
+  storybook: 10.5.10
   tailwind-merge: 3.6.0
   tailwind-variants: 3.3.1
   tailwindcss: 4.3.3
@@ -47,7 +58,9 @@ catalog:
   typescript: 6.0.3
   valibot: 1.4.2
   vite: npm:@voidzero-dev/vite-plus-core@0.2.9
+  vite-plugin-externalize-deps: 0.10.0
   vite-plus: 0.2.9
+#  vitest: 4.1.10
 
 catalogMode: prefer
 # Watch this issue: https://github.com/pnpm/pnpm/issues/11238

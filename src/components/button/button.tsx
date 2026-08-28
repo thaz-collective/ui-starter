@@ -82,20 +82,33 @@ const buttonVariants = tv({
       sm: 'h-7 rounded-md px-2.5 text-xs',
       md: 'h-9 rounded-lg px-3.5 text-sm',
       lg: 'h-11 rounded-lg px-5 text-base',
-      smIcon: 'm-0 size-7 rounded-md p-0',
-      mdIcon: 'm-0 size-9 rounded-md p-0',
-      lgIcon: 'm-0 size-11 rounded-md p-0',
     },
     fullWidth: {
       true: 'w-full',
     },
     isInverted: { true: '' },
+    isIcon: { true: '' },
   },
   compoundVariants: [
     {
+      isIcon: true,
+      size: 'sm',
+      className: ['m-0 size-7 rounded-md p-0'],
+    },
+    {
+      isIcon: true,
+      size: 'md',
+      className: ['m-0 size-9 rounded-md p-0'],
+    },
+    {
+      isIcon: true,
+      size: 'lg',
+      className: ['m-0 size-11 rounded-md p-0'],
+    },
+    {
       variant: 'primary',
       isInverted: true,
-      class: [
+      className: [
         'bg-primary-inv text-primary-inv-foreground',
         'data-hovered:bg-primary-inv-hover',
         'data-pressed:bg-primary-inv-hover data-pressed:brightness-95',
@@ -104,7 +117,7 @@ const buttonVariants = tv({
     {
       variant: 'secondary',
       isInverted: true,
-      class: [
+      className: [
         'bg-secondary-inv text-secondary-inv-foreground',
         'data-hovered:bg-secondary-inv-hover',
         'data-pressed:bg-secondary-inv-hover data-pressed:brightness-95',
@@ -113,7 +126,7 @@ const buttonVariants = tv({
     {
       variant: 'danger',
       isInverted: true,
-      class: [
+      className: [
         'bg-danger-inv text-danger-inv-foreground',
         'data-hovered:bg-danger-inv-hover',
         'data-pressed:bg-danger-inv-hover data-pressed:brightness-95',
@@ -122,7 +135,7 @@ const buttonVariants = tv({
     {
       variant: 'success',
       isInverted: true,
-      class: [
+      className: [
         'bg-success-inv text-success-inv-foreground',
         'data-hovered:bg-success-inv-hover',
         'data-pressed:bg-success-inv-hover data-pressed:brightness-95',
@@ -131,7 +144,7 @@ const buttonVariants = tv({
     {
       variant: 'warning',
       isInverted: true,
-      class: [
+      className: [
         'bg-warning-inv text-warning-inv-foreground',
         'data-hovered:bg-warning-inv-hover',
         'data-pressed:bg-warning-inv-hover data-pressed:brightness-95',
