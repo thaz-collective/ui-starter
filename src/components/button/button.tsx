@@ -29,7 +29,6 @@ const buttonVariants = tv({
     variant: 'primary',
     size: 'md',
     isInverted: false,
-    fullWidth: false,
   },
   variants: {
     variant: {
@@ -82,9 +81,6 @@ const buttonVariants = tv({
       sm: 'h-7 rounded-md px-2.5 text-xs',
       md: 'h-9 rounded-lg px-3.5 text-sm',
       lg: 'h-11 rounded-lg px-5 text-base',
-    },
-    fullWidth: {
-      true: 'w-full',
     },
     isInverted: { true: '' },
     isIcon: { true: '' },

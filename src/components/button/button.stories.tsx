@@ -20,7 +20,6 @@ const meta = {
       options: ['primary', 'secondary', 'success', 'warning', 'danger', 'ghost', 'outline'],
     },
     size: { control: 'select', options: ['sm', 'md', 'lg'] },
-    fullWidth: { control: 'boolean' },
     isInverted: { control: 'boolean' },
     isIcon: { control: 'boolean' },
   },
@@ -127,13 +126,6 @@ export const LargeIcon: Story = {
     isIcon: true,
     'aria-label': 'Add',
     children: <Plus />,
-  },
-};
-
-export const FullWidth: Story = {
-  args: {
-    fullWidth: true,
-    children: 'Full Width',
   },
 };
 
