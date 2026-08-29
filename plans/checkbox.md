@@ -19,7 +19,7 @@ Compound object `Checkbox`:
 - `Root` (the `Checkbox` control itself, also default export)
 - `Group` (`CheckboxGroup` root)
 - `Label` (group-level label — own inlined copy, following `text-field/components/text-field-label.tsx`)
-- `Description` (own inlined copy, following `text-field/components/text-field-description.tsx`)
+- `GroupDescription` (own inlined copy, following `text-field/components/text-field-description.tsx`)
 - `FieldError` (own inlined copy, following `text-field/components/text-field-field-error.tsx`)
 
 ## Build steps
@@ -29,7 +29,7 @@ Compound object `Checkbox`:
 3. `context.ts`: `CheckboxGroupContext` holding `{ slots }`, same shape as `text-field`'s context, so `Checkbox.Label/Description/FieldError` can read group-level invalid/disabled state.
 4. `components/checkbox.tsx` (Root): wrap RAC `Checkbox` directly (self-contained, no context dependency — a lone checkbox works outside a group), render the box div with check/minus icon (use `lucide-react` `Check`/`Minus` to match icon lib already used in `number-field`, not `@radix-ui/react-icons`).
 5. `components/checkbox-group.tsx`: wrap RAC `CheckboxGroup`, wrapped in `CheckboxGroupContextProvider`, `data-slot="checkbox-group"`.
-6. `components/checkbox-group-context-provider.tsx`, `-label.tsx`, `-description.tsx`, `-field-error.tsx`: full inline RAC wraps (own `Label`/`Text`/`FieldError` + base `tv()` + `data-slot`) with group slot classNames applied — mirror `text-field`'s `Label`/`Description`/`FieldError` subcomponents exactly (same file shape, copied and adapted, not imported).
+6. `components/checkbox-group-context-provider.tsx`, `-label.tsx`, `-description.tsx`, `-field-error.tsx`: full inline RAC wraps (own `Label`/`Text`/`FieldError` + base `tv()` + `data-slot`) with group slot classNames applied — mirror `text-field`'s `Label`/`GroupDescription`/`FieldError` subcomponents exactly (same file shape, copied and adapted, not imported).
 7. `index.ts`: `Object.assign(CheckboxRoot, { Root, Group, Label, Description, FieldError })`; export types + `checkboxVariants`.
 
 ## Dependencies

@@ -1,15 +1,14 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, ComponentPropsWithRef } from 'react';
 
 import type { FieldWithValue } from '@tanstack/react-form';
 
-import type { TimeValue } from 'react-aria-components';
+import type { TemporalTimeValue } from '@thaz/form-util/util';
 
-import type { TimeFieldProps } from '#src/common/components/time-field';
 import { TimeField } from '#src/common/components/time-field';
 
 // Same canonical-value-type choice as the date-time-picker adapter: the form's value is RAC's own
 // `Time`-family `TimeValue`, pending a project-wide decision on a plain-value representation.
-export function TimeFieldAdapter<T extends TimeValue>({
+export function TimeFieldAdapter<T extends TemporalTimeValue>({
   field,
   label,
   description,
@@ -18,7 +17,7 @@ export function TimeFieldAdapter<T extends TimeValue>({
   field: FieldWithValue<T | null>;
   label?: ReactNode;
   description?: ReactNode;
-} & Omit<TimeFieldProps<T>, 'value' | 'onChange' | 'onBlur' | 'children'>) {
+} & Omit<ComponentPropsWithRef<typeof TimeField<T>>, 'value' | 'onChange' | 'onBlur' | 'children'>) {
   return (
     <TimeField.Root
       {...rootProps}
@@ -27,7 +26,7 @@ export function TimeFieldAdapter<T extends TimeValue>({
         // Same rationale as the date-time-picker adapter's cast: `MappedTimeValue<T>` and `T` are the
         // same runtime value for every concrete `TimeValue` member; TS can't prove it through generic `T`.
         // oxlint-disable-next-line no-unsafe-type-assertion, consistent-type-assertions
-        field.handleChange(value as T | null);
+        field.handleChange(value);
       }}
       onBlur={field.handleBlur}
       isInvalid={field.meta.isInvalid}

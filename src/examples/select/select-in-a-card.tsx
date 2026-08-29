@@ -23,13 +23,16 @@ export function SelectInACardExample() {
           value={value}
           onChange={setValue}
         >
-          <Select.Trigger>
+          <Select.TriggerGroup>
             <Select.LabelValueContainer>
               <Select.Label>{'Delivery method'}</Select.Label>
               <Select.Value />
             </Select.LabelValueContainer>
-            <Select.Chevron />
-          </Select.Trigger>
+            <Select.ClearButton />
+            <Select.TriggerButton>
+              <Select.Chevron />
+            </Select.TriggerButton>
+          </Select.TriggerGroup>
           <Select.Popover>
             <Select.ListBox>
               <Select.Item id="standard">{'Standard (5-7 days)'}</Select.Item>

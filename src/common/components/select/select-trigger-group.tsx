@@ -1,40 +1,67 @@
-import type { ComponentPropsWithRef } from 'react';
+import type { ComponentPropsWithRef, MouseEvent } from 'react';
+import { use } from 'react';
 
-import type { VariantProps } from 'tailwind-variants';
 import type { SetRequired } from 'type-fest';
-import { composeRenderProps, Group as RACGroup } from 'react-aria-components';
-import { tv } from 'tailwind-variants';
+import { composeRenderProps, Group as RACGroup, SelectStateContext } from 'react-aria-components';
+import { cn } from 'tailwind-variants';
 
-const triggerGroupVariants = tv({
-  base: [
-    'group/trigger',
+import { useSelectTriggerRef } from './select-trigger-ref-context';
 
-    'flex w-full min-w-0 flex-wrap items-center gap-1.5 rounded-md px-3 text-left text-sm outline-none',
-
-    'text-foreground',
-
-    'bg-field transition-colors duration-150',
-    'border border-field-border',
-    'data-hovered:border-primary-hover',
-    'data-focus-visible:border-primary data-focus-visible:ring-1 data-focus-visible:ring-primary data-focus-visible:ring-inset',
-
-    'data-disabled:cursor-not-allowed data-disabled:opacity-50',
-
-    'group-data-[invalid="true"]/select:border-danger',
-    'group-data-[invalid="true"]/select:data-hovered:border-danger-hover',
-    'group-data-[invalid="true"]/select:data-focus-visible:border-danger',
-  ],
-});
-
-type SelectTriggerGroupProps = SetRequired<ComponentPropsWithRef<typeof RACGroup>, 'children'> &
-  VariantProps<typeof triggerGroupVariants>;
+type SelectTriggerGroupProps = SetRequired<ComponentPropsWithRef<typeof RACGroup>, 'children'>;
 
 export function SelectTriggerGroup(props: SelectTriggerGroupProps) {
+  const { ref, ...rest } = props;
+
+  const state = use(SelectStateContext);
+  const contextTriggerRef = useSelectTriggerRef();
+
   return (
     <RACGroup
-      {...props}
-      className={composeRenderProps(props.className, (className, renderProps) => {
-        return triggerGroupVariants({ ...props, ...renderProps, className });
+      {...rest}
+      ref={(instance) => {
+        contextTriggerRef.current = instance;
+        if (typeof ref === 'function') {
+          ref(instance);
+        } else if (ref !== null && ref !== undefined) {
+          ref.current = instance;
+        }
+      }}
+      onClick={(event: MouseEvent<HTMLDivElement>) => {
+        props.onClick?.(event);
+
+        if (!(event.target instanceof HTMLElement)) {
+          return;
+        }
+
+        if (event.target.closest('button') || state === null || event.target.closest('[data-disabled="true"]')) {
+          return;
+        }
+
+        state.toggle();
+      }}
+      className={composeRenderProps(props.className, (className) => {
+        return (
+          cn(
+            'group/trigger',
+
+            'flex w-full min-w-0 flex-wrap items-center gap-1.5 rounded-md px-3 text-left text-sm outline-none',
+
+            'text-foreground',
+
+            'bg-field transition-colors duration-150',
+            'border border-field-border',
+            'data-hovered:border-primary-hover',
+            'data-focus-visible:border-primary data-focus-visible:ring-1 data-focus-visible:ring-primary data-focus-visible:ring-inset',
+
+            'data-disabled:cursor-not-allowed data-disabled:opacity-50',
+
+            'group-data-[invalid="true"]/select:border-danger',
+            'group-data-[invalid="true"]/select:data-hovered:border-danger-hover',
+            'group-data-[invalid="true"]/select:data-focus-visible:border-danger',
+
+            className,
+          ) ?? ''
+        );
       })}
     />
   );

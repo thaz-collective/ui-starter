@@ -95,7 +95,7 @@ export default defineConfig({
     ...oxfmtConfig,
     sortTailwindcss: {
       stylesheet: './src/global.css',
-      functions: ['tv', 'twMerge'],
+      functions: ['tv', 'cn', 'twMerge'],
     },
   },
   lint: {

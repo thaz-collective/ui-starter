@@ -22,11 +22,14 @@ Use the following composition to build a `Select`:
 
 <pre>
   <code>{`Select
-├── Select.Trigger
+├── Select.TriggerGroup
 │   ├── Select.LabelValueContainer
 │   │   ├── Select.Label
 │   │   └── Select.Value
-│   └── Select.Chevron
+│   │       └── Select.Tags (rendered when selectionMode is "multiple" and items are selected)
+│   ├── Select.ClearButton (rendered when a value is selected)
+│   └── Select.TriggerButton
+│       └── Select.Chevron
 ├── Select.Description (optional)
 ├── Select.FieldError (optional)
 └── Select.Popover
@@ -62,9 +65,23 @@ Use the following composition to build a `Select`:
       <td>{'No'}</td>
     </tr>
     <tr>
-      <td>{'Select.Trigger'}</td>
-      <td>{'The button that opens the popover; the bordered field surface. Wraps LabelValueContainer and Chevron.'}</td>
+      <td>{'Select.TriggerGroup'}</td>
+      <td>
+        {
+          'The bordered field surface. A non-button Group (so ClearButton and tag remove buttons can be real, independently-clickable buttons inside it) wrapping LabelValueContainer, ClearButton, and TriggerButton.'
+        }
+      </td>
       <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Select.TriggerButton'}</td>
+      <td>{'The button that opens the popover. Wraps Chevron.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Select.ClearButton'}</td>
+      <td>{'Clears the current selection. Renders nothing until a value is selected.'}</td>
+      <td>{'Yes'}</td>
     </tr>
     <tr>
       <td>{'Select.LabelValueContainer'}</td>
@@ -78,8 +95,15 @@ Use the following composition to build a `Select`:
     </tr>
     <tr>
       <td>{'Select.Value'}</td>
-      <td>{'Displays the selected value or placeholder.'}</td>
+      <td>
+        {'Displays the selected value or placeholder. Renders Tags instead of text when selectionMode is multiple.'}
+      </td>
       <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Select.Tags'}</td>
+      <td>{'Displays the selected items as removable pills. Used within Value when selectionMode is multiple.'}</td>
+      <td>{'Yes'}</td>
     </tr>
     <tr>
       <td>{'Select.Chevron'}</td>
@@ -141,17 +165,26 @@ Use the following composition to build a `Select`:
 
 <H2 id="examples">Examples</H2>
 
+`Select.TriggerGroup` is a `Group`, not a `Button` — this lets `Select.ClearButton` and, in multiple-selection mode,
+each tag's remove button be real, independently-clickable buttons instead of being nested inside another button
+(which is invalid HTML). `Select.TriggerGroup` and `Select.Popover` share the trigger element's ref internally, so
+`Select.Popover` still anchors and sizes itself to the field automatically — no `ref` wiring required.
+
 <H3 id="default">Default</H3>
 
 <Preview
   code={`<Select placeholder="Select a fruit">
-  <Select.Trigger>
+  <Select.TriggerGroup>
     <Select.LabelValueContainer>
       <Select.Label>Favorite fruit</Select.Label>
       <Select.Value />
     </Select.LabelValueContainer>
-    <Select.Chevron />
-  </Select.Trigger>
+    <Select.ClearButton />
+    <Select.TriggerButton>
+      <Select.Chevron />
+    </Select.TriggerButton>
+  </Select.TriggerGroup>
+  <Select.Description>Choose your preferred fruit.</Select.Description>
   <Select.Popover>
     <Select.ListBox>
       <Select.Item id="apple">Apple</Select.Item>
@@ -169,13 +202,16 @@ Use the following composition to build a `Select`:
 
 <Preview
   code={`<Select placeholder="Select a food">
-  <Select.Trigger>
+  <Select.TriggerGroup>
     <Select.LabelValueContainer>
       <Select.Label>Favorite food</Select.Label>
       <Select.Value />
     </Select.LabelValueContainer>
-    <Select.Chevron />
-  </Select.Trigger>
+    <Select.ClearButton />
+    <Select.TriggerButton>
+      <Select.Chevron />
+    </Select.TriggerButton>
+  </Select.TriggerGroup>
   <Select.Popover>
     <Select.ListBox>
       <Select.Section>
@@ -198,17 +234,20 @@ Use the following composition to build a `Select`:
 <H3 id="multiple-selection">Multiple selection</H3>
 
 Set `selectionMode="multiple"` to allow selecting more than one option. `value` and `onChange` then work with an
-array of keys instead of a single key.
+array of keys instead of a single key. Selected options render as removable tag pills via `Select.Tags`.
 
 <Preview
   code={`<Select selectionMode="multiple" placeholder="Select fruits">
-  <Select.Trigger>
+  <Select.TriggerGroup>
     <Select.LabelValueContainer>
       <Select.Label>Favorite fruits</Select.Label>
       <Select.Value />
     </Select.LabelValueContainer>
-    <Select.Chevron />
-  </Select.Trigger>
+    <Select.ClearButton />
+    <Select.TriggerButton>
+      <Select.Chevron />
+    </Select.TriggerButton>
+  </Select.TriggerGroup>
   <Select.Popover>
     <Select.ListBox>
       <Select.Item id="apple">Apple</Select.Item>
@@ -229,13 +268,16 @@ users filter the options by typing.
 
 <Preview
   code={`<Select placeholder="Select a fruit">
-  <Select.Trigger>
+  <Select.TriggerGroup>
     <Select.LabelValueContainer>
       <Select.Label>Favorite fruit</Select.Label>
       <Select.Value />
     </Select.LabelValueContainer>
-    <Select.Chevron />
-  </Select.Trigger>
+    <Select.ClearButton />
+    <Select.TriggerButton>
+      <Select.Chevron />
+    </Select.TriggerButton>
+  </Select.TriggerGroup>
   <Select.Popover className="flex flex-col">
     <Select.Autocomplete>
       <Select.SearchField aria-label="Search fruits">
@@ -260,13 +302,16 @@ users filter the options by typing.
 
 <Preview
   code={`<Select placeholder="Select a fruit" isRequired>
-  <Select.Trigger>
+  <Select.TriggerGroup>
     <Select.LabelValueContainer>
       <Select.Label>Favorite fruit</Select.Label>
       <Select.Value />
     </Select.LabelValueContainer>
-    <Select.Chevron />
-  </Select.Trigger>
+    <Select.ClearButton />
+    <Select.TriggerButton>
+      <Select.Chevron />
+    </Select.TriggerButton>
+  </Select.TriggerGroup>
   <Select.Popover>
     <Select.ListBox>
       <Select.Item id="apple">Apple</Select.Item>
@@ -283,13 +328,16 @@ users filter the options by typing.
 
 <Preview
   code={`<Select placeholder="Select a fruit" isInvalid>
-  <Select.Trigger>
+  <Select.TriggerGroup>
     <Select.LabelValueContainer>
       <Select.Label>Favorite fruit</Select.Label>
       <Select.Value />
     </Select.LabelValueContainer>
-    <Select.Chevron />
-  </Select.Trigger>
+    <Select.ClearButton />
+    <Select.TriggerButton>
+      <Select.Chevron />
+    </Select.TriggerButton>
+  </Select.TriggerGroup>
   <Select.FieldError>Please select a fruit.</Select.FieldError>
   <Select.Popover>
     <Select.ListBox>
@@ -307,13 +355,16 @@ users filter the options by typing.
 
 <Preview
   code={`<Select placeholder="Select a fruit" isDisabled>
-  <Select.Trigger>
+  <Select.TriggerGroup>
     <Select.LabelValueContainer>
       <Select.Label>Favorite fruit</Select.Label>
       <Select.Value />
     </Select.LabelValueContainer>
-    <Select.Chevron />
-  </Select.Trigger>
+    <Select.ClearButton />
+    <Select.TriggerButton>
+      <Select.Chevron />
+    </Select.TriggerButton>
+  </Select.TriggerGroup>
   <Select.Popover>
     <Select.ListBox>
       <Select.Item id="apple">Apple</Select.Item>
@@ -336,13 +387,16 @@ users filter the options by typing.
   </Card.Header>
   <Card.Content>
     <Select placeholder="Select a method">
-      <Select.Trigger>
+      <Select.TriggerGroup>
         <Select.LabelValueContainer>
           <Select.Label>Delivery method</Select.Label>
           <Select.Value />
         </Select.LabelValueContainer>
-        <Select.Chevron />
-      </Select.Trigger>
+        <Select.ClearButton />
+        <Select.TriggerButton>
+          <Select.Chevron />
+        </Select.TriggerButton>
+      </Select.TriggerGroup>
       <Select.Popover>
         <Select.ListBox>
           <Select.Item id="standard">Standard (5-7 days)</Select.Item>

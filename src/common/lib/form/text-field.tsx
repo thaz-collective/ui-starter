@@ -1,8 +1,7 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, ComponentPropsWithRef } from 'react';
 
 import type { FieldWithValue } from '@tanstack/react-form';
 
-import type { TextFieldProps } from '#src/common/components/text-field';
 import { TextField } from '#src/common/components/text-field';
 
 export function TextFieldAdapter({
@@ -12,9 +11,9 @@ export function TextFieldAdapter({
   ...rootProps
 }: {
   field: FieldWithValue<string>;
-  label?: ReactNode;
+  label: ReactNode;
   description?: ReactNode;
-} & Omit<TextFieldProps, 'value' | 'onChange' | 'onBlur' | 'children'>) {
+} & Omit<ComponentPropsWithRef<typeof TextField>, 'value' | 'onChange' | 'onBlur' | 'children'>) {
   return (
     <TextField.Root
       {...rootProps}

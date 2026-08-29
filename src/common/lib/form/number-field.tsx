@@ -1,8 +1,7 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, ComponentPropsWithRef } from 'react';
 
 import type { FieldWithValue } from '@tanstack/react-form';
 
-import type { NumberFieldProps } from '#src/common/components/number-field';
 import { NumberField } from '#src/common/components/number-field';
 
 export function NumberFieldAdapter({
@@ -14,7 +13,7 @@ export function NumberFieldAdapter({
   field: FieldWithValue<number>;
   label?: ReactNode;
   description?: ReactNode;
-} & Omit<NumberFieldProps, 'value' | 'onChange' | 'onBlur' | 'children'>) {
+} & Omit<ComponentPropsWithRef<typeof NumberField>, 'value' | 'onChange' | 'onBlur' | 'children'>) {
   return (
     <NumberField.Root
       {...rootProps}

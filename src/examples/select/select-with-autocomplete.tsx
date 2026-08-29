@@ -14,13 +14,16 @@ export function SelectWithAutocompleteExample() {
       value={value}
       onChange={setValue}
     >
-      <Select.Trigger>
+      <Select.TriggerGroup>
         <Select.LabelValueContainer>
           <Select.Label>{'Favorite fruit'}</Select.Label>
           <Select.Value />
         </Select.LabelValueContainer>
-        <Select.Chevron />
-      </Select.Trigger>
+        <Select.ClearButton />
+        <Select.TriggerButton>
+          <Select.Chevron />
+        </Select.TriggerButton>
+      </Select.TriggerGroup>
       <Select.Popover className="flex flex-col">
         <Select.Autocomplete>
           <Select.SearchField aria-label="Search fruits">

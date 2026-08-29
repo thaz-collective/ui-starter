@@ -14,13 +14,16 @@ export function SelectWithSectionsExample() {
       value={value}
       onChange={setValue}
     >
-      <Select.Trigger>
+      <Select.TriggerGroup>
         <Select.LabelValueContainer>
           <Select.Label>{'Favorite food'}</Select.Label>
           <Select.Value />
         </Select.LabelValueContainer>
-        <Select.Chevron />
-      </Select.Trigger>
+        <Select.ClearButton />
+        <Select.TriggerButton>
+          <Select.Chevron />
+        </Select.TriggerButton>
+      </Select.TriggerGroup>
       <Select.Popover>
         <Select.ListBox>
           <Select.Section>

@@ -1,6 +1,6 @@
-import type { ComponentProps } from 'react';
+import type { ComponentPropsWithRef } from 'react';
 
-type HeadingProps<T extends 'h2' | 'h3'> = Omit<ComponentProps<T>, 'id'> & { id: string };
+type HeadingProps<T extends 'h2' | 'h3'> = Omit<ComponentPropsWithRef<T>, 'id'> & { id: string };
 
 export function H2({ className, children, id, ...props }: HeadingProps<'h2'>) {
   return (

@@ -14,13 +14,17 @@ export function SelectExample() {
       value={value}
       onChange={setValue}
     >
-      <Select.Trigger>
+      <Select.TriggerGroup>
         <Select.LabelValueContainer>
           <Select.Label>{'Favorite fruit'}</Select.Label>
           <Select.Value />
         </Select.LabelValueContainer>
-        <Select.Chevron />
-      </Select.Trigger>
+        <Select.ClearButton />
+        <Select.TriggerButton>
+          <Select.Chevron />
+        </Select.TriggerButton>
+      </Select.TriggerGroup>
+      <Select.Description>{'Choose your preferred fruit.'}</Select.Description>
       <Select.Popover>
         <Select.ListBox>
           <Select.Item id="apple">{'Apple'}</Select.Item>

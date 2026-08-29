@@ -17,7 +17,7 @@ A single-select dropdown: trigger button showing the current value, popover with
 Compound object `Select`:
 
 - `Root` (`Select`, also default export)
-- `Label`, `Description`, `FieldError` (own inlined copies, same pattern as `TextField` — no shared atoms exist)
+- `Label`, `GroupDescription`, `FieldError` (own inlined copies, same pattern as `TextField` — no shared atoms exist)
 - `Trigger` (the button)
 - `Value` (`SelectValue`)
 - `Popover`

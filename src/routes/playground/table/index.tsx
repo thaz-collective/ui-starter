@@ -3,9 +3,9 @@ import { useMemo } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
 import { useTanStackTableDevtools } from '@tanstack/react-table-devtools';
 
-import { getColumnSizeVars } from '#src/common/components/data-table/lib/column-size-vars';
-import { createAppColumnHelper, useAppTable } from '#src/common/components/data-table/lib/table';
 import { Table } from '#src/common/components/table';
+import { getColumnSizeVars } from '#src/common/lib/table/lib/column-size-vars';
+import { createAppColumnHelper, useAppTable } from '#src/common/lib/table/lib/table';
 
 export const Route = createFileRoute('/playground/table/')({
   component: RouteComponent,

@@ -1,5 +1,5 @@
 import { SelectAutocomplete } from './select-autocomplete';
-import { SelectChevron } from './select-chevron';
+import { SelectClearButton } from './select-clear-button';
 import { SelectCollection } from './select-collection';
 import { Description } from './select-description';
 import { FieldError } from './select-field-error';
@@ -13,22 +13,18 @@ import { SelectRoot } from './select-root';
 import { SelectSearchField } from './select-search-field';
 import { SelectSearchInput } from './select-search-input';
 import { SelectSection } from './select-section';
-import { SelectTags } from './select-tags';
-import { SelectTrigger } from './select-trigger';
 import { SelectTriggerButton } from './select-trigger-button';
 import { SelectTriggerGroup } from './select-trigger-group';
 import { SelectValue } from './select-value';
 
 export const Select = Object.assign(SelectRoot, {
   Root: SelectRoot,
-  Trigger: SelectTrigger,
   TriggerGroup: SelectTriggerGroup,
   TriggerButton: SelectTriggerButton,
+  ClearButton: SelectClearButton,
   LabelValueContainer,
   Label,
   Value: SelectValue,
-  Tags: SelectTags,
-  Chevron: SelectChevron,
   Popover: SelectPopover,
   ListBox: SelectListBox,
   Item: SelectItem,

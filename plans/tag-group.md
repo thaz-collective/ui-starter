@@ -19,7 +19,7 @@ Compound object `TagGroup`:
 - `Root` (`TagGroup`, also default export)
 - `List` (`TagList`)
 - `Tag`
-- `Label`, `Description`, `FieldError` (own inlined copies, following `text-field`'s pattern — no shared atoms exist)
+- `Label`, `GroupDescription`, `FieldError` (own inlined copies, following `text-field`'s pattern — no shared atoms exist)
 
 ## Build steps
 

@@ -17,7 +17,7 @@ A filterable/typeable select: text input + dropdown button, popover with a listb
 Compound object `ComboBox`:
 
 - `Root` (`ComboBox`, also default export)
-- `Label`, `Description`, `FieldError` (own inlined copies, following `text-field`'s pattern — no shared atoms exist)
+- `Label`, `GroupDescription`, `FieldError` (own inlined copies, following `text-field`'s pattern — no shared atoms exist)
 - `Group` (the field-group wrapping input + trigger button, own inlined RAC `Group` wrap)
 - `Input`
 - `TriggerButton` (the caret button, reuses `Button` component)

@@ -1,28 +1,47 @@
 import type { ComponentPropsWithRef } from 'react';
 
-import type { VariantProps } from 'tailwind-variants';
+import { ChevronsUpDown } from 'lucide-react';
 import { Button as RACButton, composeRenderProps } from 'react-aria-components';
-import { tv } from 'tailwind-variants';
+import { cn } from 'tailwind-variants';
 
-const triggerButtonVariants = tv({
-  base: [
-    'flex size-6 shrink-0 cursor-default items-center justify-center rounded outline-none',
-    'text-muted-foreground',
-    'data-hovered:bg-surface-muted',
-    'data-focus-visible:ring-1 data-focus-visible:ring-primary',
-    'data-disabled:cursor-not-allowed data-disabled:opacity-50',
-  ],
-});
-
-type SelectTriggerButtonProps = ComponentPropsWithRef<typeof RACButton> & VariantProps<typeof triggerButtonVariants>;
+interface SelectTriggerButtonProps extends Omit<ComponentPropsWithRef<typeof RACButton>, 'children' | 'slot'> {
+  iconProps?: ComponentPropsWithRef<typeof ChevronsUpDown>;
+}
 
 export function SelectTriggerButton(props: SelectTriggerButtonProps) {
+  const { iconProps, ...buttonProps } = props;
+
   return (
     <RACButton
-      {...props}
-      className={composeRenderProps(props.className, (className, renderProps) => {
-        return triggerButtonVariants({ ...props, ...renderProps, className });
+      {...buttonProps}
+      className={composeRenderProps(props.className, (className) => {
+        return (
+          cn(
+            'group/button-trigger',
+
+            'flex size-6 shrink-0 cursor-default items-center justify-center rounded outline-none',
+
+            'text-muted-foreground',
+
+            'data-hovered:bg-surface-muted',
+            'data-focus-visible:ring-1 data-focus-visible:ring-primary',
+            'data-disabled:cursor-not-allowed data-disabled:opacity-50',
+
+            className,
+          ) ?? ''
+        );
       })}
-    />
+    >
+      <ChevronsUpDown
+        {...iconProps}
+        className={
+          cn(
+            'size-4 shrink-0 self-center',
+
+            iconProps?.className,
+          ) ?? ''
+        }
+      />
+    </RACButton>
   );
 }

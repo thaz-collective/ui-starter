@@ -15,13 +15,16 @@ export function SelectWithErrorStateExample() {
       onChange={setValue}
       isInvalid={true}
     >
-      <Select.Trigger>
+      <Select.TriggerGroup>
         <Select.LabelValueContainer>
           <Select.Label>{'Favorite fruit'}</Select.Label>
           <Select.Value />
         </Select.LabelValueContainer>
-        <Select.Chevron />
-      </Select.Trigger>
+        <Select.ClearButton />
+        <Select.TriggerButton>
+          <Select.Chevron />
+        </Select.TriggerButton>
+      </Select.TriggerGroup>
       <Select.FieldError>{'Please select a fruit.'}</Select.FieldError>
       <Select.Popover>
         <Select.ListBox>

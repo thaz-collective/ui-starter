@@ -14,7 +14,7 @@
 
 ## Suggested split (judgment call — confirm with user before building)
 
-1. **`color-field`** — `ColorField` (a `TextField`-shaped hex/color text input). Compound: `Root`, plus its own inlined `Label`/`Description`/`FieldError` files, copied from and matching `text-field`'s exactly (no shared folder to import from — each composite duplicates this pattern). This is the one piece that genuinely mirrors an existing migrated pattern.
+1. **`color-field`** — `ColorField` (a `TextField`-shaped hex/color text input). Compound: `Root`, plus its own inlined `Label`/`GroupDescription`/`FieldError` files, copied from and matching `text-field`'s exactly (no shared folder to import from — each composite duplicates this pattern). This is the one piece that genuinely mirrors an existing migrated pattern.
 2. **`color-area`** — `ColorArea` + a shared `ColorThumb`. Compound: `Root`, `Thumb`.
 3. **`color-slider`** — `ColorSlider` + `SliderTrack` + `SliderOutput` + `ColorThumb`. Compound: `Root`, `Track`, `Output`, `Thumb`. Structurally near-identical to the plain `slider` plan (see `plans/slider.md`) — consider whether `ColorThumb`/track styling can be visually unified with `Slider.Thumb`/`Slider.Track` (same border/focus-ring treatment), even though they remain separate folders since they wrap different RAC components.
 4. **`color-wheel`** — `ColorWheel` + `ColorWheelTrack` + reused `ColorThumb`. Compound: `Root`, `Track`, `Thumb`.

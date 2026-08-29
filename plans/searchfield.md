@@ -20,7 +20,7 @@ Compound object `SearchField`, mirroring `TextField`'s shape:
 - `Group` (wraps icon + input + clear button, analogous to `TextField.LabelInputContainer` but is RAC `Group`, not a label/input pairing)
 - `Input`
 - `ClearButton`
-- `Label`, `Description`, `FieldError`
+- `Label`, `GroupDescription`, `FieldError`
 
 ## Build steps
 
