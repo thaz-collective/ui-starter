@@ -1,5 +1,5 @@
 :root {
-  color-scheme: light;
+  color-scheme: light dark;
 
   /* Spacing Multiplier */
   --spacing: 0.25rem;
@@ -27,41 +27,41 @@
    * Page canvas
    * ---------------------------------------------------------------------- */
 
-  --background: oklch(0.98 0.004 240);
-  --foreground: oklch(0.16 0.02 230);
+  --background: light-dark(oklch(0.98 0.004 240), oklch(0.11 0.012 240));
+  --foreground: light-dark(oklch(0.16 0.02 230), oklch(0.95 0.006 220));
 
   /* -------------------------------------------------------------------------
-   * Layered surfaces — each step ~0.03 darker (toward the page's gray),
+   * Layered surfaces — each step ~0.03 further from the default surface,
    * chroma creeps up slightly, hue drifts a touch warmer so deeper layers
-   * feel more "recessed" against the near-white default surface.
-   * hover  = -0.03 L (interaction feedback, darker than border)
-   * border = -0.06 L (visible separator, slightly below hover)
+   * feel more "elevated" in dark mode / "recessed" in light mode.
+   * hover  = one step toward border (interaction feedback)
+   * border = the most contrast from the surface (visible separator)
    * ---------------------------------------------------------------------- */
 
-  --surface-default: oklch(1 0 0);
-  --surface-default-foreground: oklch(0.18 0.02 228);
-  --surface-default-hover: oklch(0.97 0.005 238);
-  --surface-default-border: oklch(0.9 0.01 235);
+  --surface-default: light-dark(oklch(1 0 0), oklch(0.14 0.013 240));
+  --surface-default-foreground: light-dark(oklch(0.18 0.02 228), oklch(0.93 0.006 222));
+  --surface-default-hover: light-dark(oklch(0.97 0.005 238), oklch(0.17 0.013 240));
+  --surface-default-border: light-dark(oklch(0.9 0.01 235), oklch(0.2 0.012 237));
 
-  --surface-secondary: oklch(0.97 0.005 238);
-  --surface-secondary-foreground: oklch(0.2 0.02 228);
-  --surface-secondary-hover: oklch(0.94 0.007 236);
-  --surface-secondary-border: oklch(0.87 0.012 233);
+  --surface-secondary: light-dark(oklch(0.97 0.005 238), oklch(0.17 0.014 239));
+  --surface-secondary-foreground: light-dark(oklch(0.2 0.02 228), oklch(0.91 0.006 222));
+  --surface-secondary-hover: light-dark(oklch(0.94 0.007 236), oklch(0.2 0.014 239));
+  --surface-secondary-border: light-dark(oklch(0.87 0.012 233), oklch(0.23 0.013 236));
 
-  --surface-tertiary: oklch(0.94 0.007 236);
-  --surface-tertiary-foreground: oklch(0.22 0.02 228);
-  --surface-tertiary-hover: oklch(0.91 0.009 234);
-  --surface-tertiary-border: oklch(0.84 0.014 231);
+  --surface-tertiary: light-dark(oklch(0.94 0.007 236), oklch(0.2 0.015 238));
+  --surface-tertiary-foreground: light-dark(oklch(0.22 0.02 228), oklch(0.89 0.006 222));
+  --surface-tertiary-hover: light-dark(oklch(0.91 0.009 234), oklch(0.23 0.015 238));
+  --surface-tertiary-border: light-dark(oklch(0.84 0.014 231), oklch(0.26 0.014 235));
 
-  --surface-quaternary: oklch(0.91 0.009 234);
-  --surface-quaternary-foreground: oklch(0.24 0.02 228);
-  --surface-quaternary-hover: oklch(0.88 0.011 232);
-  --surface-quaternary-border: oklch(0.81 0.016 229);
+  --surface-quaternary: light-dark(oklch(0.91 0.009 234), oklch(0.23 0.016 237));
+  --surface-quaternary-foreground: light-dark(oklch(0.24 0.02 228), oklch(0.87 0.006 222));
+  --surface-quaternary-hover: light-dark(oklch(0.88 0.011 232), oklch(0.26 0.016 237));
+  --surface-quaternary-border: light-dark(oklch(0.81 0.016 229), oklch(0.29 0.015 234));
 
-  --surface-quinary: oklch(0.88 0.011 232);
-  --surface-quinary-foreground: oklch(0.26 0.02 228);
-  --surface-quinary-hover: oklch(0.85 0.013 230);
-  --surface-quinary-border: oklch(0.78 0.018 227);
+  --surface-quinary: light-dark(oklch(0.88 0.011 232), oklch(0.26 0.017 236));
+  --surface-quinary-foreground: light-dark(oklch(0.26 0.02 228), oklch(0.85 0.006 222));
+  --surface-quinary-hover: light-dark(oklch(0.85 0.013 230), oklch(0.29 0.017 236));
+  --surface-quinary-border: light-dark(oklch(0.78 0.018 227), oklch(0.32 0.016 233));
 
   --surface: var(--surface-default);
   --surface-foreground: var(--surface-default-foreground);
@@ -81,7 +81,7 @@
    * ---------------------------------------------------------------------- */
 
   --muted: var(--field);
-  --muted-foreground: oklch(0.45 0.01 228);
+  --muted-foreground: light-dark(oklch(0.45 0.01 228), oklch(0.5 0.01 228));
   --muted-hover: var(--field-hover);
   --muted-border: var(--field-border);
 
@@ -90,9 +90,9 @@
    * Foreground is dark — success is bright enough that dark text reads well.
    * ---------------------------------------------------------------------- */
 
-  --success: oklch(0.58 0.18 145);
+  --success: light-dark(oklch(0.58 0.18 145), oklch(0.64 0.18 145));
   --success-foreground: oklch(0.14 0.04 145);
-  --success-hover: oklch(0.53 0.18 145);
+  --success-hover: light-dark(oklch(0.53 0.18 145), oklch(0.69 0.18 145));
   --success-border: color-mix(in oklab, var(--success) 35%, transparent);
   --success-inv: color-mix(in oklab, var(--success) 14%, transparent);
   --success-inv-foreground: var(--success);
@@ -104,9 +104,9 @@
    * Foreground is dark — amber is the lightest semantic color.
    * ---------------------------------------------------------------------- */
 
-  --warning: oklch(0.7 0.18 65);
+  --warning: light-dark(oklch(0.7 0.18 65), oklch(0.76 0.18 65));
   --warning-foreground: oklch(0.12 0.04 65);
-  --warning-hover: oklch(0.65 0.18 65);
+  --warning-hover: light-dark(oklch(0.65 0.18 65), oklch(0.81 0.18 65));
   --warning-border: color-mix(in oklab, var(--warning) 35%, transparent);
   --warning-inv: color-mix(in oklab, var(--warning) 14%, transparent);
   --warning-inv-foreground: var(--warning);
@@ -118,9 +118,9 @@
    * Foreground is light — red is dark enough to carry white text.
    * ---------------------------------------------------------------------- */
 
-  --danger: oklch(0.56 0.22 22);
+  --danger: light-dark(oklch(0.56 0.22 22), oklch(0.62 0.22 22));
   --danger-foreground: oklch(0.97 0.005 22);
-  --danger-hover: oklch(0.51 0.22 22);
+  --danger-hover: light-dark(oklch(0.51 0.22 22), oklch(0.67 0.22 22));
   --danger-border: color-mix(in oklab, var(--danger) 35%, transparent);
   --danger-inv: color-mix(in oklab, var(--danger) 14%, transparent);
   --danger-inv-foreground: var(--danger);
@@ -132,9 +132,9 @@
    * Foreground is light — keeps consistent with danger (both mid-dark hues).
    * ---------------------------------------------------------------------- */
 
-  --primary: oklch(0.54 0.2 240);
+  --primary: light-dark(oklch(0.54 0.2 240), oklch(0.6 0.2 240));
   --primary-foreground: oklch(0.97 0.005 240);
-  --primary-hover: oklch(0.49 0.2 240);
+  --primary-hover: light-dark(oklch(0.49 0.2 240), oklch(0.65 0.2 240));
   --primary-border: color-mix(in oklab, var(--primary) 35%, transparent);
   --primary-inv: color-mix(in oklab, var(--primary) 14%, transparent);
   --primary-inv-foreground: var(--primary);
@@ -146,9 +146,9 @@
    * Foreground is dark — teal at 0.62 L carries dark text well.
    * ---------------------------------------------------------------------- */
 
-  --secondary: oklch(0.56 0.16 185);
+  --secondary: light-dark(oklch(0.56 0.16 185), oklch(0.62 0.16 185));
   --secondary-foreground: oklch(0.12 0.04 185);
-  --secondary-hover: oklch(0.51 0.16 185);
+  --secondary-hover: light-dark(oklch(0.51 0.16 185), oklch(0.67 0.16 185));
   --secondary-border: color-mix(in oklab, var(--secondary) 35%, transparent);
   --secondary-inv: color-mix(in oklab, var(--secondary) 14%, transparent);
   --secondary-inv-foreground: var(--secondary);
@@ -157,121 +157,21 @@
 }
 
 /* ---------------------------------------------------------------------------
- * Dark mode
- * Applied automatically when the OS preference is dark, unless the app has
- * explicitly opted into light mode via [data-theme="light"]. Apps that want
- * a manual toggle can add a `.dark` class (or set [data-theme="dark"]) on
- * the root element to force dark mode regardless of OS preference (see the
- * block below).
+ * Mode overrides
+ * `color-scheme: light dark` above means every color-scheme-aware value
+ * (light-dark() included) resolves per the OS preference by default. These
+ * two rules just pin `color-scheme` to a single value so light-dark() picks
+ * a side deliberately — no variables are redeclared. Add `.dark` / `.light`
+ * or [data-theme="dark"/"light"] to any element (:root included) to force
+ * its subtree into that mode regardless of OS preference.
  * ------------------------------------------------------------------------ */
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    color-scheme: dark;
-
-    --background: oklch(0.11 0.012 240);
-    --foreground: oklch(0.95 0.006 220);
-
-    --surface-default: oklch(0.14 0.013 240);
-    --surface-default-foreground: oklch(0.93 0.006 222);
-    --surface-default-hover: oklch(0.17 0.013 240);
-    --surface-default-border: oklch(0.2 0.012 237);
-
-    --surface-secondary: oklch(0.17 0.014 239);
-    --surface-secondary-foreground: oklch(0.91 0.006 222);
-    --surface-secondary-hover: oklch(0.2 0.014 239);
-    --surface-secondary-border: oklch(0.23 0.013 236);
-
-    --surface-tertiary: oklch(0.2 0.015 238);
-    --surface-tertiary-foreground: oklch(0.89 0.006 222);
-    --surface-tertiary-hover: oklch(0.23 0.015 238);
-    --surface-tertiary-border: oklch(0.26 0.014 235);
-
-    --surface-quaternary: oklch(0.23 0.016 237);
-    --surface-quaternary-foreground: oklch(0.87 0.006 222);
-    --surface-quaternary-hover: oklch(0.26 0.016 237);
-    --surface-quaternary-border: oklch(0.29 0.015 234);
-
-    --surface-quinary: oklch(0.26 0.017 236);
-    --surface-quinary-foreground: oklch(0.85 0.006 222);
-    --surface-quinary-hover: oklch(0.29 0.017 236);
-    --surface-quinary-border: oklch(0.32 0.016 233);
-
-    --muted-foreground: oklch(0.5 0.01 228);
-
-    --success: oklch(0.64 0.18 145);
-    --success-foreground: oklch(0.14 0.04 145);
-    --success-hover: oklch(0.69 0.18 145);
-
-    --warning: oklch(0.76 0.18 65);
-    --warning-foreground: oklch(0.12 0.04 65);
-    --warning-hover: oklch(0.81 0.18 65);
-
-    --danger: oklch(0.62 0.22 22);
-    --danger-foreground: oklch(0.97 0.005 22);
-    --danger-hover: oklch(0.67 0.22 22);
-
-    --primary: oklch(0.6 0.2 240);
-    --primary-foreground: oklch(0.97 0.005 240);
-    --primary-hover: oklch(0.65 0.2 240);
-
-    --secondary: oklch(0.62 0.16 185);
-    --secondary-foreground: oklch(0.12 0.04 185);
-    --secondary-hover: oklch(0.67 0.16 185);
-  }
+.dark,
+[data-theme='dark'] {
+  color-scheme: dark;
 }
 
-:root[data-theme='dark'],
-:root.dark {
-  color-scheme: dark;
-
-  --background: oklch(0.11 0.012 240);
-  --foreground: oklch(0.95 0.006 220);
-
-  --surface-default: oklch(0.14 0.013 240);
-  --surface-default-foreground: oklch(0.93 0.006 222);
-  --surface-default-hover: oklch(0.17 0.013 240);
-  --surface-default-border: oklch(0.2 0.012 237);
-
-  --surface-secondary: oklch(0.17 0.014 239);
-  --surface-secondary-foreground: oklch(0.91 0.006 222);
-  --surface-secondary-hover: oklch(0.2 0.014 239);
-  --surface-secondary-border: oklch(0.23 0.013 236);
-
-  --surface-tertiary: oklch(0.2 0.015 238);
-  --surface-tertiary-foreground: oklch(0.89 0.006 222);
-  --surface-tertiary-hover: oklch(0.23 0.015 238);
-  --surface-tertiary-border: oklch(0.26 0.014 235);
-
-  --surface-quaternary: oklch(0.23 0.016 237);
-  --surface-quaternary-foreground: oklch(0.87 0.006 222);
-  --surface-quaternary-hover: oklch(0.26 0.016 237);
-  --surface-quaternary-border: oklch(0.29 0.015 234);
-
-  --surface-quinary: oklch(0.26 0.017 236);
-  --surface-quinary-foreground: oklch(0.85 0.006 222);
-  --surface-quinary-hover: oklch(0.29 0.017 236);
-  --surface-quinary-border: oklch(0.32 0.016 233);
-
-  --muted-foreground: oklch(0.5 0.01 228);
-
-  --success: oklch(0.64 0.18 145);
-  --success-foreground: oklch(0.14 0.04 145);
-  --success-hover: oklch(0.69 0.18 145);
-
-  --warning: oklch(0.76 0.18 65);
-  --warning-foreground: oklch(0.12 0.04 65);
-  --warning-hover: oklch(0.81 0.18 65);
-
-  --danger: oklch(0.62 0.22 22);
-  --danger-foreground: oklch(0.97 0.005 22);
-  --danger-hover: oklch(0.67 0.22 22);
-
-  --primary: oklch(0.6 0.2 240);
-  --primary-foreground: oklch(0.97 0.005 240);
-  --primary-hover: oklch(0.65 0.2 240);
-
-  --secondary: oklch(0.62 0.16 185);
-  --secondary-foreground: oklch(0.12 0.04 185);
-  --secondary-hover: oklch(0.67 0.16 185);
+.light,
+[data-theme='light'] {
+  color-scheme: light;
 }

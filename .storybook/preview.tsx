@@ -1,18 +1,30 @@
 /// <reference types="vite-plus/client" />
 import type { Preview } from '@storybook/react-vite';
+import { withThemeByDataAttribute } from '@storybook/addon-themes';
 
 // oxlint-disable-next-line import/no-relative-parent-imports -- Importing from #src doesn't work for some reason?
 import '../src/styles/entry.css';
 // import '#src/styles/entry.css';
 
 const preview: Preview = {
-  parameters: {
-    backgrounds: {
-      options: {
-        light: { name: 'Light', value: 'oklch(0.98 0.004 240)' },
-        dark: { name: 'Dark', value: 'oklch(0.11 0.012 240)' },
+  decorators: [
+    withThemeByDataAttribute({
+      themes: {
+        'Brand 1': 'brand-1',
+        'Brand 2': 'brand-2',
+        'Brand 3': 'brand-3',
       },
-    },
+      defaultTheme: 'Brand 1',
+      attributeName: 'data-brand',
+    }),
+  ],
+  parameters: {
+    // backgrounds: {
+    //   options: {
+    //     light: { name: 'Light', value: 'oklch(0.98 0.004 240)' },
+    //     dark: { name: 'Dark', value: 'oklch(0.11 0.012 240)' },
+    //   },
+    // },
     controls: {
       matchers: {
         color: /(?<colorMatch>background|color)$/i,
