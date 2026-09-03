@@ -1,15 +1,16 @@
-import { Description } from './text-field-description';
-import { FieldError } from './text-field-field-error';
-import { Input } from './text-field-input';
-import { Label } from './text-field-label';
-import { LabelInputContainer } from './text-field-label-input-container';
+import { Description } from '#src/components/description';
+import { FieldContainer } from '#src/components/field-container';
+import { FieldError } from '#src/components/field-error';
+import { Input } from '#src/components/input';
+import { Label } from '#src/components/label';
+
 import { TextFieldRoot } from './text-field-root';
 import { TextFieldRootDebounced } from './text-field-root-debounced';
 
 export const TextField = Object.assign(TextFieldRoot, {
   Root: TextFieldRoot,
   RootDebounced: TextFieldRootDebounced,
-  LabelInputContainer,
+  FieldContainer,
   Label,
   Input,
   Description,

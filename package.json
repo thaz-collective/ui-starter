@@ -46,7 +46,6 @@
     "@storybook/addon-a11y": "catalog:",
     "@storybook/addon-docs": "catalog:",
     "@storybook/addon-onboarding": "catalog:",
-    "@storybook/addon-themes": "catalog:",
     "@storybook/react-vite": "catalog:",
     "@tailwindcss/vite": "catalog:",
     "@tanstack/eslint-plugin-query": "catalog:",

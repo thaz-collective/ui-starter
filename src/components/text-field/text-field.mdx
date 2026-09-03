@@ -24,7 +24,7 @@ hang off of it:
 
 ```
 TextField
-├── TextField.LabelInputContainer (optional)
+├── TextField.FieldContainer (optional)
 │   ├── TextField.Label (optional)
 │   └── TextField.Input
 ├── TextField.Description (optional)
@@ -60,7 +60,7 @@ React Aria and will not work standalone.
       <td>{'No¹'}</td>
     </tr>
     <tr>
-      <td>{'TextField.LabelInputContainer'}</td>
+      <td>{'TextField.FieldContainer'}</td>
       <td>{'Wraps the label and input, and owns the floating-label styling.'}</td>
       <td>{'Yes'}</td>
     </tr>
@@ -105,10 +105,10 @@ function Example() {
       value={value}
       onChange={setValue}
     >
-      <TextField.LabelInputContainer>
+      <TextField.FieldContainer>
         <TextField.Label>{'Full name'}</TextField.Label>
         <TextField.Input placeholder="Jane Smith" />
-      </TextField.LabelInputContainer>
+      </TextField.FieldContainer>
       <TextField.Description>{'Used on your public profile.'}</TextField.Description>
     </TextField>
   );
@@ -123,14 +123,14 @@ function Example() {
 ### Label placement
 
 `TextField.Label` is optional, but when it's used it must be nested inside
-`TextField.LabelInputContainer` alongside `TextField.Input`. The container tracks focus and value
+`TextField.FieldContainer` alongside `TextField.Input`. The container tracks focus and value
 state on its children via CSS (`:focus`, `:not(:placeholder-shown)`) to float the label above the
 input, so the label, input, and container need to stay together — don't split them apart or
 render the label outside the container.
 
 If you don't need a floating label (e.g. the label is provided some other way, or the field is
 unlabeled with only an `aria-label`), you can omit `TextField.Label` and/or
-`TextField.LabelInputContainer` and render `TextField.Input` directly inside `TextField`.
+`TextField.FieldContainer` and render `TextField.Input` directly inside `TextField`.
 
 ## States
 
@@ -183,10 +183,10 @@ function Example() {
       onChange={setValue}
       debounceOptions={{ wait: 300 }}
     >
-      <TextField.LabelInputContainer>
+      <TextField.FieldContainer>
         <TextField.Label>{'Search'}</TextField.Label>
         <TextField.Input />
-      </TextField.LabelInputContainer>
+      </TextField.FieldContainer>
     </TextField.RootDebounced>
   );
 }

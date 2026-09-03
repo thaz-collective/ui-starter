@@ -81,7 +81,7 @@
    * ---------------------------------------------------------------------- */
 
   --muted: var(--field);
-  --muted-foreground: light-dark(oklch(0.45 0.01 228), oklch(0.5 0.01 228));
+  --muted-foreground: var(--field-foreground);
   --muted-hover: var(--field-hover);
   --muted-border: var(--field-border);
 

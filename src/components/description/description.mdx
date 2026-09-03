@@ -1,0 +1,83 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+
+import * as DescriptionStories from './description.stories';
+
+<Meta of={DescriptionStories} />
+
+# Description
+
+Supporting/help text for a form field, built on `react-aria-components`' `Text` with
+`slot="description"`. It's automatically wired to the field's `aria-describedby` by React Aria, and
+automatically hides itself while the field is invalid so it doesn't compete with the error message.
+
+## Import
+
+```tsx
+import { Description } from '#src/components/description';
+```
+
+`TextField` also re-exports this as `TextField.Description` for convenience when composing a text
+field.
+
+## Usage
+
+`Description` must be rendered inside a field root carrying the `group/text-field` class (for
+example `TextField` / `TextField.Root`) — it reads the field's `invalid` state from that ancestor
+via a CSS `group-data-*` selector, not React context.
+
+```tsx
+import { useState } from 'react';
+
+import { TextField } from '#src/components/text-field';
+
+function Example() {
+  const [value, setValue] = useState('');
+
+  return (
+    <TextField
+      value={value}
+      onChange={setValue}
+    >
+      <TextField.FieldContainer>
+        <TextField.Label>{'Full name'}</TextField.Label>
+        <TextField.Input placeholder="Jane Smith" />
+      </TextField.FieldContainer>
+      <TextField.Description>{'Used on your public profile.'}</TextField.Description>
+    </TextField>
+  );
+}
+```
+
+<Canvas of={DescriptionStories.Default} />
+
+## Behavior
+
+- **Default**: small, muted-foreground text below the field.
+- **Invalid** (`isInvalid` on the field root): hidden, so `FieldError` can take its place without
+  the two overlapping.
+
+## API
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Prop'}</th>
+      <th>{'Type'}</th>
+      <th>{'Description'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'children'}</td>
+      <td>{'ReactNode'}</td>
+      <td>{'Required. The description text/content.'}</td>
+    </tr>
+    <tr>
+      <td>{'...rest'}</td>
+      <td>{"React Aria's TextProps (minus slot)"}</td>
+      <td>{'Any other prop accepted by react-aria-components’ Text, e.g. className, id.'}</td>
+    </tr>
+  </tbody>
+</table>
+
+<Controls of={DescriptionStories.Default} />
