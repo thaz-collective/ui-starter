@@ -16,11 +16,8 @@ export function TextFieldRoot(props: TextFieldRootProps) {
       className={composeRenderProps(props.className, (className) => {
         return (
           cn(
-            'group/text-field group/field',
-            'relative inline-flex flex-col gap-1',
-            'w-full min-w-0',
-            'border-0',
-            'm-0 p-0',
+            'group/text-field group/field relative m-0 inline-flex w-full min-w-0 flex-col gap-1 border-0 p-0',
+
             className,
           ) ?? ''
         );

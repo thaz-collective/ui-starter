@@ -15,7 +15,7 @@ export function Surface(props: SurfaceProps) {
     <SurfaceVariantContext value={variant}>
       <div
         {...props}
-        className={surfaceVariants({ ...props, variant })}
+        className={surfaceVariants({ ...props, variant }) ?? ''}
       />
     </SurfaceVariantContext>
   );

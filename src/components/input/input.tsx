@@ -12,18 +12,11 @@ export function Input(props: InputProps) {
       className={composeRenderProps(props.className, (className) => {
         return (
           cn(
-            'group/input',
-            'min-w-0 flex-1',
-            'px-3 pt-5 pb-1.5',
-            'bg-transparent',
-            'text-sm leading-none text-field-foreground',
-            'border-0 outline-none',
-            'placeholder:text-field-foreground/50',
-            'placeholder:opacity-0',
-            'placeholder:transition-opacity placeholder:duration-150',
+            'group/input min-w-0 flex-1 border-0 bg-transparent px-3 pt-5 pb-1.5 text-sm leading-none text-field-foreground outline-none',
 
-            'data-[disabled="true"]:cursor-not-allowed',
-            'data-[disabled="true"]:text-muted-foreground',
+            'placeholder:text-field-foreground/50 placeholder:opacity-0 placeholder:transition-opacity placeholder:duration-150',
+
+            'data-[disabled="true"]:cursor-not-allowed data-[disabled="true"]:text-muted-foreground',
 
             'data-[readonly="true"]:cursor-default',
 

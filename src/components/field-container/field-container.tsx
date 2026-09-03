@@ -16,19 +16,21 @@ export function FieldContainer(props: FieldContainerProps) {
   return (
     <div
       {...props}
-      className={cn(
-        surfaceVariants({ ...props, variant: variant ?? nestedVariant }),
+      className={
+        cn(
+          surfaceVariants({ ...props, variant: variant ?? nestedVariant }),
 
-        'group/field-container relative flex items-stretch rounded-md border border-field-border bg-field text-field-foreground transition-colors duration-150 focus-within:border-primary-border hover:border-primary-hover',
+          'group/field-container relative flex items-stretch rounded-md border border-field-border bg-field text-field-foreground transition-colors duration-150 focus-within:border-primary-border hover:border-primary-hover',
 
-        // TODO - Change color or adjust size on focus?
-        'group-data-[invalid="true"]/field:border-danger/90 group-data-[invalid="true"]/field:focus-within:border-danger group-data-[invalid="true"]/field:hover:border-danger-hover',
+          // TODO - Change color or adjust size on focus?
+          'group-data-[invalid="true"]/field:border-danger/90 group-data-[invalid="true"]/field:focus-within:border-danger group-data-[invalid="true"]/field:hover:border-danger-hover',
 
-        // TODO - Any adjustments to the disabled state?
-        'group-data-[disabled="true"]/field:cursor-not-allowed group-data-[disabled="true"]/field:opacity-50',
+          // TODO - Any adjustments to the disabled state?
+          'group-data-[disabled="true"]/field:cursor-not-allowed group-data-[disabled="true"]/field:opacity-50',
 
-        props.className,
-      )}
+          props.className,
+        ) ?? ''
+      }
     />
   );
 }

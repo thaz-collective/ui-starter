@@ -11,13 +11,15 @@ export function Description(props: DescriptionProps) {
     <RACText
       {...props}
       slot="description"
-      className={cn(
-        'group/description block text-xs text-field-foreground',
+      className={
+        cn(
+          'group/description block text-xs text-field-foreground',
 
-        'group-data-[invalid="true"]/field:hidden',
+          'group-data-[invalid="true"]/field:hidden',
 
-        props.className,
-      )}
+          props.className,
+        ) ?? ''
+      }
     />
   );
 }
