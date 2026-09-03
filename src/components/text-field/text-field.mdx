@@ -24,8 +24,8 @@ hang off of it:
 
 ```
 TextField
-├── TextField.FieldContainer (optional)
-│   ├── TextField.Label (optional)
+├── TextField.FieldContainer
+│   ├── TextField.Label
 │   └── TextField.Input
 ├── TextField.Description (optional)
 └── TextField.FieldError (optional)
@@ -62,12 +62,12 @@ React Aria and will not work standalone.
     <tr>
       <td>{'TextField.FieldContainer'}</td>
       <td>{'Wraps the label and input, and owns the floating-label styling.'}</td>
-      <td>{'Yes'}</td>
+      <td>{'No'}</td>
     </tr>
     <tr>
       <td>{'TextField.Label'}</td>
       <td>{"The field's label text. Floats above the input on focus/value."}</td>
-      <td>{'Yes'}</td>
+      <td>{'No'}</td>
     </tr>
     <tr>
       <td>{'TextField.Input'}</td>
@@ -122,15 +122,11 @@ function Example() {
 
 ### Label placement
 
-`TextField.Label` is optional, but when it's used it must be nested inside
-`TextField.FieldContainer` alongside `TextField.Input`. The container tracks focus and value
-state on its children via CSS (`:focus`, `:not(:placeholder-shown)`) to float the label above the
-input, so the label, input, and container need to stay together — don't split them apart or
-render the label outside the container.
-
-If you don't need a floating label (e.g. the label is provided some other way, or the field is
-unlabeled with only an `aria-label`), you can omit `TextField.Label` and/or
-`TextField.FieldContainer` and render `TextField.Input` directly inside `TextField`.
+`TextField.Label` and `TextField.FieldContainer` are required and must be nested together —
+`TextField.Label` alongside `TextField.Input`, inside `TextField.FieldContainer`. The container
+tracks focus and value state on its children via CSS (`:focus`, `:not(:placeholder-shown)`) to
+float the label above the input, so the label, input, and container need to stay together — don't
+split them apart or render the label outside the container.
 
 ## States
 
