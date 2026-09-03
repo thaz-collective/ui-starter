@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+import { FieldContainer } from '#src/components/field-container';
+import { Label } from '#src/components/label';
 import { TextField } from '#src/components/text-field';
 
 import { Input } from './index';
@@ -27,10 +29,10 @@ function DefaultExample() {
       value={value}
       onChange={setValue}
     >
-      <TextField.FieldContainer>
-        <TextField.Label>{'Full name'}</TextField.Label>
+      <FieldContainer>
+        <Label>{'Full name'}</Label>
         <Input placeholder="Jane Smith" />
-      </TextField.FieldContainer>
+      </FieldContainer>
     </TextField>
   );
 }

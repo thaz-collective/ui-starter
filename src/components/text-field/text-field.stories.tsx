@@ -2,6 +2,12 @@ import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+import { Description } from '#src/components/description';
+import { FieldContainer } from '#src/components/field-container';
+import { FieldError } from '#src/components/field-error';
+import { Input } from '#src/components/input';
+import { Label } from '#src/components/label';
+
 import { TextField } from './index';
 
 const meta = {
@@ -25,11 +31,11 @@ function DefaultExample() {
       value={value}
       onChange={setValue}
     >
-      <TextField.FieldContainer>
-        <TextField.Label>{'Full name'}</TextField.Label>
-        <TextField.Input placeholder="Jane Smith" />
-      </TextField.FieldContainer>
-      <TextField.Description>{'Used on your public profile.'}</TextField.Description>
+      <FieldContainer>
+        <Label>{'Full name'}</Label>
+        <Input placeholder="Jane Smith" />
+      </FieldContainer>
+      <Description>{'Used on your public profile.'}</Description>
     </TextField>
   );
 }
@@ -49,11 +55,11 @@ function RequiredExample() {
       onChange={setValue}
       isRequired={true}
     >
-      <TextField.FieldContainer>
-        <TextField.Label>{'Email'}</TextField.Label>
-        <TextField.Input placeholder="you@example.com" />
-      </TextField.FieldContainer>
-      <TextField.Description>{'Required to create your account.'}</TextField.Description>
+      <FieldContainer>
+        <Label>{'Email'}</Label>
+        <Input placeholder="you@example.com" />
+      </FieldContainer>
+      <Description>{'Required to create your account.'}</Description>
     </TextField>
   );
 }
@@ -73,11 +79,11 @@ function ErrorStateExample() {
       onChange={setValue}
       isInvalid={true}
     >
-      <TextField.FieldContainer>
-        <TextField.Label>{'Email'}</TextField.Label>
-        <TextField.Input placeholder="you@example.com" />
-      </TextField.FieldContainer>
-      <TextField.FieldError>{'Please enter a valid email address.'}</TextField.FieldError>
+      <FieldContainer>
+        <Label>{'Email'}</Label>
+        <Input placeholder="you@example.com" />
+      </FieldContainer>
+      <FieldError>{'Please enter a valid email address.'}</FieldError>
     </TextField>
   );
 }
@@ -97,10 +103,10 @@ function DisabledStateExample() {
       onChange={setValue}
       isDisabled={true}
     >
-      <TextField.FieldContainer>
-        <TextField.Label>{'Email'}</TextField.Label>
-        <TextField.Input />
-      </TextField.FieldContainer>
+      <FieldContainer>
+        <Label>{'Email'}</Label>
+        <Input />
+      </FieldContainer>
     </TextField>
   );
 }
@@ -120,11 +126,11 @@ function ReadonlyStateExample() {
       onChange={setValue}
       isReadOnly={true}
     >
-      <TextField.FieldContainer>
-        <TextField.Label>{'Email'}</TextField.Label>
-        <TextField.Input />
-      </TextField.FieldContainer>
-      <TextField.Description>{'Contact support to change this.'}</TextField.Description>
+      <FieldContainer>
+        <Label>{'Email'}</Label>
+        <Input />
+      </FieldContainer>
+      <Description>{'Contact support to change this.'}</Description>
     </TextField>
   );
 }
