@@ -30,7 +30,7 @@ function DefaultExample() {
       <NumberField.FieldContainer>
         <NumberField.Label>{'Quantity'}</NumberField.Label>
         <NumberField.Group>
-          <NumberField.Input />
+          <NumberField.Input placeholder="0" />
           <NumberField.StepButtons>
             <NumberField.IncrementButton />
             <NumberField.DecrementButton />
@@ -59,7 +59,7 @@ function FormattedExample() {
       <NumberField.FieldContainer>
         <NumberField.Label>{'Price'}</NumberField.Label>
         <NumberField.Group>
-          <NumberField.Input />
+          <NumberField.Input placeholder="0" />
           <NumberField.StepButtons>
             <NumberField.IncrementButton />
             <NumberField.DecrementButton />
@@ -90,7 +90,7 @@ function WithMinMaxExample() {
       <NumberField.FieldContainer>
         <NumberField.Label>{'Volume'}</NumberField.Label>
         <NumberField.Group>
-          <NumberField.Input />
+          <NumberField.Input placeholder="0" />
           <NumberField.StepButtons>
             <NumberField.IncrementButton />
             <NumberField.DecrementButton />
@@ -120,7 +120,7 @@ function RequiredExample() {
       <NumberField.FieldContainer>
         <NumberField.Label>{'Quantity'}</NumberField.Label>
         <NumberField.Group>
-          <NumberField.Input />
+          <NumberField.Input placeholder="0" />
           <NumberField.StepButtons>
             <NumberField.IncrementButton />
             <NumberField.DecrementButton />
@@ -149,7 +149,7 @@ function ErrorStateExample() {
       <NumberField.FieldContainer>
         <NumberField.Label>{'Quantity'}</NumberField.Label>
         <NumberField.Group>
-          <NumberField.Input />
+          <NumberField.Input placeholder="0" />
           <NumberField.StepButtons>
             <NumberField.IncrementButton />
             <NumberField.DecrementButton />
@@ -179,7 +179,7 @@ function DisabledStateExample() {
       <NumberField.FieldContainer>
         <NumberField.Label>{'Quantity'}</NumberField.Label>
         <NumberField.Group>
-          <NumberField.Input />
+          <NumberField.Input placeholder="0" />
           <NumberField.StepButtons>
             <NumberField.IncrementButton />
             <NumberField.DecrementButton />
@@ -208,7 +208,7 @@ function ReadonlyStateExample() {
       <NumberField.FieldContainer>
         <NumberField.Label>{'Quantity'}</NumberField.Label>
         <NumberField.Group>
-          <NumberField.Input />
+          <NumberField.Input placeholder="0" />
           <NumberField.StepButtons>
             <NumberField.IncrementButton />
             <NumberField.DecrementButton />
@@ -244,7 +244,7 @@ function OnCardsExample() {
               <NumberField.FieldContainer>
                 <NumberField.Label>{'Quantity'}</NumberField.Label>
                 <NumberField.Group>
-                  <NumberField.Input />
+                  <NumberField.Input placeholder="0" />
                   <NumberField.StepButtons>
                     <NumberField.IncrementButton />
                     <NumberField.DecrementButton />
@@ -280,6 +280,7 @@ function DebouncedExample() {
           <NumberField.Label>{'Quantity'}</NumberField.Label>
           <NumberField.Group>
             <NumberField.Input
+              placeholder="0"
               onInput={(event) => {
                 const nextValue = Number(event.currentTarget.value);
 

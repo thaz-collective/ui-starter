@@ -7,8 +7,8 @@ import * as LabelStories from './label.stories';
 # Label
 
 A floating field label built on `react-aria-components`' `Label`. It renders as plain text
-positioned over the input and floats up on focus or value, driven entirely by CSS group
-selectors — no local state.
+positioned over the input and floats up on focus or value, driven entirely by styling — no
+local state.
 
 ## Import
 
@@ -20,11 +20,10 @@ import { Label } from '#src/components/label';
 
 ## Usage
 
-`Label` must be rendered inside a `FieldContainer`-style wrapper carrying the
-`group/field-container` class, which itself must sit inside a field root carrying
-`group/text-field` (for example `TextField` / `TextField.Root`). It reads state — focus, value,
-required, invalid, disabled — from those ancestors via CSS `group-*` selectors, not React context,
-so it works with any field root that follows the same group-naming convention.
+`Label` must be rendered inside a `FieldContainer`-style wrapper, which itself must sit inside a
+field root (for example `TextField` / `TextField.Root`). It reacts to state — focus, value,
+required, invalid, disabled — from those ancestors purely through styling, not React context, so
+it works with any field root that follows the same conventions.
 
 ```tsx
 import { useState } from 'react';

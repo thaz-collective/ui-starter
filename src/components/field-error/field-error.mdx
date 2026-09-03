@@ -22,8 +22,8 @@ field.
 
 `FieldError` must be rendered inside a field root that provides React Aria form-validation context
 (for example `TextField` / `TextField.Root`) — unlike `Label` and `Description`, its visibility is
-driven by React Aria itself, not a CSS `group-*` selector, though its styling does still key off the
-`group/text-field` ancestor for the danger color.
+driven by React Aria itself rather than purely by styling, though its danger color still comes
+from that same field root's invalid state.
 
 ```tsx
 import { useState } from 'react';

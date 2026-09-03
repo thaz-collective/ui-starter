@@ -7,9 +7,8 @@ import * as FieldContainerStories from './field-container.stories.tsx';
 # FieldContainer
 
 A plain `<div>` wrapper that owns the bordered "field" chrome around a label and input — background,
-border, radius, and the hover/focus/invalid/disabled border colors. It carries the
-`group/field-container` class that `Label` and `Input` key off of for their floating-label
-and placeholder-fade behavior.
+border, radius, and the hover/focus/invalid/disabled border colors. `Label` and `Input` treat it
+as their positioning context for the floating-label and placeholder-fade behavior.
 
 ## Import
 
@@ -22,9 +21,8 @@ a text field.
 
 ## Usage
 
-`FieldContainer` must be rendered inside a field root carrying the `group/text-field` class
-(for example `TextField` / `TextField.Root`) — its border color reacts to that ancestor's
-`invalid`/`disabled` state via CSS `group-data-*` selectors.
+`FieldContainer` must be rendered inside a field root (for example `TextField` / `TextField.Root`)
+— its border color reacts to that ancestor's `invalid`/`disabled` state automatically.
 
 ```tsx
 import { useState } from 'react';

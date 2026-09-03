@@ -125,9 +125,13 @@ function Example() {
 
 `TextField.Label` and `TextField.FieldContainer` are required and must be nested together —
 `TextField.Label` alongside `TextField.Input`, inside `TextField.FieldContainer`. The container
-tracks focus and value state on its children via CSS (`:focus`, `:not(:placeholder-shown)`) to
-float the label above the input, so the label, input, and container need to stay together — don't
-split them apart or render the label outside the container.
+watches its children for focus and content and floats the label above the input in response, so
+the label, input, and container need to stay together — don't split them apart or render the
+label outside the container.
+
+Detecting "has content" this way relies on the input actually having a `placeholder`, which is
+why `placeholder` is a required prop on `Input`/`TextField.Input` — pass `placeholder=" "` if you
+don't want visible placeholder text.
 
 ### Inside a Card
 
@@ -283,8 +287,9 @@ so you can see the delay:
 
 ### `TextField.Input`
 
-Renders an `<input>`. Accepts standard `<input>` props (`type`, `placeholder`, `autoComplete`,
-etc.) via React Aria Components' `Input`.
+Renders an `<input>`. `placeholder` is required — the label needs it to detect whether the field
+is empty (see [Label placement](#label-placement)). Accepts standard `<input>` props (`type`,
+`autoComplete`, etc.) via React Aria Components' `Input`.
 
 ### `TextField.Label`, `TextField.Description`, `TextField.FieldError`
 

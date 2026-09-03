@@ -9,3 +9,5 @@ Note some of the components that are already here like: input, label, field-cont
 Additionally, for all of these components if there is no variant then please don't use the tv utiltiy. Just inline use the cn utilty: `import { cn } from 'tailwind-variants';`
 
 Add mdx documentation for the structure and usage and update existing documentation for any changes you make as well.
+
+When documenting anything never describe exactly what the source says (for instance the css/tailwind selector) instead you can describe what it generally does like adds flex layout or conditionally loads a slot

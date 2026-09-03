@@ -41,9 +41,9 @@ want to debounce `onChange` (for example, wiring the field up to a network reque
 
 `NumberField.FieldContainer`, `NumberField.Label`, `NumberField.Description`, and
 `NumberField.FieldError` are the same shared components used by
-[`TextField`](/?path=/docs/component-textfield--docs) — they only key off the `group/field` and
-`group/field-container` ancestor classes, both of which `NumberField.Root` and
-`NumberField.FieldContainer` carry, so they work here unmodified.
+[`TextField`](/?path=/docs/component-textfield--docs) — they only care about being nested inside
+a field root and its container, both of which `NumberField.Root` and `NumberField.FieldContainer`
+provide, so they work here unmodified.
 
 Every slot must be rendered inside `NumberField` / `NumberField.Root` — they read shared context
 from React Aria and will not work standalone.
@@ -138,7 +138,7 @@ function Example() {
       <NumberField.FieldContainer>
         <NumberField.Label>{'Quantity'}</NumberField.Label>
         <NumberField.Group>
-          <NumberField.Input />
+          <NumberField.Input placeholder="0" />
           <NumberField.StepButtons>
             <NumberField.IncrementButton />
             <NumberField.DecrementButton />
@@ -162,10 +162,13 @@ uncontrolled field.
 
 `NumberField.Label` and `NumberField.FieldContainer` are required and must be nested together —
 `NumberField.Label` alongside `NumberField.Group`, inside `NumberField.FieldContainer`. The
-container tracks focus and value state on its children via CSS (`:focus`,
-`:not(:placeholder-shown)`) to float the label above the input, so the label, group, and
-container need to stay together — don't split them apart or render the label outside the
-container.
+container watches its children for focus and content and floats the label above the input in
+response, so the label, group, and container need to stay together — don't split them apart or
+render the label outside the container.
+
+Detecting "has content" this way relies on the input actually having a `placeholder`, which is
+why `placeholder` is a required prop on `NumberField.Input` — pass `placeholder=" "` if you don't
+want visible placeholder text.
 
 ### Stepper buttons
 
@@ -253,7 +256,7 @@ function Example() {
       <NumberField.FieldContainer>
         <NumberField.Label>{'Quantity'}</NumberField.Label>
         <NumberField.Group>
-          <NumberField.Input />
+          <NumberField.Input placeholder="0" />
         </NumberField.Group>
       </NumberField.FieldContainer>
     </NumberField.RootDebounced>
@@ -372,7 +375,9 @@ Renders a `react-aria-components` `Group` around `NumberField.Input` and
 
 ### `NumberField.Input`
 
-Renders an `<input>`. Accepts standard `<input>` props via React Aria Components' `Input`.
+Renders an `<input>`. `placeholder` is required — the label needs it to detect whether the field
+is empty (see [Label placement](#label-placement)). Accepts standard `<input>` props via React
+Aria Components' `Input`.
 
 ### `NumberField.StepButtons`, `NumberField.IncrementButton`, `NumberField.DecrementButton`
 
