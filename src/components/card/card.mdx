@@ -1,0 +1,198 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+
+import * as CardStories from './card.stories';
+
+<Meta of={CardStories} />
+
+# Card
+
+A compound container that composes `Surface` for its background/border, with slots for a
+header, title, description, content, and footer.
+
+## Import
+
+```tsx
+import { Card } from '#src/components/card';
+```
+
+## Usage
+
+```tsx
+import { Card } from '#src/components/card';
+
+function Example() {
+  return (
+    <Card
+      variant="default"
+      className="w-64"
+    >
+      <Card.Header>
+        <Card.Title>{'Default'}</Card.Title>
+        <Card.Description>{'The default surface + border.'}</Card.Description>
+      </Card.Header>
+      <Card.Content>{'Card content goes here.'}</Card.Content>
+      <Card.Footer>{'Footer content'}</Card.Footer>
+    </Card>
+  );
+}
+```
+
+<Canvas of={CardStories.Default} />
+
+## Composition
+
+Use the following composition to build a `Card`:
+
+```
+Card
+├── Card.Header (optional)
+│   ├── Card.Title
+│   └── Card.Description (optional)
+├── Card.Content (optional)
+└── Card.Footer (optional)
+```
+
+Each slot is a plain, self-contained element — none of them require a parent `Card` to render,
+but they're styled to be composed together.
+
+## Sub-components
+
+### `Card.Header`
+
+Top section of the card. Usually wraps `Card.Title` and `Card.Description`. Provides a
+vertical, stacked layout and horizontal padding; no variants. Spacing between slots is
+provided by `Card` itself, so slots don't need their own top/bottom padding.
+
+```tsx
+<Card.Header>
+  <Card.Title>{'Title'}</Card.Title>
+  <Card.Description>{'Description'}</Card.Description>
+</Card.Header>
+```
+
+### `Card.Title`
+
+The card's heading text, styled as a compact heading.
+
+```tsx
+<Card.Title>{'Monthly Revenue'}</Card.Title>
+```
+
+### `Card.Description`
+
+Supporting text rendered under `Card.Title`, styled as secondary/muted text.
+
+```tsx
+<Card.Description>{'Compared to last 30 days'}</Card.Description>
+```
+
+### `Card.Content`
+
+The main body of the card. Provides horizontal padding only — vertical spacing is provided
+by `Card` itself, so `Card.Content` looks correct whether or not a `Card.Header` precedes it.
+
+```tsx
+<Card.Content>{'Card content goes here.'}</Card.Content>
+```
+
+### `Card.Footer`
+
+Bottom section of the card, usually actions (buttons, links). Lays its children out in a row
+with a small gap between them.
+
+```tsx
+<Card.Footer>
+  <button type="button">{'View report →'}</button>
+</Card.Footer>
+```
+
+All five sub-components accept no variant props — they render fixed, non-configurable styling,
+and forward any other native `div` props (`className`, `id`, event handlers, etc.).
+
+## Variants
+
+`Card` (the root) is the only part of the compound component with a `variant` prop, since it's
+the piece that paints a background/border via `Surface`.
+
+### Transparent
+
+No background or border — useful when you only want the `Card` layout without painting a surface.
+
+<Canvas of={CardStories.Transparent} />
+
+### Default
+
+<Canvas of={CardStories.Default} />
+
+### Secondary
+
+One layer deeper than `default`.
+
+<Canvas of={CardStories.Secondary} />
+
+### Tertiary
+
+Two layers deeper than `default`.
+
+<Canvas of={CardStories.Tertiary} />
+
+## Examples
+
+### Nested card
+
+Cards can be nested directly inside `Card.Content`. Stepping through `default` → `secondary` →
+`tertiary` gives each layer a visibly distinct background, since each `Card` is a `Surface` that
+sets `--surface`/`--field` for its own subtree.
+
+<Canvas of={CardStories.Nested} />
+
+### Stat card
+
+<Canvas of={CardStories.Stat} />
+
+### Notification card
+
+<Canvas of={CardStories.Notification} />
+
+### Profile card
+
+<Canvas of={CardStories.Profile} />
+
+### Settings row
+
+<Canvas of={CardStories.SettingsRow} />
+
+## API
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Prop'}</th>
+      <th>{'Type'}</th>
+      <th>{'Default'}</th>
+      <th>{'Description'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'variant'}</td>
+      <td>{"'transparent' | 'default' | 'secondary' | 'tertiary'"}</td>
+      <td>{"'default'"}</td>
+      <td>{'Which surface layer/border the card renders.'}</td>
+    </tr>
+    <tr>
+      <td>{'children'}</td>
+      <td>{'ReactNode'}</td>
+      <td>{'—'}</td>
+      <td>{'Required. Card content, typically Header/Content/Footer slots.'}</td>
+    </tr>
+    <tr>
+      <td>{'...rest'}</td>
+      <td>{'ComponentPropsWithRef<typeof Surface>'}</td>
+      <td>{'—'}</td>
+      <td>{'Any prop accepted by Surface, e.g. className, id.'}</td>
+    </tr>
+  </tbody>
+</table>
+
+<Controls of={CardStories.Default} />

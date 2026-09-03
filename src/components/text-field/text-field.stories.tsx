@@ -2,8 +2,7 @@ import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import type { SurfaceVariant } from '#src/components/surface';
-import { Surface } from '#src/components/surface';
+import { Card } from '#src/components/card';
 
 import { TextField } from './index';
 
@@ -137,33 +136,37 @@ export const ReadonlyState: Story = {
   render: () => <ReadonlyStateExample />,
 };
 
-const SURFACE_VARIANTS: SurfaceVariant[] = ['default', 'secondary', 'tertiary'];
+const CARD_VARIANTS = ['default', 'secondary', 'tertiary'] as const;
 
-function OnSurfacesExample() {
+function OnCardsExample() {
   return (
     <div className="flex flex-wrap gap-4">
-      {SURFACE_VARIANTS.map((variant) => (
-        <Surface
+      {CARD_VARIANTS.map((variant) => (
+        <Card
           key={variant}
           variant={variant}
-          className="flex w-64 flex-col gap-4 rounded-lg border border-surface-border p-4"
+          className="w-64"
         >
-          <span className="text-xs font-medium text-surface-foreground capitalize">{variant}</span>
-          <TextField className="w-full">
-            <TextField.FieldContainer>
-              <TextField.Label>{'Full name'}</TextField.Label>
-              <TextField.Input placeholder="Jane Smith" />
-            </TextField.FieldContainer>
-          </TextField>
-        </Surface>
+          <Card.Header>
+            <Card.Title className="capitalize">{variant}</Card.Title>
+          </Card.Header>
+          <Card.Content>
+            <TextField>
+              <TextField.FieldContainer>
+                <TextField.Label>{'Full name'}</TextField.Label>
+                <TextField.Input placeholder="Jane Smith" />
+              </TextField.FieldContainer>
+            </TextField>
+          </Card.Content>
+        </Card>
       ))}
     </div>
   );
 }
 
-export const OnSurfaces: Story = {
+export const OnCards: Story = {
   args: { value: '', onChange: () => {}, children: null },
-  render: () => <OnSurfacesExample />,
+  render: () => <OnCardsExample />,
 };
 
 function DebouncedExample() {

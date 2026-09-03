@@ -129,14 +129,14 @@ tracks focus and value state on its children via CSS (`:focus`, `:not(:placehold
 float the label above the input, so the label, input, and container need to stay together — don't
 split them apart or render the label outside the container.
 
-### On different surfaces
+### Inside a Card
 
 `TextField.FieldContainer` reads its `--field*` colors from whichever `Surface` it's nested in —
-one step further into the surface stack than its parent, via `Surface`'s `useSurfaceVariant`. So a
-field automatically stays visually distinct from its background on any surface variant, with no
-extra props:
+one step further into the surface stack than its parent, via `Surface`'s `useSurfaceVariant`. Since
+`Card` is built on `Surface`, a field placed inside a `Card` automatically stays visually distinct
+from the card's background on any `Card` variant, with no extra props:
 
-<Canvas of={TextFieldStories.OnSurfaces} />
+<Canvas of={TextFieldStories.OnCards} />
 
 ## States
 
