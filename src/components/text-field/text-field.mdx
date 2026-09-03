@@ -196,6 +196,11 @@ The input itself updates immediately on every keystroke; `onChange` (and therefo
 fires after `wait` milliseconds of inactivity. `debounceOptions` accepts the same options as
 `@tanstack/react-pacer`'s `useDebouncedCallback` (`wait` defaults to `300`).
 
+The example below tracks both the immediate keystroke value and the debounced value side by side
+so you can see the delay:
+
+<Canvas of={TextFieldStories.Debounced} />
+
 ## API
 
 ### `TextField` / `TextField.Root`

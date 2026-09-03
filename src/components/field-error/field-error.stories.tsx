@@ -2,9 +2,6 @@ import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { FieldContainer } from '#src/components/field-container';
-import { Input } from '#src/components/input';
-import { Label } from '#src/components/label';
 import { TextField } from '#src/components/text-field';
 
 import { FieldError } from './index';
@@ -31,10 +28,10 @@ function DefaultExample() {
       onChange={setValue}
       isInvalid={true}
     >
-      <FieldContainer>
-        <Label>{'Email'}</Label>
-        <Input placeholder="you@example.com" />
-      </FieldContainer>
+      <TextField.FieldContainer>
+        <TextField.Label>{'Email'}</TextField.Label>
+        <TextField.Input placeholder="you@example.com" />
+      </TextField.FieldContainer>
       <FieldError>{'Please enter a valid email address.'}</FieldError>
     </TextField>
   );

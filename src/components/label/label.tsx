@@ -11,38 +11,27 @@ export function Label(props: LabelProps) {
     <RACLabel
       className={
         cn(
-          'group/label pointer-events-none absolute top-0 left-0 z-1 block overflow-hidden pt-0 pl-2.5 text-sm leading-none font-medium text-ellipsis whitespace-nowrap text-field-foreground transition-all duration-150 select-none',
+          'group/label pointer-events-none absolute top-1/2 left-2.5 z-1 block max-w-[calc(100%-1.25rem)] -translate-y-1/2 overflow-hidden text-sm leading-none font-medium text-ellipsis whitespace-nowrap text-field-foreground transition-all duration-150 select-none',
 
           // required indicator
-          // 'group-data-[required="true"]/field:after:content-["*"]',
-          // 'group-data-[required="true"]/field:after:ml-0.5',
+          'group-data-[required="true"]/field:after:ml-0.5 group-data-[required="true"]/field:after:content-["*"]',
 
           // hover
           'group-hover/field-container:text-primary-hover',
-          // 'group-data-[invalid="true"]/field:group-hover/field-container:text-danger-hover',
+          'group-data-[invalid="true"]/field:group-hover/field-container:text-danger-hover',
 
-          // input focused → float up
-          // 'group-has-[input:focus]/field-container:top-1.5',
-          // 'group-has-[input:focus]/field-container:translate-x-3',
-          'group-has-[input:focus]/field-container:translate-y-2',
-          // 'group-has-[input:focus]/field-container:scale-0',
-          'group-has-[input:focus]/field-container:text-xs',
-          'group-has-[input:focus]/field-container:text-primary',
+          // focused OR has a value → float up + shrink
+          'group-has-[input:focus]/field-container:top-1.5 group-has-[input:focus]/field-container:translate-y-0 group-has-[input:focus]/field-container:text-xs group-has-[input:focus]/field-container:text-primary',
+          'group-has-[input:not(:placeholder-shown)]/field-container:top-1.5 group-has-[input:not(:placeholder-shown)]/field-container:translate-y-0 group-has-[input:not(:placeholder-shown)]/field-container:text-xs',
 
-          // error + focused → error color wins
-          // 'group-data-[invalid="true"]/field:group-has-[input:focus]/field-container:text-danger',
-          // 'group-data-[invalid="true"]/field:group-has-[textarea:focus]/field-container:text-danger',
+          // error + focused → error color wins over primary
+          'group-data-[invalid="true"]/field:group-has-[input:focus]/field-container:text-danger',
 
-          // has value → float up
-          // 'group-has-[input:not(:placeholder-shown)]/field-container:top-1.5',
-          // 'group-has-[input:not(:placeholder-shown)]/field-container:translate-y-0',
-          // 'group-has-[input:not(:placeholder-shown)]/field-container:text-xs',
-
-          // invalid
-          // 'group-data-[invalid="true"]/field:text-danger',
+          // invalid (floated or not)
+          'group-data-[invalid="true"]/field:text-danger',
 
           // disabled
-          // 'group-data-[disabled="true"]/field:cursor-not-allowed',
+          'group-data-[disabled="true"]/field:cursor-not-allowed',
 
           props.className,
         ) ?? ''

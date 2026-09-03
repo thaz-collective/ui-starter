@@ -4,11 +4,16 @@ import { useState } from 'react';
 import type { DebouncerOptions } from '@tanstack/react-pacer/debouncer';
 import { useDebouncedCallback } from '@tanstack/react-pacer/debouncer';
 
+import type { SetRequired } from 'type-fest';
+
 import { TextFieldRoot } from './text-field-root';
 
 const DEFAULT_DEBOUNCE_WAIT_MS = 300;
 
-type TextFieldRootProps = ComponentPropsWithRef<typeof TextFieldRoot>;
+type TextFieldRootProps = SetRequired<
+  Omit<ComponentPropsWithRef<typeof TextFieldRoot>, 'defaultValue'>,
+  'value' | 'onChange'
+>;
 
 type TextFieldRootDebouncerOptions = DebouncerOptions<NonNullable<TextFieldRootProps['onChange']>>;
 

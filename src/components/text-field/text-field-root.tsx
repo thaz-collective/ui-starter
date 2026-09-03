@@ -4,10 +4,7 @@ import type { SetRequired } from 'type-fest';
 import { composeRenderProps, TextField as RACTextField } from 'react-aria-components';
 import { cn } from 'tailwind-variants';
 
-type TextFieldRootProps = SetRequired<
-  Omit<ComponentPropsWithRef<typeof RACTextField>, 'defaultValue'>,
-  'value' | 'onChange' | 'children'
->;
+type TextFieldRootProps = SetRequired<ComponentPropsWithRef<typeof RACTextField>, 'children'>;
 
 export function TextFieldRoot(props: TextFieldRootProps) {
   return (

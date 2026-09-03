@@ -2,12 +2,6 @@ import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { Description } from '#src/components/description';
-import { FieldContainer } from '#src/components/field-container';
-import { FieldError } from '#src/components/field-error';
-import { Input } from '#src/components/input';
-import { Label } from '#src/components/label';
-
 import { TextField } from './index';
 
 const meta = {
@@ -31,11 +25,11 @@ function DefaultExample() {
       value={value}
       onChange={setValue}
     >
-      <FieldContainer>
-        <Label>{'Full name'}</Label>
-        <Input placeholder="Jane Smith" />
-      </FieldContainer>
-      <Description>{'Used on your public profile.'}</Description>
+      <TextField.FieldContainer>
+        <TextField.Label>{'Full name'}</TextField.Label>
+        <TextField.Input placeholder="Jane Smith" />
+      </TextField.FieldContainer>
+      <TextField.Description>{'Used on your public profile.'}</TextField.Description>
     </TextField>
   );
 }
@@ -55,11 +49,11 @@ function RequiredExample() {
       onChange={setValue}
       isRequired={true}
     >
-      <FieldContainer>
-        <Label>{'Email'}</Label>
-        <Input placeholder="you@example.com" />
-      </FieldContainer>
-      <Description>{'Required to create your account.'}</Description>
+      <TextField.FieldContainer>
+        <TextField.Label>{'Email'}</TextField.Label>
+        <TextField.Input placeholder="you@example.com" />
+      </TextField.FieldContainer>
+      <TextField.Description>{'Required to create your account.'}</TextField.Description>
     </TextField>
   );
 }
@@ -79,11 +73,11 @@ function ErrorStateExample() {
       onChange={setValue}
       isInvalid={true}
     >
-      <FieldContainer>
-        <Label>{'Email'}</Label>
-        <Input placeholder="you@example.com" />
-      </FieldContainer>
-      <FieldError>{'Please enter a valid email address.'}</FieldError>
+      <TextField.FieldContainer>
+        <TextField.Label>{'Email'}</TextField.Label>
+        <TextField.Input placeholder="you@example.com" />
+      </TextField.FieldContainer>
+      <TextField.FieldError>{'Please enter a valid email address.'}</TextField.FieldError>
     </TextField>
   );
 }
@@ -103,10 +97,10 @@ function DisabledStateExample() {
       onChange={setValue}
       isDisabled={true}
     >
-      <FieldContainer>
-        <Label>{'Email'}</Label>
-        <Input />
-      </FieldContainer>
+      <TextField.FieldContainer>
+        <TextField.Label>{'Email'}</TextField.Label>
+        <TextField.Input />
+      </TextField.FieldContainer>
     </TextField>
   );
 }
@@ -126,11 +120,11 @@ function ReadonlyStateExample() {
       onChange={setValue}
       isReadOnly={true}
     >
-      <FieldContainer>
-        <Label>{'Email'}</Label>
-        <Input />
-      </FieldContainer>
-      <Description>{'Contact support to change this.'}</Description>
+      <TextField.FieldContainer>
+        <TextField.Label>{'Email'}</TextField.Label>
+        <TextField.Input />
+      </TextField.FieldContainer>
+      <TextField.Description>{'Contact support to change this.'}</TextField.Description>
     </TextField>
   );
 }
@@ -138,4 +132,44 @@ function ReadonlyStateExample() {
 export const ReadonlyState: Story = {
   args: { value: '', onChange: () => {}, children: null },
   render: () => <ReadonlyStateExample />,
+};
+
+function DebouncedExample() {
+  const [value, setValue] = useState('');
+  const [debouncedValue, setDebouncedValue] = useState('');
+
+  return (
+    <div className="flex flex-col gap-4">
+      <TextField.RootDebounced
+        className="w-64"
+        value={debouncedValue}
+        onChange={setDebouncedValue}
+        debounceOptions={{ wait: 500 }}
+      >
+        <TextField.FieldContainer>
+          <TextField.Label>{'Search'}</TextField.Label>
+          <TextField.Input
+            onInput={(event) => {
+              setValue(event.currentTarget.value);
+            }}
+          />
+        </TextField.FieldContainer>
+      </TextField.RootDebounced>
+      <dl className="flex flex-col gap-1 text-xs text-field-foreground">
+        <div className="flex gap-2">
+          <dt className="font-medium">{'value:'}</dt>
+          <dd>{value || '—'}</dd>
+        </div>
+        <div className="flex gap-2">
+          <dt className="font-medium">{'debouncedValue:'}</dt>
+          <dd>{debouncedValue || '—'}</dd>
+        </div>
+      </dl>
+    </div>
+  );
+}
+
+export const Debounced: Story = {
+  args: { value: '', onChange: () => {}, children: null },
+  render: () => <DebouncedExample />,
 };
