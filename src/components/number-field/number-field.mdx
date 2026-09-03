@@ -1,0 +1,389 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+
+import * as NumberFieldStories from './number-field.stories';
+
+<Meta of={NumberFieldStories} />
+
+# Number Field
+
+A numeric input built on top of `react-aria-components`' `NumberField`, styled with
+`tailwind-variants`. It handles labeling, descriptions, validation error messaging, locale-aware
+number formatting/parsing, and increment/decrement stepper buttons, and exposes them as a small
+set of composable slots so you control exactly what gets rendered.
+
+## Import
+
+```tsx
+import { NumberField } from '#src/components/number-field';
+```
+
+## Composition
+
+`NumberField` is a compound component. `NumberField` itself is `NumberField.Root`, and the other
+slots hang off of it:
+
+```
+NumberField
+├── NumberField.FieldContainer
+│   ├── NumberField.Label
+│   └── NumberField.Group
+│       ├── NumberField.Input
+│       └── NumberField.StepButtons
+│           ├── NumberField.IncrementButton
+│           └── NumberField.DecrementButton
+├── NumberField.Description (optional)
+└── NumberField.FieldError (optional)
+```
+
+`NumberField.RootDebounced` is a drop-in alternative to `NumberField.Root` for cases where you
+want to debounce `onChange` (for example, wiring the field up to a network request) — see
+[Debounced input](#debounced-input) below.
+
+`NumberField.FieldContainer`, `NumberField.Label`, `NumberField.Description`, and
+`NumberField.FieldError` are the same shared components used by
+[`TextField`](/?path=/docs/component-textfield--docs) — they only key off the `group/field` and
+`group/field-container` ancestor classes, both of which `NumberField.Root` and
+`NumberField.FieldContainer` carry, so they work here unmodified.
+
+Every slot must be rendered inside `NumberField` / `NumberField.Root` — they read shared context
+from React Aria and will not work standalone.
+
+## Anatomy
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Component'}</th>
+      <th>{'Description'}</th>
+      <th>{'Optional'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'NumberField / NumberField.Root'}</td>
+      <td>{'The container; supplies context to every slot below.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'NumberField.RootDebounced'}</td>
+      <td>{'Same as Root, but debounces onChange.'}</td>
+      <td>{'No¹'}</td>
+    </tr>
+    <tr>
+      <td>{'NumberField.FieldContainer'}</td>
+      <td>{'Wraps the label and input group, and owns the floating-label styling.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'NumberField.Label'}</td>
+      <td>{"The field's label text. Floats above the input on focus/value."}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'NumberField.Group'}</td>
+      <td>{'Wraps the input and stepper buttons side by side.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'NumberField.Input'}</td>
+      <td>{'The underlying <input> element.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'NumberField.StepButtons'}</td>
+      <td>{'Stacks the increment/decrement buttons along the trailing edge of the group.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'NumberField.IncrementButton'}</td>
+      <td>{'Increases the value by step.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'NumberField.DecrementButton'}</td>
+      <td>{'Decreases the value by step.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'NumberField.Description'}</td>
+      <td>{'Supporting text under the field. Hidden automatically when invalid.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'NumberField.FieldError'}</td>
+      <td>{'Validation error text. Hidden unless isInvalid is set.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+  </tbody>
+</table>
+
+¹ Use either `NumberField.Root` or `NumberField.RootDebounced` as the container, not both.
+
+## Usage
+
+```tsx
+import { useState } from 'react';
+
+import { NumberField } from '#src/components/number-field';
+
+function Example() {
+  const [value, setValue] = useState(0);
+
+  return (
+    <NumberField
+      className="w-64"
+      value={value}
+      onChange={setValue}
+    >
+      <NumberField.FieldContainer>
+        <NumberField.Label>{'Quantity'}</NumberField.Label>
+        <NumberField.Group>
+          <NumberField.Input />
+          <NumberField.StepButtons>
+            <NumberField.IncrementButton />
+            <NumberField.DecrementButton />
+          </NumberField.StepButtons>
+        </NumberField.Group>
+      </NumberField.FieldContainer>
+    </NumberField>
+  );
+}
+```
+
+`value`/`onChange` are optional on `NumberField` / `NumberField.Root` — omit them for an
+uncontrolled field.
+
+`value`/`onChange` are required for `NumberField.RootDebounced` — see
+[Debounced input](#debounced-input) below.
+
+<Canvas of={NumberFieldStories.Default} />
+
+### Label placement
+
+`NumberField.Label` and `NumberField.FieldContainer` are required and must be nested together —
+`NumberField.Label` alongside `NumberField.Group`, inside `NumberField.FieldContainer`. The
+container tracks focus and value state on its children via CSS (`:focus`,
+`:not(:placeholder-shown)`) to float the label above the input, so the label, group, and
+container need to stay together — don't split them apart or render the label outside the
+container.
+
+### Stepper buttons
+
+`NumberField.StepButtons` is an optional wrapper that stacks `NumberField.IncrementButton` and
+`NumberField.DecrementButton` along the trailing edge of `NumberField.Group`. They call React
+Aria's built-in `increment`/`decrement` handlers via the `slot` prop, so no `onPress` wiring is
+required — just render them inside `NumberField.Group`, after `NumberField.Input`. Omit
+`NumberField.StepButtons` entirely for a plain numeric input with no visible steppers (the field
+remains steppable with the arrow keys and mouse wheel).
+
+### Formatting
+
+Pass `formatOptions` (the same shape as `Intl.NumberFormat`'s options) to format the displayed
+value — e.g. as currency. The formatted text is parsed back into a number automatically as the
+user types.
+
+<Canvas of={NumberFieldStories.Formatted} />
+
+### Min / max
+
+<Canvas of={NumberFieldStories.WithMinMax} />
+
+### Inside a Card
+
+`NumberField.FieldContainer` reads its `--field*` colors from whichever `Surface` it's nested
+in — one step further into the surface stack than its parent, via `Surface`'s
+`useSurfaceVariant`. Since `Card` is built on `Surface`, a field placed inside a `Card`
+automatically stays visually distinct from the card's background on any `Card` variant, with no
+extra props:
+
+<Canvas of={NumberFieldStories.OnCards} />
+
+## States
+
+`isRequired`, `isDisabled`, `isReadOnly`, and `isInvalid` are passed to `NumberField` /
+`NumberField.Root` (not `NumberField.Input`) — they flow down through React Aria context to
+every slot, which is how `NumberField.FieldError` knows to show itself,
+`NumberField.Description` knows to hide itself, and the label/border/stepper-button styling
+responds automatically.
+
+### Required
+
+Adds a `*` after the label and sets `aria-required` on the input.
+
+<Canvas of={NumberFieldStories.Required} />
+
+### Error
+
+Set `isInvalid` to switch the field into its error styling and reveal
+`NumberField.FieldError`. While invalid, `NumberField.Description` is hidden automatically so
+the two don't compete for space.
+
+<Canvas of={NumberFieldStories.ErrorState} />
+
+### Disabled
+
+<Canvas of={NumberFieldStories.DisabledState} />
+
+### Read-only
+
+Read-only fields keep their value visible and focusable but prevent edits, including via the
+stepper buttons — use this instead of `isDisabled` when the value should remain legible and
+selectable.
+
+<Canvas of={NumberFieldStories.ReadonlyState} />
+
+## Debounced input
+
+Use `NumberField.RootDebounced` in place of `NumberField.Root` when `onChange` triggers
+something expensive (a search request, autosave, etc.) and you want to debounce it without
+debouncing the visible keystrokes in the input itself:
+
+```tsx
+import { NumberField } from '#src/components/number-field';
+
+function Example() {
+  const [value, setValue] = useState(0);
+
+  return (
+    <NumberField.RootDebounced
+      value={value}
+      onChange={setValue}
+      debounceOptions={{ wait: 300 }}
+    >
+      <NumberField.FieldContainer>
+        <NumberField.Label>{'Quantity'}</NumberField.Label>
+        <NumberField.Group>
+          <NumberField.Input />
+        </NumberField.Group>
+      </NumberField.FieldContainer>
+    </NumberField.RootDebounced>
+  );
+}
+```
+
+The input itself updates immediately on every keystroke; `onChange` (and therefore `value`)
+only fires after `wait` milliseconds of inactivity. `debounceOptions` accepts the same options
+as `@tanstack/react-pacer`'s `useDebouncedCallback` (`wait` defaults to `300`).
+
+<Canvas of={NumberFieldStories.Debounced} />
+
+## API
+
+### `NumberField` / `NumberField.Root`
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Prop'}</th>
+      <th>{'Type'}</th>
+      <th>{'Default'}</th>
+      <th>{'Description'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'children'}</td>
+      <td>{'ReactNode'}</td>
+      <td>{'required'}</td>
+      <td>{'The field slots (FieldContainer, Description, FieldError).'}</td>
+    </tr>
+    <tr>
+      <td>{'value'}</td>
+      <td>{'number'}</td>
+      <td>{'undefined'}</td>
+      <td>{'The controlled field value. Omit for an uncontrolled field.'}</td>
+    </tr>
+    <tr>
+      <td>{'onChange'}</td>
+      <td>{'(value: number) => void'}</td>
+      <td>{'undefined'}</td>
+      <td>{'Called with the new value on every change.'}</td>
+    </tr>
+    <tr>
+      <td>{'onBlur'}</td>
+      <td>{'() => void'}</td>
+      <td>{'undefined'}</td>
+      <td>{'Called when the field loses focus.'}</td>
+    </tr>
+    <tr>
+      <td>{'minValue'}</td>
+      <td>{'number'}</td>
+      <td>{'undefined'}</td>
+      <td>{'The smallest value the user can enter.'}</td>
+    </tr>
+    <tr>
+      <td>{'maxValue'}</td>
+      <td>{'number'}</td>
+      <td>{'undefined'}</td>
+      <td>{'The largest value the user can enter.'}</td>
+    </tr>
+    <tr>
+      <td>{'step'}</td>
+      <td>{'number'}</td>
+      <td>{'1'}</td>
+      <td>{'The amount the stepper buttons and arrow keys change the value by.'}</td>
+    </tr>
+    <tr>
+      <td>{'formatOptions'}</td>
+      <td>{'Intl.NumberFormatOptions'}</td>
+      <td>{'undefined'}</td>
+      <td>{'Formats the displayed value, e.g. as currency or a percentage.'}</td>
+    </tr>
+    <tr>
+      <td>{'isRequired'}</td>
+      <td>{'boolean'}</td>
+      <td>{'false'}</td>
+      <td>{'Marks the field required and adds the * label indicator.'}</td>
+    </tr>
+    <tr>
+      <td>{'isDisabled'}</td>
+      <td>{'boolean'}</td>
+      <td>{'false'}</td>
+      <td>{'Disables the field.'}</td>
+    </tr>
+    <tr>
+      <td>{'isReadOnly'}</td>
+      <td>{'boolean'}</td>
+      <td>{'false'}</td>
+      <td>{'Makes the field read-only (focusable, not editable).'}</td>
+    </tr>
+    <tr>
+      <td>{'isInvalid'}</td>
+      <td>{'boolean'}</td>
+      <td>{'false'}</td>
+      <td>{'Puts the field in its error state; reveals FieldError.'}</td>
+    </tr>
+    <tr>
+      <td>{'validate'}</td>
+      <td>{'(value: number) => ValidationError | true | null | undefined'}</td>
+      <td>{'undefined'}</td>
+      <td>{'React Aria field-level validation.'}</td>
+    </tr>
+  </tbody>
+</table>
+
+`NumberField.Root` accepts any other prop supported by React Aria Components'
+[`NumberField`](https://react-spectrum.adobe.com/react-aria/NumberField.html).
+
+### `NumberField.Group`
+
+Renders a `react-aria-components` `Group` around `NumberField.Input` and
+`NumberField.StepButtons`. Accepts standard `className`/`children`.
+
+### `NumberField.Input`
+
+Renders an `<input>`. Accepts standard `<input>` props via React Aria Components' `Input`.
+
+### `NumberField.StepButtons`, `NumberField.IncrementButton`, `NumberField.DecrementButton`
+
+`StepButtons` is a plain wrapper `<div>`. `IncrementButton`/`DecrementButton` render a
+`react-aria-components` `Button` wired to the field's `increment`/`decrement` slot — no
+`onPress` needed. Both accept standard `Button` props (e.g. `aria-label` overrides) except
+`slot` and `children`, which are set internally.
+
+### `NumberField.Label`, `NumberField.Description`, `NumberField.FieldError`
+
+Render text content (`children`); styling responds automatically to the parent field's state, no
+extra props required beyond standard `className`/`children`.
+
+<Controls of={NumberFieldStories.Default} />

@@ -1,5 +1,11 @@
-Hey claude I just got this repo up and running! I'd like for you to move the examples and component text-field from: @../ui-starter/src/ over to this repo. You should convert the components to match the standards you see here in: @src/components and you should convert the examples into relevant stories matching the stories syntax found here. Follow project standards and industry best practices here. Please also use mdx to document out the sub-components that are a part of this larger shared component.
+Hey claude I just got this repo up and running!
 
-Move description and field-error to their own component (and maybe any others you think should be separate) with documentation and then import those onto the index export as currently is done for easy consumption in text-field. Just have their source live separately and on their own as other components will use this eventually as well. Additionally, for all of these components if there is no variant then please don't use the tv utiltiy. Just inline use the cn utilty: `import { cn } from 'tailwind-variants';`
+I'd like for you to move the examples and component: `number-field` from: @../ui-starter-initialize-ui-starter/src/ over to this repo.
 
-Add mdx documentation for the structure and usage
+You should convert the components to match the standards you see here in: @src/components You should convert the examples into relevant stories matching the stories syntax found already here in the repo. Follow project standards and industry best practices here. Please also use mdx to document out the sub-components that are a part of this larger shared component.
+
+Note some of the components that are already here like: input, label, field-container, description and field-error. You likely shouldn't need to change much if anything to these but may need to for a few things?
+
+Additionally, for all of these components if there is no variant then please don't use the tv utiltiy. Just inline use the cn utilty: `import { cn } from 'tailwind-variants';`
+
+Add mdx documentation for the structure and usage and update existing documentation for any changes you make as well.
