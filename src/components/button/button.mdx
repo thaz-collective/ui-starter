@@ -1,0 +1,129 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+
+import * as ButtonStories from './button.stories';
+
+<Meta of={ButtonStories} />
+
+# Button
+
+A pressable button built on `react-aria-components`' `Button`, styled with `tailwind-variants`. It
+covers seven color variants, three sizes, an inverted (tinted) style, and an icon-only square mode,
+and exposes React Aria's hover/press/focus-visible/disabled/pending states as `data-*` selectors.
+
+## Import
+
+```tsx
+import { Button } from '#src/components/button';
+```
+
+## Usage
+
+```tsx
+import { Button } from '#src/components/button';
+
+function Example() {
+  return <Button onPress={() => console.log('pressed')}>{'Save'}</Button>;
+}
+```
+
+<Canvas of={ButtonStories.Primary} />
+
+## Variants
+
+<Canvas of={ButtonStories.Secondary} />
+<Canvas of={ButtonStories.Success} />
+<Canvas of={ButtonStories.Warning} />
+<Canvas of={ButtonStories.Danger} />
+<Canvas of={ButtonStories.Ghost} />
+<Canvas of={ButtonStories.Outline} />
+
+`ghost` and `outline` are transparent/bordered variants meant for lower-emphasis actions — both
+fall back to `bg-transparent` while disabled, rather than the default variants' dimmed background.
+
+## Inverted
+
+Setting `isInverted` swaps the solid background for a tinted one (the variant's color mixed at low
+opacity), keeping the variant's color as the text color instead. Only `primary`, `secondary`,
+`danger`, `success`, and `warning` define inverted styling — `ghost` and `outline` ignore the prop.
+
+<Canvas of={ButtonStories.PrimaryInverted} />
+<Canvas of={ButtonStories.SecondaryInverted} />
+<Canvas of={ButtonStories.DangerInverted} />
+<Canvas of={ButtonStories.SuccessInverted} />
+<Canvas of={ButtonStories.WarningInverted} />
+
+## Sizes
+
+<Canvas of={ButtonStories.Small} />
+<Canvas of={ButtonStories.Medium} />
+<Canvas of={ButtonStories.Large} />
+
+## Icon-only
+
+Setting `isIcon` collapses the button to a square matching its `size`, removing the horizontal
+padding and gap meant for text + icon combinations. Always pair it with `aria-label` since there's
+no visible text for assistive technology to read.
+
+<Canvas of={ButtonStories.SmallIcon} />
+<Canvas of={ButtonStories.MediumIcon} />
+<Canvas of={ButtonStories.LargeIcon} />
+
+## States
+
+React Aria drives these via `data-*` attributes on the rendered `<button>`, styled directly in
+`buttonVariants`' `base`: `data-hovered`, `data-pressed`, `data-focus-visible` (a visible focus
+ring), `data-disabled` (pointer-events disabled, 50% opacity), and `data-pending` (a wait cursor,
+for use with async `onPress` handlers).
+
+## API
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Prop'}</th>
+      <th>{'Type'}</th>
+      <th>{'Default'}</th>
+      <th>{'Description'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'variant'}</td>
+      <td>{"'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'ghost' | 'outline'"}</td>
+      <td>{"'primary'"}</td>
+      <td>{'Color/style variant.'}</td>
+    </tr>
+    <tr>
+      <td>{'size'}</td>
+      <td>{"'sm' | 'md' | 'lg'"}</td>
+      <td>{"'md'"}</td>
+      <td>{'Height, padding, and font size.'}</td>
+    </tr>
+    <tr>
+      <td>{'isInverted'}</td>
+      <td>{'boolean'}</td>
+      <td>{'false'}</td>
+      <td>{'Swaps the solid background for a low-opacity tint. Ignored by ghost/outline.'}</td>
+    </tr>
+    <tr>
+      <td>{'isIcon'}</td>
+      <td>{'boolean'}</td>
+      <td>{'false'}</td>
+      <td>{'Collapses the button to a size-matched square with no text padding.'}</td>
+    </tr>
+    <tr>
+      <td>{'children'}</td>
+      <td>{'ReactNode'}</td>
+      <td>{'—'}</td>
+      <td>{'Required. Button label or icon content.'}</td>
+    </tr>
+    <tr>
+      <td>{'...rest'}</td>
+      <td>{"React Aria's ButtonProps"}</td>
+      <td>{'—'}</td>
+      <td>{'Any other prop accepted by react-aria-components’ Button, e.g. onPress, isDisabled, isPending.'}</td>
+    </tr>
+  </tbody>
+</table>
+
+<Controls of={ButtonStories.Primary} />

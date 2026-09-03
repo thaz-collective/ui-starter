@@ -6,3 +6,9 @@
 
 /* Import the default theme variables */
 @import './default-variables.css';
+
+/* Import the example theme 1 variables */
+@import './customer-theme-1.css';
+
+/* Import the example theme 2 variables */
+@import './customer-theme-2.css';

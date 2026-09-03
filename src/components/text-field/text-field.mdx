@@ -1,0 +1,294 @@
+import { Canvas, Controls, Meta, Story } from '@storybook/addon-docs/blocks';
+
+import * as TextFieldStories from './text-field.stories';
+
+<Meta of={TextFieldStories} />
+
+# Text Field
+
+A single-line text input built on top of `react-aria-components`' `TextField`, styled with
+`tailwind-variants`. It handles labeling, descriptions, validation error messaging, and the
+required/disabled/read-only/invalid states that come from React Aria, and exposes them as a small
+set of composable slots so you control exactly what gets rendered.
+
+## Import
+
+```tsx
+import { TextField } from '#src/components/text-field';
+```
+
+## Composition
+
+`TextField` is a compound component. `TextField` itself is `TextField.Root`, and the other slots
+hang off of it:
+
+```
+TextField
+├── TextField.FieldContainer
+│   ├── TextField.Label
+│   └── TextField.Input
+├── TextField.Description (optional)
+└── TextField.FieldError (optional)
+```
+
+`TextField.RootDebounced` is a drop-in alternative to `TextField.Root` for cases where you want to
+debounce `onChange` (for example, wiring the field up to a network request) — see
+[Debounced input](#debounced-input) below.
+
+Every slot must be rendered inside `TextField` / `TextField.Root` — they read shared context from
+React Aria and will not work standalone.
+
+## Anatomy
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Component'}</th>
+      <th>{'Description'}</th>
+      <th>{'Optional'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'TextField / TextField.Root'}</td>
+      <td>{'The container; supplies context to every slot below.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'TextField.RootDebounced'}</td>
+      <td>{'Same as Root, but debounces onChange.'}</td>
+      <td>{'No¹'}</td>
+    </tr>
+    <tr>
+      <td>{'TextField.FieldContainer'}</td>
+      <td>{'Wraps the label and input, and owns the floating-label styling.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'TextField.Label'}</td>
+      <td>{"The field's label text. Floats above the input on focus/value."}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'TextField.Input'}</td>
+      <td>{'The underlying <input> element.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'TextField.Description'}</td>
+      <td>{'Supporting text under the field. Hidden automatically when invalid.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'TextField.FieldError'}</td>
+      <td>{'Validation error text. Hidden unless isInvalid is set.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+  </tbody>
+</table>
+
+¹ Use either `TextField.Root` or `TextField.RootDebounced` as the container, not both.
+
+## Usage
+
+```tsx
+import { useState } from 'react';
+
+import { TextField } from '#src/components/text-field';
+
+function Example() {
+  const [value, setValue] = useState('');
+
+  return (
+    <TextField
+      className="w-64"
+      value={value}
+      onChange={setValue}
+    >
+      <TextField.FieldContainer>
+        <TextField.Label>{'Full name'}</TextField.Label>
+        <TextField.Input placeholder="Jane Smith" />
+      </TextField.FieldContainer>
+      <TextField.Description>{'Used on your public profile.'}</TextField.Description>
+    </TextField>
+  );
+}
+```
+
+`value`/`onChange` are optional on `TextField` / `TextField.Root` — omit them for an uncontrolled field
+
+`value`/`onChange` are required for `TextField.RootDebounced` — see [Debounced input](#debounced-input) below.
+
+<Canvas of={TextFieldStories.Default} />
+
+### Label placement
+
+`TextField.Label` and `TextField.FieldContainer` are required and must be nested together —
+`TextField.Label` alongside `TextField.Input`, inside `TextField.FieldContainer`. The container
+tracks focus and value state on its children via CSS (`:focus`, `:not(:placeholder-shown)`) to
+float the label above the input, so the label, input, and container need to stay together — don't
+split them apart or render the label outside the container.
+
+### On different surfaces
+
+`TextField.FieldContainer` reads its `--field*` colors from whichever `Surface` it's nested in —
+one step further into the surface stack than its parent, via `Surface`'s `useSurfaceVariant`. So a
+field automatically stays visually distinct from its background on any surface variant, with no
+extra props:
+
+<Canvas of={TextFieldStories.OnSurfaces} />
+
+## States
+
+`isRequired`, `isDisabled`, `isReadOnly`, and `isInvalid` are passed to `TextField` /
+`TextField.Root` (not `TextField.Input`) — they flow down through React Aria context to every
+slot, which is how `TextField.FieldError` knows to show itself, `TextField.Description` knows to
+hide itself, and the label/border styling responds automatically.
+
+### Required
+
+Adds a `*` after the label and sets `aria-required` on the input.
+
+<Canvas of={TextFieldStories.Required} />
+
+### Error
+
+Set `isInvalid` to switch the field into its error styling and reveal
+`TextField.FieldError`. While invalid, `TextField.Description` is hidden automatically so the two
+don't compete for space.
+
+<Canvas of={TextFieldStories.ErrorState} />
+
+### Disabled
+
+<Canvas of={TextFieldStories.DisabledState} />
+
+### Read-only
+
+Read-only fields keep their value visible and focusable but prevent edits — use this instead of
+`isDisabled` when the value should remain legible and copyable (e.g. an email address the user
+can't change but should be able to select).
+
+<Canvas of={TextFieldStories.ReadonlyState} />
+
+## Debounced input
+
+Use `TextField.RootDebounced` in place of `TextField.Root` when `onChange` triggers something
+expensive (a search request, autosave, etc.) and you want to debounce it without debouncing the
+visible keystrokes in the input itself:
+
+```tsx
+import { TextField } from '#src/components/text-field';
+
+function Example() {
+  const [value, setValue] = useState('');
+
+  return (
+    <TextField.RootDebounced
+      value={value}
+      onChange={setValue}
+      debounceOptions={{ wait: 300 }}
+    >
+      <TextField.FieldContainer>
+        <TextField.Label>{'Search'}</TextField.Label>
+        <TextField.Input />
+      </TextField.FieldContainer>
+    </TextField.RootDebounced>
+  );
+}
+```
+
+The input itself updates immediately on every keystroke; `onChange` (and therefore `value`) only
+fires after `wait` milliseconds of inactivity. `debounceOptions` accepts the same options as
+`@tanstack/react-pacer`'s `useDebouncedCallback` (`wait` defaults to `300`).
+
+The example below tracks both the immediate keystroke value and the debounced value side by side
+so you can see the delay:
+
+<Canvas of={TextFieldStories.Debounced} />
+
+## API
+
+### `TextField` / `TextField.Root`
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Prop'}</th>
+      <th>{'Type'}</th>
+      <th>{'Default'}</th>
+      <th>{'Description'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'children'}</td>
+      <td>{'ReactNode'}</td>
+      <td>{'required'}</td>
+      <td>{'The field slots (FieldContainer, Description, FieldError).'}</td>
+    </tr>
+    <tr>
+      <td>{'value'}</td>
+      <td>{'string'}</td>
+      <td>{'undefined'}</td>
+      <td>{'The controlled field value. Omit for an uncontrolled field.'}</td>
+    </tr>
+    <tr>
+      <td>{'onChange'}</td>
+      <td>{'(value: string) => void'}</td>
+      <td>{'undefined'}</td>
+      <td>{'Called with the new value on every change.'}</td>
+    </tr>
+    <tr>
+      <td>{'onBlur'}</td>
+      <td>{'() => void'}</td>
+      <td>{'undefined'}</td>
+      <td>{'Called when the field loses focus.'}</td>
+    </tr>
+    <tr>
+      <td>{'isRequired'}</td>
+      <td>{'boolean'}</td>
+      <td>{'false'}</td>
+      <td>{'Marks the field required and adds the * label indicator.'}</td>
+    </tr>
+    <tr>
+      <td>{'isDisabled'}</td>
+      <td>{'boolean'}</td>
+      <td>{'false'}</td>
+      <td>{'Disables the field.'}</td>
+    </tr>
+    <tr>
+      <td>{'isReadOnly'}</td>
+      <td>{'boolean'}</td>
+      <td>{'false'}</td>
+      <td>{'Makes the field read-only (focusable, not editable).'}</td>
+    </tr>
+    <tr>
+      <td>{'isInvalid'}</td>
+      <td>{'boolean'}</td>
+      <td>{'false'}</td>
+      <td>{'Puts the field in its error state; reveals FieldError.'}</td>
+    </tr>
+    <tr>
+      <td>{'validate'}</td>
+      <td>{'(value: string) => ValidationError | true | null | undefined'}</td>
+      <td>{'undefined'}</td>
+      <td>{'React Aria field-level validation.'}</td>
+    </tr>
+  </tbody>
+</table>
+
+`TextField.Root` accepts any other prop supported by React Aria Components'
+[`TextField`](https://react-spectrum.adobe.com/react-aria/TextField.html).
+
+### `TextField.Input`
+
+Renders an `<input>`. Accepts standard `<input>` props (`type`, `placeholder`, `autoComplete`,
+etc.) via React Aria Components' `Input`.
+
+### `TextField.Label`, `TextField.Description`, `TextField.FieldError`
+
+Render text content (`children`); styling responds automatically to the parent field's state, no
+extra props required beyond standard `className`/`children`.
+
+<Controls of={TextFieldStories.Default} />

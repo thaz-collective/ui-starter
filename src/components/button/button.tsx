@@ -7,12 +7,8 @@ import { tv } from 'tailwind-variants';
 
 const buttonVariants = tv({
   base: [
-    'group/button',
+    'group/button relative inline-flex cursor-default items-center justify-center gap-2 font-medium transition-colors outline-none select-none [-webkit-tap-highlight-color:transparent]',
 
-    'relative inline-flex items-center justify-center gap-2',
-
-    'cursor-default font-medium transition-colors outline-none select-none',
-    '[-webkit-tap-highlight-color:transparent]',
     'data-disabled:pointer-events-none data-disabled:opacity-50',
     'data-focus-visible:ring-2 data-focus-visible:ring-offset-2',
     'data-pending:cursor-wait',

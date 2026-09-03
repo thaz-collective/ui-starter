@@ -1,0 +1,100 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+
+import * as SurfaceStories from './surface.stories';
+
+<Meta of={SurfaceStories} />
+
+# Surface
+
+A plain `<div>` that sets `--surface`/`--field` CSS custom properties (and their `-border`,
+`-foreground`, `-hover` counterparts) to one step of a five-layer elevation scale, so nested
+content — including other components that read `bg-surface`/`bg-field` — automatically picks up
+the right layered color without prop-drilling.
+
+## Import
+
+```tsx
+import { Surface } from '#src/components/surface';
+```
+
+## Usage
+
+```tsx
+import { Surface } from '#src/components/surface';
+
+function Example() {
+  return (
+    <Surface
+      variant="default"
+      className="rounded-lg border border-surface-border p-4"
+    >
+      {'Content'}
+    </Surface>
+  );
+}
+```
+
+<Canvas of={SurfaceStories.Default} />
+
+## Variants
+
+Each variant maps `--surface` to one step of the `--surface-default` → `--surface-quinary` scale
+defined in the theme, and `--field` one step further — so a `Surface` in `secondary` gives fields
+inside it (inputs, containers reading `bg-field`) the `tertiary` tone, keeping fields visually
+distinct from the surface they sit on.
+
+<Canvas of={SurfaceStories.Transparent} />
+<Canvas of={SurfaceStories.Secondary} />
+<Canvas of={SurfaceStories.Tertiary} />
+<Canvas of={SurfaceStories.Quaternary} />
+<Canvas of={SurfaceStories.Quinary} />
+
+`transparent` renders no background at all — useful when you only want the elevation variables
+without painting a background (e.g. an overlay that should show what's behind it).
+
+## Nesting
+
+Because each `Surface` only sets CSS variables (it doesn't hardcode colors), stacking `Surface`s
+inside each other creates a visible elevation ladder for free — each level just reads the
+variables its nearest `Surface` ancestor set.
+
+<Canvas of={SurfaceStories.Nested} />
+
+## API
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Prop'}</th>
+      <th>{'Type'}</th>
+      <th>{'Default'}</th>
+      <th>{'Description'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'variant'}</td>
+      <td>{"'transparent' | 'default' | 'secondary' | 'tertiary' | 'quaternary' | 'quinary'"}</td>
+      <td>{"'default'"}</td>
+      <td>{'Which step of the elevation scale to set --surface/--field to.'}</td>
+    </tr>
+    <tr>
+      <td>{'children'}</td>
+      <td>{'ReactNode'}</td>
+      <td>{'—'}</td>
+      <td>{'Required. Surface content.'}</td>
+    </tr>
+    <tr>
+      <td>{'...rest'}</td>
+      <td>{"ComponentPropsWithRef<'div'>"}</td>
+      <td>{'—'}</td>
+      <td>
+        {
+          'Any prop accepted by a native div, e.g. className, id. Note the component only sets CSS variables — pair it with bg-surface/border-surface-border/etc. utility classes to actually paint it.'
+        }
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<Controls of={SurfaceStories.Default} />

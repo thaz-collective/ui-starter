@@ -1,0 +1,79 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+
+import * as InputStories from './input.stories';
+
+<Meta of={InputStories} />
+
+# Input
+
+The underlying `<input>` element for a text field, built on `react-aria-components`' `Input`. It
+supplies the field's typography, padding, and placeholder-fade behavior, and reacts to
+`disabled`/`readonly` state exposed by React Aria via `data-*` attributes.
+
+## Import
+
+```tsx
+import { Input } from '#src/components/input';
+```
+
+`TextField` also re-exports this as `TextField.Input` for convenience when composing a text field.
+
+## Usage
+
+`Input` must be rendered inside a field root carrying the `group/text-field` class (for example
+`TextField` / `TextField.Root`) so React Aria can wire up its value, validation, and disabled
+state. It's typically placed inside a `FieldContainer`, whose `group/field-container`
+class drives the placeholder's focus-fade.
+
+```tsx
+import { useState } from 'react';
+
+import { TextField } from '#src/components/text-field';
+
+function Example() {
+  const [value, setValue] = useState('');
+
+  return (
+    <TextField
+      value={value}
+      onChange={setValue}
+    >
+      <TextField.FieldContainer>
+        <TextField.Label>{'Full name'}</TextField.Label>
+        <TextField.Input placeholder="Jane Smith" />
+      </TextField.FieldContainer>
+    </TextField>
+  );
+}
+```
+
+<Canvas of={InputStories.Default} />
+
+## Behavior
+
+- **Placeholder**: hidden until the container (`group/field-container`) is focus-within, so
+  it doesn't fight with the floating label.
+- **Disabled** (`isDisabled` on the field root): cursor becomes `not-allowed`, text dims to the
+  muted foreground color.
+- **Read-only** (`isReadOnly` on the field root): cursor becomes `default`.
+
+## API
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Prop'}</th>
+      <th>{'Type'}</th>
+      <th>{'Description'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'...rest'}</td>
+      <td>{"React Aria's InputProps"}</td>
+      <td>{'Any prop accepted by react-aria-components’ Input, e.g. placeholder, className, id.'}</td>
+    </tr>
+  </tbody>
+</table>
+
+<Controls of={InputStories.Default} />

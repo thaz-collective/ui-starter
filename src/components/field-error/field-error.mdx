@@ -1,0 +1,87 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+
+import * as FieldErrorStories from './field-error.stories';
+
+<Meta of={FieldErrorStories} />
+
+# FieldError
+
+Validation error text for a form field, built on `react-aria-components`' `FieldError`. It reads
+validation state directly from React Aria and only renders itself while the field is invalid.
+
+## Import
+
+```tsx
+import { FieldError } from '#src/components/field-error';
+```
+
+`TextField` also re-exports this as `TextField.FieldError` for convenience when composing a text
+field.
+
+## Usage
+
+`FieldError` must be rendered inside a field root that provides React Aria form-validation context
+(for example `TextField` / `TextField.Root`) — unlike `Label` and `Description`, its visibility is
+driven by React Aria itself, not a CSS `group-*` selector, though its styling does still key off the
+`group/text-field` ancestor for the danger color.
+
+```tsx
+import { useState } from 'react';
+
+import { TextField } from '#src/components/text-field';
+
+function Example() {
+  const [value, setValue] = useState('');
+
+  return (
+    <TextField
+      value={value}
+      onChange={setValue}
+      isInvalid={true}
+    >
+      <TextField.FieldContainer>
+        <TextField.Label>{'Email'}</TextField.Label>
+        <TextField.Input placeholder="you@example.com" />
+      </TextField.FieldContainer>
+      <TextField.FieldError>{'Please enter a valid email address.'}</TextField.FieldError>
+    </TextField>
+  );
+}
+```
+
+<Canvas of={FieldErrorStories.Default} />
+
+## Behavior
+
+- **Valid**: not rendered (`hidden`).
+- **Invalid** (`isInvalid` on the field root): shown, in the danger color.
+
+`children` can also be a function of React Aria's validation result (e.g.
+`{(validation) => validation.validationErrors.join(' ')}`) to surface native/custom validation
+messages instead of a static string.
+
+## API
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Prop'}</th>
+      <th>{'Type'}</th>
+      <th>{'Description'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'children'}</td>
+      <td>{'ReactNode | (validation: ValidationResult) => ReactNode'}</td>
+      <td>{'Required. Static error text, or a function of the field’s validation result.'}</td>
+    </tr>
+    <tr>
+      <td>{'...rest'}</td>
+      <td>{"React Aria's FieldErrorProps"}</td>
+      <td>{'Any other prop accepted by react-aria-components’ FieldError, e.g. className, id.'}</td>
+    </tr>
+  </tbody>
+</table>
+
+<Controls of={FieldErrorStories.Default} />

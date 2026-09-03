@@ -1,0 +1,86 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+
+import * as FieldContainerStories from './field-container.stories.tsx';
+
+<Meta of={FieldContainerStories} />
+
+# FieldContainer
+
+A plain `<div>` wrapper that owns the bordered "field" chrome around a label and input — background,
+border, radius, and the hover/focus/invalid/disabled border colors. It carries the
+`group/field-container` class that `Label` and `Input` key off of for their floating-label
+and placeholder-fade behavior.
+
+## Import
+
+```tsx
+import { FieldContainer } from '#src/components/field-container';
+```
+
+`TextField` also re-exports this as `TextField.FieldContainer` for convenience when composing
+a text field.
+
+## Usage
+
+`FieldContainer` must be rendered inside a field root carrying the `group/text-field` class
+(for example `TextField` / `TextField.Root`) — its border color reacts to that ancestor's
+`invalid`/`disabled` state via CSS `group-data-*` selectors.
+
+```tsx
+import { useState } from 'react';
+
+import { TextField } from '#src/components/text-field';
+
+function Example() {
+  const [value, setValue] = useState('');
+
+  return (
+    <TextField
+      value={value}
+      onChange={setValue}
+    >
+      <TextField.FieldContainer>
+        <TextField.Label>{'Full name'}</TextField.Label>
+        <TextField.Input placeholder="Jane Smith" />
+      </TextField.FieldContainer>
+    </TextField>
+  );
+}
+```
+
+<Canvas of={FieldContainerStories.Default} />
+
+## Behavior
+
+- **Idle**: `field` background with a subtle border.
+- **Hover / focus-within**: border shifts to the primary color.
+- **Invalid** (`isInvalid` on the field root): border becomes the danger color, including on hover
+  and focus-within.
+- **Disabled** (`isDisabled` on the field root): the whole container dims to 50% opacity, cursor
+  becomes `not-allowed`.
+
+## API
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Prop'}</th>
+      <th>{'Type'}</th>
+      <th>{'Description'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'children'}</td>
+      <td>{'ReactNode'}</td>
+      <td>{'Required. Typically a Label and an Input.'}</td>
+    </tr>
+    <tr>
+      <td>{'...rest'}</td>
+      <td>{"ComponentPropsWithRef<'div'>"}</td>
+      <td>{'Any prop accepted by a native div, e.g. className, id.'}</td>
+    </tr>
+  </tbody>
+</table>
+
+<Controls of={FieldContainerStories.Default} />
