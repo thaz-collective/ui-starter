@@ -40,3 +40,28 @@ export const Default: Story = {
   args: { children: null },
   render: () => <DefaultExample />,
 };
+
+function InvalidExample() {
+  const [value, setValue] = useState('');
+
+  return (
+    <TextField
+      className="w-64"
+      value={value}
+      onChange={setValue}
+      isInvalid={true}
+    >
+      <TextField.FieldContainer>
+        <TextField.Label>{'Full name'}</TextField.Label>
+        <TextField.Input placeholder="Jane Smith" />
+      </TextField.FieldContainer>
+      <Description>{'Used on your public profile.'}</Description>
+      <TextField.FieldError>{'This field is required.'}</TextField.FieldError>
+    </TextField>
+  );
+}
+
+export const Invalid: Story = {
+  args: { children: null },
+  render: () => <InvalidExample />,
+};

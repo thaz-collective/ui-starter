@@ -1,4 +1,4 @@
-export type { SurfaceVariants } from './variant';
+export type { SurfaceVariant, SurfaceVariants } from './variant';
 export { surfaceVariants } from './variant';
 
 export { useSurfaceVariant } from './context';

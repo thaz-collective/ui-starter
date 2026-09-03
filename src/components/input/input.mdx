@@ -22,7 +22,7 @@ import { Input } from '#src/components/input';
 
 `Input` must be rendered inside a field root carrying the `group/text-field` class (for example
 `TextField` / `TextField.Root`) so React Aria can wire up its value, validation, and disabled
-state. It's typically placed inside a `FieldContainer`, whose `group/label-input-container`
+state. It's typically placed inside a `FieldContainer`, whose `group/field-container`
 class drives the placeholder's focus-fade.
 
 ```tsx
@@ -51,7 +51,7 @@ function Example() {
 
 ## Behavior
 
-- **Placeholder**: hidden until the container (`group/label-input-container`) is focus-within, so
+- **Placeholder**: hidden until the container (`group/field-container`) is focus-within, so
   it doesn't fight with the floating label.
 - **Disabled** (`isDisabled` on the field root): cursor becomes `not-allowed`, text dims to the
   muted foreground color.

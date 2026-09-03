@@ -2,6 +2,9 @@ import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+import type { SurfaceVariant } from '#src/components/surface';
+import { Surface } from '#src/components/surface';
+
 import { TextField } from './index';
 
 const meta = {
@@ -132,6 +135,35 @@ function ReadonlyStateExample() {
 export const ReadonlyState: Story = {
   args: { value: '', onChange: () => {}, children: null },
   render: () => <ReadonlyStateExample />,
+};
+
+const SURFACE_VARIANTS: SurfaceVariant[] = ['default', 'secondary', 'tertiary'];
+
+function OnSurfacesExample() {
+  return (
+    <div className="flex flex-wrap gap-4">
+      {SURFACE_VARIANTS.map((variant) => (
+        <Surface
+          key={variant}
+          variant={variant}
+          className="flex w-64 flex-col gap-4 rounded-lg border border-surface-border p-4"
+        >
+          <span className="text-xs font-medium text-surface-foreground capitalize">{variant}</span>
+          <TextField className="w-full">
+            <TextField.FieldContainer>
+              <TextField.Label>{'Full name'}</TextField.Label>
+              <TextField.Input placeholder="Jane Smith" />
+            </TextField.FieldContainer>
+          </TextField>
+        </Surface>
+      ))}
+    </div>
+  );
+}
+
+export const OnSurfaces: Story = {
+  args: { value: '', onChange: () => {}, children: null },
+  render: () => <OnSurfacesExample />,
 };
 
 function DebouncedExample() {

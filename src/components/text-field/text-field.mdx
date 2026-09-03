@@ -115,8 +115,9 @@ function Example() {
 }
 ```
 
-`TextField` is a controlled component — `value` and `onChange` are required. There is no
-`defaultValue`/uncontrolled mode; own the state yourself, as shown above.
+`value`/`onChange` are optional on `TextField` / `TextField.Root` — omit them for an uncontrolled field
+
+`value`/`onChange` are required for `TextField.RootDebounced` — see [Debounced input](#debounced-input) below.
 
 <Canvas of={TextFieldStories.Default} />
 
@@ -127,6 +128,15 @@ function Example() {
 tracks focus and value state on its children via CSS (`:focus`, `:not(:placeholder-shown)`) to
 float the label above the input, so the label, input, and container need to stay together — don't
 split them apart or render the label outside the container.
+
+### On different surfaces
+
+`TextField.FieldContainer` reads its `--field*` colors from whichever `Surface` it's nested in —
+one step further into the surface stack than its parent, via `Surface`'s `useSurfaceVariant`. So a
+field automatically stays visually distinct from its background on any surface variant, with no
+extra props:
+
+<Canvas of={TextFieldStories.OnSurfaces} />
 
 ## States
 
@@ -212,15 +222,21 @@ so you can see the delay:
   </thead>
   <tbody>
     <tr>
+      <td>{'children'}</td>
+      <td>{'ReactNode'}</td>
+      <td>{'required'}</td>
+      <td>{'The field slots (FieldContainer, Description, FieldError).'}</td>
+    </tr>
+    <tr>
       <td>{'value'}</td>
       <td>{'string'}</td>
-      <td>{'required'}</td>
-      <td>{'The controlled field value.'}</td>
+      <td>{'undefined'}</td>
+      <td>{'The controlled field value. Omit for an uncontrolled field.'}</td>
     </tr>
     <tr>
       <td>{'onChange'}</td>
       <td>{'(value: string) => void'}</td>
-      <td>{'required'}</td>
+      <td>{'undefined'}</td>
       <td>{'Called with the new value on every change.'}</td>
     </tr>
     <tr>

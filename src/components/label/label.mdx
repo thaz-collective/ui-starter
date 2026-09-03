@@ -7,8 +7,8 @@ import * as LabelStories from './label.stories';
 # Label
 
 A floating field label built on `react-aria-components`' `Label`. It renders as plain text
-positioned over the input and floats up on focus, value, or for `<textarea>` fields, driven
-entirely by CSS group selectors — no local state.
+positioned over the input and floats up on focus or value, driven entirely by CSS group
+selectors — no local state.
 
 ## Import
 
@@ -21,7 +21,7 @@ import { Label } from '#src/components/label';
 ## Usage
 
 `Label` must be rendered inside a `FieldContainer`-style wrapper carrying the
-`group/label-input-container` class, which itself must sit inside a field root carrying
+`group/field-container` class, which itself must sit inside a field root carrying
 `group/text-field` (for example `TextField` / `TextField.Root`). It reads state — focus, value,
 required, invalid, disabled — from those ancestors via CSS `group-*` selectors, not React context,
 so it works with any field root that follows the same group-naming convention.
@@ -54,8 +54,6 @@ function Example() {
 
 - **Idle**: centered vertically over the input, muted foreground color.
 - **Focused / has value**: floats to the top of the container and shrinks to `text-xs`.
-- **`<textarea>` fields**: always sits at the top, since a floating label over multi-line text
-  would overlap content.
 - **Required** (`isRequired` on the field root): appends a `*` after the label text.
 - **Invalid** (`isInvalid` on the field root): text turns to the danger color; wins over the
   focused-primary color.
