@@ -59,10 +59,9 @@ but they're styled to be composed together.
 
 ### `Card.Header`
 
-Top section of the card. Usually wraps `Card.Title` and `Card.Description`. Renders a `<div>`
-with `flex flex-col` layout and horizontal padding; no variants — styled with `cn`. Vertical
-spacing between slots comes from `Card` itself (`gap-4 py-4`), so slots don't need their own
-top/bottom padding.
+Top section of the card. Usually wraps `Card.Title` and `Card.Description`. Provides a
+vertical, stacked layout and horizontal padding; no variants. Spacing between slots is
+provided by `Card` itself, so slots don't need their own top/bottom padding.
 
 ```tsx
 <Card.Header>
@@ -73,7 +72,7 @@ top/bottom padding.
 
 ### `Card.Title`
 
-The card's heading text. A `<div>` with small, semibold, tight-tracking text styling.
+The card's heading text, styled as a compact heading.
 
 ```tsx
 <Card.Title>{'Monthly Revenue'}</Card.Title>
@@ -81,7 +80,7 @@ The card's heading text. A `<div>` with small, semibold, tight-tracking text sty
 
 ### `Card.Description`
 
-Supporting text rendered under `Card.Title`, muted and smaller than the title.
+Supporting text rendered under `Card.Title`, styled as secondary/muted text.
 
 ```tsx
 <Card.Description>{'Compared to last 30 days'}</Card.Description>
@@ -89,9 +88,8 @@ Supporting text rendered under `Card.Title`, muted and smaller than the title.
 
 ### `Card.Content`
 
-The main body of the card. A `<div>` with horizontal padding only — vertical spacing is
-provided by `Card`'s `gap-4 py-4`, so `Card.Content` looks correct whether or not a
-`Card.Header` precedes it.
+The main body of the card. Provides horizontal padding only — vertical spacing is provided
+by `Card` itself, so `Card.Content` looks correct whether or not a `Card.Header` precedes it.
 
 ```tsx
 <Card.Content>{'Card content goes here.'}</Card.Content>
@@ -99,8 +97,8 @@ provided by `Card`'s `gap-4 py-4`, so `Card.Content` looks correct whether or no
 
 ### `Card.Footer`
 
-Bottom section of the card, usually actions (buttons, links). A `<div>` laid out as a horizontal
-flex row with a small gap.
+Bottom section of the card, usually actions (buttons, links). Lays its children out in a row
+with a small gap between them.
 
 ```tsx
 <Card.Footer>
@@ -108,8 +106,8 @@ flex row with a small gap.
 </Card.Footer>
 ```
 
-All five sub-components accept no variant props — they render fixed, non-configurable styling
-via `cn`, and forward any other native `div` props (`className`, `id`, event handlers, etc.).
+All five sub-components accept no variant props — they render fixed, non-configurable styling,
+and forward any other native `div` props (`className`, `id`, event handlers, etc.).
 
 ## Variants
 
