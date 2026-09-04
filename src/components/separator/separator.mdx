@@ -1,0 +1,89 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+
+import * as SeparatorStories from './separator.stories';
+
+<Meta of={SeparatorStories} />
+
+# Separator
+
+A thin dividing line built on `react-aria-components`' `Separator`, styled with
+`tailwind-variants`. It's purely visual by default, but renders with the appropriate divider role
+so assistive technology announces it as a separator rather than skipping it.
+
+## Import
+
+```tsx
+import { Separator } from '#src/components/separator';
+```
+
+## Usage
+
+```tsx
+import { Separator } from '#src/components/separator';
+
+function Example() {
+  return (
+    <div>
+      <p>{'Above the separator'}</p>
+      <Separator className="my-3" />
+      <p>{'Below the separator'}</p>
+    </div>
+  );
+}
+```
+
+<Canvas of={SeparatorStories.Horizontal} />
+
+## Orientation
+
+### Horizontal (default)
+
+Spans the full width of its container as a single hairline. React Aria renders this orientation as
+a semantic divider element that carries its own default browser styling, so the component always
+resets any inherited border before applying its own fill color — worth knowing if you're layering
+additional border utilities on top via `className`.
+
+<Canvas of={SeparatorStories.Horizontal} />
+
+### Vertical
+
+Spans the full height of its container. Pair it with a `flex` parent that gives the row a fixed
+height so the line has something to stretch to.
+
+<Canvas of={SeparatorStories.Vertical} />
+
+## In a Card
+
+`Separator` composes cleanly between `Card` slots to divide sections without adding its own
+padding.
+
+<Canvas of={SeparatorStories.InACard} />
+
+## API
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Prop'}</th>
+      <th>{'Type'}</th>
+      <th>{'Default'}</th>
+      <th>{'Description'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'orientation'}</td>
+      <td>{"'horizontal' | 'vertical'"}</td>
+      <td>{"'horizontal'"}</td>
+      <td>{'Direction the dividing line runs.'}</td>
+    </tr>
+    <tr>
+      <td>{'...rest'}</td>
+      <td>{"React Aria's SeparatorProps"}</td>
+      <td>{'—'}</td>
+      <td>{'Any other prop accepted by react-aria-components’ Separator, e.g. className, id.'}</td>
+    </tr>
+  </tbody>
+</table>
+
+<Controls of={SeparatorStories.Horizontal} />

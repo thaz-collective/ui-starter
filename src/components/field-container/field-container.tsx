@@ -22,7 +22,7 @@ export function FieldContainer(props: FieldContainerProps) {
           cn(
             surfaceVariants({ ...props, variant: variant ?? nestedVariant, className }),
 
-            'group/field-container relative flex w-full items-stretch rounded-md border border-field-border bg-field text-field-foreground transition-colors duration-150 focus-within:border-primary-border hover:border-primary-hover gap-1',
+            'group/field-container relative flex w-full items-stretch gap-1 rounded-md border border-field-border bg-field text-field-foreground transition-colors duration-150 focus-within:border-primary-border hover:border-primary-hover',
 
             // TODO - Change color or adjust size on focus?
             'group-data-[invalid="true"]/field:border-danger/90 group-data-[invalid="true"]/field:focus-within:border-danger group-data-[invalid="true"]/field:hover:border-danger-hover',
