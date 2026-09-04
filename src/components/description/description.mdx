@@ -21,9 +21,9 @@ field.
 
 ## Usage
 
-`Description` must be rendered inside a field root carrying the `group/text-field` class (for
-example `TextField` / `TextField.Root`) — it reads the field's `invalid` state from that ancestor
-via a CSS `group-data-*` selector, not React context.
+`Description` must be rendered inside a field root (for example `TextField` / `TextField.Root`)
+— it reacts to the field's `invalid` state from that ancestor purely through styling, without
+reading it from React context.
 
 ```tsx
 import { useState } from 'react';

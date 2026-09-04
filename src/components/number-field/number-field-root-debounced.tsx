@@ -6,25 +6,25 @@ import { useDebouncedCallback } from '@tanstack/react-pacer/debouncer';
 
 import type { SetRequired } from 'type-fest';
 
-import { TextFieldRoot } from './text-field-root';
+import { NumberFieldRoot } from './number-field-root';
 
 const DEFAULT_DEBOUNCE_WAIT_MS = 300;
 
-type TextFieldRootProps = ComponentPropsWithRef<typeof TextFieldRoot>;
+type NumberFieldRootProps = ComponentPropsWithRef<typeof NumberFieldRoot>;
 
-type TextFieldRootDebouncerOptions = DebouncerOptions<NonNullable<TextFieldRootProps['onChange']>>;
+type NumberFieldRootDebouncerOptions = DebouncerOptions<NonNullable<NumberFieldRootProps['onChange']>>;
 
-interface TextFieldRootDebouncedProps extends SetRequired<
-  Omit<TextFieldRootProps, 'defaultValue'>,
+interface NumberFieldRootDebouncedProps extends SetRequired<
+  Omit<NumberFieldRootProps, 'defaultValue'>,
   'value' | 'onChange'
 > {
-  debounceOptions?: Partial<TextFieldRootDebouncerOptions>;
+  debounceOptions?: Partial<NumberFieldRootDebouncerOptions>;
 }
 
-export function TextFieldRootDebounced(props: TextFieldRootDebouncedProps) {
+export function NumberFieldRootDebounced(props: NumberFieldRootDebouncedProps) {
   const { value, onChange, debounceOptions } = props;
 
-  const debounceOptionsFinal: TextFieldRootDebouncerOptions = {
+  const debounceOptionsFinal: NumberFieldRootDebouncerOptions = {
     ...debounceOptions,
     wait: debounceOptions?.wait ?? DEFAULT_DEBOUNCE_WAIT_MS,
   };
@@ -40,7 +40,7 @@ export function TextFieldRootDebounced(props: TextFieldRootDebouncedProps) {
   const debouncedUpdateValue = useDebouncedCallback(onChange, debounceOptionsFinal);
 
   return (
-    <TextFieldRoot
+    <NumberFieldRoot
       {...props}
       value={inputValue}
       onChange={(nextValue) => {

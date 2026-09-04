@@ -1,9 +1,10 @@
 import type { ComponentPropsWithRef } from 'react';
 
+import type { SetRequired } from 'type-fest';
 import { composeRenderProps, Input as RACInput } from 'react-aria-components';
 import { cn } from 'tailwind-variants';
 
-type InputProps = ComponentPropsWithRef<typeof RACInput>;
+type InputProps = SetRequired<ComponentPropsWithRef<typeof RACInput>, 'placeholder'>;
 
 export function Input(props: InputProps) {
   return (

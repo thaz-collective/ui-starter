@@ -20,10 +20,9 @@ import { Input } from '#src/components/input';
 
 ## Usage
 
-`Input` must be rendered inside a field root carrying the `group/text-field` class (for example
-`TextField` / `TextField.Root`) so React Aria can wire up its value, validation, and disabled
-state. It's typically placed inside a `FieldContainer`, whose `group/field-container`
-class drives the placeholder's focus-fade.
+`Input` must be rendered inside a field root (for example `TextField` / `TextField.Root`) so
+React Aria can wire up its value, validation, and disabled state. It's typically placed inside a
+`FieldContainer`, which fades its placeholder in on focus.
 
 ```tsx
 import { useState } from 'react';
@@ -51,8 +50,10 @@ function Example() {
 
 ## Behavior
 
-- **Placeholder**: hidden until the container (`group/field-container`) is focus-within, so
-  it doesn't fight with the floating label.
+- **Placeholder**: hidden until the container is focused, so it doesn't fight with the floating
+  label. `placeholder` is required — `Label` needs it to tell whether the field is empty, so
+  without one the label would be permanently stuck in its floated position. Pass a space
+  (`placeholder=" "`) if you don't want visible placeholder text.
 - **Disabled** (`isDisabled` on the field root): cursor becomes `not-allowed`, text dims to the
   muted foreground color.
 - **Read-only** (`isReadOnly` on the field root): cursor becomes `default`.
@@ -69,9 +70,14 @@ function Example() {
   </thead>
   <tbody>
     <tr>
+      <td>{'placeholder'}</td>
+      <td>{'string'}</td>
+      <td>{'Required — see Behavior above. Pass " " for no visible placeholder text.'}</td>
+    </tr>
+    <tr>
       <td>{'...rest'}</td>
       <td>{"React Aria's InputProps"}</td>
-      <td>{'Any prop accepted by react-aria-components’ Input, e.g. placeholder, className, id.'}</td>
+      <td>{'Any other prop accepted by react-aria-components’ Input, e.g. className, id.'}</td>
     </tr>
   </tbody>
 </table>

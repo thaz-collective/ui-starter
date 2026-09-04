@@ -101,7 +101,7 @@ function DisabledStateExample() {
     >
       <TextField.FieldContainer>
         <TextField.Label>{'Email'}</TextField.Label>
-        <TextField.Input />
+        <TextField.Input placeholder="you@example.com" />
       </TextField.FieldContainer>
     </TextField>
   );
@@ -124,7 +124,7 @@ function ReadonlyStateExample() {
     >
       <TextField.FieldContainer>
         <TextField.Label>{'Email'}</TextField.Label>
-        <TextField.Input />
+        <TextField.Input placeholder="you@example.com" />
       </TextField.FieldContainer>
       <TextField.Description>{'Contact support to change this.'}</TextField.Description>
     </TextField>
@@ -184,6 +184,7 @@ function DebouncedExample() {
         <TextField.FieldContainer>
           <TextField.Label>{'Search'}</TextField.Label>
           <TextField.Input
+            placeholder="Search..."
             onInput={(event) => {
               setValue(event.currentTarget.value);
             }}

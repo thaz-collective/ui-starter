@@ -36,5 +36,6 @@ function DefaultExample() {
 }
 
 export const Default: Story = {
+  args: { placeholder: 'Jane Smith' },
   render: () => <DefaultExample />,
 };
