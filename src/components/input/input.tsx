@@ -17,9 +17,9 @@ export function Input(props: InputProps) {
 
             'placeholder:text-field-foreground/50 placeholder:opacity-0 placeholder:transition-opacity placeholder:duration-150',
 
-            'data-[disabled="true"]:cursor-not-allowed data-[disabled="true"]:text-muted-foreground',
+            'data-disabled:cursor-not-allowed data-disabled:text-muted-foreground',
 
-            'data-[readonly="true"]:cursor-default',
+            'data-readonly:cursor-default',
 
             'group-focus-within/field-container:placeholder:opacity-100',
 

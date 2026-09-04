@@ -1,0 +1,250 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+
+import * as CheckboxGroupStories from './checkbox-group.stories';
+
+<Meta of={CheckboxGroupStories} />
+
+# CheckboxGroup
+
+Picks zero or more values from a small list of options, built on top of `react-aria-components`'
+`CheckboxGroup`. It reuses the same indicator as [`Checkbox`](/?path=/docs/component-checkbox--docs)
+for each option, and adds a shared label, description, validation state, and layout across the
+whole set.
+
+## Import
+
+```tsx
+import { CheckboxGroup } from '#src/components/checkbox-group';
+```
+
+## Composition
+
+`CheckboxGroup` is a compound component. `CheckboxGroup` itself is `CheckboxGroup.Root`, and the
+other slots hang off of it:
+
+```
+CheckboxGroup (CheckboxGroup.Root)
+├── CheckboxGroup.Label (optional)
+├── CheckboxGroup.Description (optional)
+├── CheckboxGroup.Field (one or more)
+│   └── CheckboxGroup.Button
+└── CheckboxGroup.FieldError (optional)
+```
+
+`CheckboxGroup.Button` is the exact same component as
+[`Checkbox.Button`](/?path=/docs/component-checkbox--docs) — the indicator looks and behaves
+identically whether it's standing alone or living inside a group.
+
+`CheckboxGroup.Description` and `CheckboxGroup.FieldError` are the same shared components used by
+[`TextField`](/?path=/docs/component-textfield--docs) and
+[`NumberField`](/?path=/docs/component-numberfield--docs) — they only care about being nested
+inside an ancestor carrying the shared field marker, which `CheckboxGroup.Root` provides, so they
+work here unmodified.
+
+Every slot must be rendered inside `CheckboxGroup` / `CheckboxGroup.Root` — they read shared
+context from React Aria and will not work standalone.
+
+## Anatomy
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Component'}</th>
+      <th>{'Description'}</th>
+      <th>{'Optional'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'CheckboxGroup / CheckboxGroup.Root'}</td>
+      <td>{'Groups related checkboxes and manages their shared value.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'CheckboxGroup.Field'}</td>
+      <td>{'A single checkbox within the group, identified by its own value.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'CheckboxGroup.Button'}</td>
+      <td>{'The interactive, styled checkbox indicator and its label content.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'CheckboxGroup.Label'}</td>
+      <td>{"The group's label."}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'CheckboxGroup.Description'}</td>
+      <td>{'Supporting text under the group. Hidden automatically when invalid.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'CheckboxGroup.FieldError'}</td>
+      <td>{'Validation error text, shown when the group is invalid.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+  </tbody>
+</table>
+
+## Usage
+
+```tsx
+import { useState } from 'react';
+
+import { CheckboxGroup } from '#src/components/checkbox-group';
+
+function Example() {
+  const [value, setValue] = useState(['sms']);
+
+  return (
+    <CheckboxGroup
+      value={value}
+      onChange={setValue}
+    >
+      <CheckboxGroup.Label>{'Notifications'}</CheckboxGroup.Label>
+      <CheckboxGroup.Description>{'Choose how you want to be notified.'}</CheckboxGroup.Description>
+      <CheckboxGroup.Field value="email">
+        <CheckboxGroup.Button>{'Email'}</CheckboxGroup.Button>
+      </CheckboxGroup.Field>
+      <CheckboxGroup.Field value="sms">
+        <CheckboxGroup.Button>{'SMS'}</CheckboxGroup.Button>
+      </CheckboxGroup.Field>
+      <CheckboxGroup.Field value="push">
+        <CheckboxGroup.Button>{'Push notification'}</CheckboxGroup.Button>
+      </CheckboxGroup.Field>
+    </CheckboxGroup>
+  );
+}
+```
+
+`value`/`onChange` are required on `CheckboxGroup` / `CheckboxGroup.Root` — it's a controlled
+component. `CheckboxGroup.Field` only accepts `value`; selection state comes from the group, not
+from an `isSelected`/`onChange` pair on the individual field.
+
+<Canvas of={CheckboxGroupStories.Default} />
+
+### Orientation
+
+`orientation` lays the group's fields out in a column (`"vertical"`, the default) or a wrapping
+row (`"horizontal"`):
+
+<Canvas of={CheckboxGroupStories.Horizontal} />
+
+### Inside a Card
+
+`CheckboxGroup.Description` and `CheckboxGroup.FieldError` pick up field-appropriate text color
+from whichever `Surface` they're nested in, the same as they do for `TextField`/`NumberField`, so
+a group placed inside a `Card` stays visually consistent with no extra props:
+
+<Canvas of={CheckboxGroupStories.OnCards} />
+
+## States
+
+`isRequired`, `isDisabled`, and `isInvalid` are passed to `CheckboxGroup` / `CheckboxGroup.Root` —
+they flow down through React Aria context to every slot underneath, which is how
+`CheckboxGroup.FieldError` knows to show itself, `CheckboxGroup.Description` knows to hide itself,
+and the indicator styling responds automatically across every field in the group.
+
+### Required
+
+Adds a `*` after `CheckboxGroup.Label`.
+
+<Canvas of={CheckboxGroupStories.Required} />
+
+### Error
+
+Set `isInvalid` to turn `CheckboxGroup.Label` and every field's indicator into their error
+styling and reveal `CheckboxGroup.FieldError`. Invalid wins over the usual primary color for each
+indicator's border, hover, and focus ring.
+
+<Canvas of={CheckboxGroupStories.ErrorState} />
+
+### Disabled
+
+<Canvas of={CheckboxGroupStories.DisabledState} />
+
+## API
+
+### `CheckboxGroup` / `CheckboxGroup.Root`
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Prop'}</th>
+      <th>{'Type'}</th>
+      <th>{'Default'}</th>
+      <th>{'Description'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'children'}</td>
+      <td>{'ReactNode'}</td>
+      <td>{'required'}</td>
+      <td>{'The group slots (Label, Field, Description, FieldError).'}</td>
+    </tr>
+    <tr>
+      <td>{'value'}</td>
+      <td>{'string[]'}</td>
+      <td>{'required'}</td>
+      <td>{'The controlled set of selected values.'}</td>
+    </tr>
+    <tr>
+      <td>{'onChange'}</td>
+      <td>{'(value: string[]) => void'}</td>
+      <td>{'required'}</td>
+      <td>{'Called with the new set of selected values on every change.'}</td>
+    </tr>
+    <tr>
+      <td>{'orientation'}</td>
+      <td>{"'vertical' | 'horizontal'"}</td>
+      <td>{"'vertical'"}</td>
+      <td>{'Lays the fields out in a column or a wrapping row.'}</td>
+    </tr>
+    <tr>
+      <td>{'isRequired'}</td>
+      <td>{'boolean'}</td>
+      <td>{'false'}</td>
+      <td>{'Marks the group required.'}</td>
+    </tr>
+    <tr>
+      <td>{'isDisabled'}</td>
+      <td>{'boolean'}</td>
+      <td>{'false'}</td>
+      <td>{'Disables every field in the group.'}</td>
+    </tr>
+    <tr>
+      <td>{'isInvalid'}</td>
+      <td>{'boolean'}</td>
+      <td>{'false'}</td>
+      <td>{'Puts the group in its error state; reveals FieldError.'}</td>
+    </tr>
+  </tbody>
+</table>
+
+`CheckboxGroup.Root` accepts any other prop supported by React Aria Components'
+[`CheckboxGroup`](https://react-spectrum.adobe.com/react-aria/CheckboxGroup.html).
+
+### `CheckboxGroup.Field`
+
+Renders a single checkbox inside the group. Accepts a required `value` identifying it within the
+group's selected-value array, plus any other prop `Checkbox.Root` accepts except
+`isSelected`/`onChange`.
+
+### `CheckboxGroup.Button`
+
+Renders the indicator box and its `children` as the clickable label — the same component as
+`Checkbox.Button`.
+
+### `CheckboxGroup.Label`
+
+Renders text content (`children`) as the group's label; styling responds automatically to the
+group's disabled state.
+
+### `CheckboxGroup.Description`, `CheckboxGroup.FieldError`
+
+Shared with `TextField`/`NumberField` — see their own docs for details.
+
+<Controls of={CheckboxGroupStories.Default} />

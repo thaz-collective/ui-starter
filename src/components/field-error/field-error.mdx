@@ -15,8 +15,9 @@ validation state directly from React Aria and only renders itself while the fiel
 import { FieldError } from '#src/components/field-error';
 ```
 
-`TextField` also re-exports this as `TextField.FieldError` for convenience when composing a text
-field.
+`TextField`, `NumberField`, `Checkbox`, and `CheckboxGroup` also re-export this as
+`TextField.FieldError`, `NumberField.FieldError`, `Checkbox.FieldError`, and
+`CheckboxGroup.FieldError` respectively, for convenience when composing those components.
 
 ## Usage
 
