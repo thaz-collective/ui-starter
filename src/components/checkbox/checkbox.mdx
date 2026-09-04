@@ -1,0 +1,232 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+
+import * as CheckboxStories from './checkbox.stories';
+
+<Meta of={CheckboxStories} />
+
+# Checkbox
+
+A single, standalone boolean checkbox built on top of `react-aria-components`' `CheckboxField`/
+`CheckboxButton`. For picking multiple values from a list of options, use
+[`CheckboxGroup`](/?path=/docs/component-checkboxgroup--docs) instead — it composes this same
+indicator with shared-selection state and layout.
+
+## Import
+
+```tsx
+import { Checkbox } from '#src/components/checkbox';
+```
+
+## Composition
+
+`Checkbox` is a compound component. `Checkbox` itself is `Checkbox.Root`, and the other slots hang
+off of it:
+
+```
+Checkbox (Checkbox.Root)
+├── Checkbox.Button
+├── Checkbox.Description (optional)
+└── Checkbox.FieldError (optional)
+```
+
+`Checkbox.Description` and `Checkbox.FieldError` are the same shared components used by
+[`TextField`](/?path=/docs/component-textfield--docs) and
+[`NumberField`](/?path=/docs/component-numberfield--docs) — they only care about being nested
+inside an ancestor carrying the shared field marker, which `Checkbox.Root` provides, so they work
+here unmodified.
+
+Every slot must be rendered inside `Checkbox` / `Checkbox.Root` — they read shared context from
+React Aria and will not work standalone.
+
+## Anatomy
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Component'}</th>
+      <th>{'Description'}</th>
+      <th>{'Optional'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'Checkbox / Checkbox.Root'}</td>
+      <td>{'The boolean checkbox control.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Checkbox.Button'}</td>
+      <td>{'The interactive, styled checkbox indicator and its label content.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Checkbox.Description'}</td>
+      <td>{'Supporting text for the checkbox. Hidden automatically when invalid.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'Checkbox.FieldError'}</td>
+      <td>{'Validation error text, shown when the field is invalid.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+  </tbody>
+</table>
+
+## Usage
+
+```tsx
+import { useState } from 'react';
+
+import { Checkbox } from '#src/components/checkbox';
+
+function Example() {
+  const [isSelected, setIsSelected] = useState(false);
+
+  return (
+    <Checkbox
+      isSelected={isSelected}
+      onChange={setIsSelected}
+    >
+      <Checkbox.Button>{'Accept terms and conditions'}</Checkbox.Button>
+    </Checkbox>
+  );
+}
+```
+
+`isSelected`/`onChange` are required on `Checkbox` / `Checkbox.Root` — it's a controlled component.
+
+<Canvas of={CheckboxStories.Default} />
+
+### The indicator and label
+
+`Checkbox.Button` renders both the visible box (with its check/dash indicator) and its `children`
+as the clickable label, laid out side by side. There's no separate label slot — pass the label
+text as `Checkbox.Button`'s children.
+
+### Description
+
+<Canvas of={CheckboxStories.WithDescription} />
+
+### Inside a Card
+
+`Checkbox.Description` and `Checkbox.FieldError` pick up field-appropriate text color from
+whichever `Surface` they're nested in, the same as they do for `TextField`/`NumberField`, so a
+checkbox placed inside a `Card` stays visually consistent with no extra props:
+
+<Canvas of={CheckboxStories.OnCards} />
+
+## States
+
+`isRequired`, `isDisabled`, and `isInvalid` are passed to `Checkbox` / `Checkbox.Root` — they flow
+down through React Aria context to every slot underneath, which is how `Checkbox.FieldError` knows
+to show itself, `Checkbox.Description` knows to hide itself, and the indicator styling responds
+automatically.
+
+### Indeterminate
+
+Set `isIndeterminate` to show a dash instead of a checkmark — handy for a "select all" checkbox
+representing a partially-selected set elsewhere on the page. It's a purely visual state; the
+underlying `isSelected` value is unaffected.
+
+<Canvas of={CheckboxStories.Indeterminate} />
+
+### Required
+
+For a single checkbox, "required" means it must be _checked_ to pass validation (e.g. "I agree to
+the Terms of Service") — not just interacted with. There's no dedicated visual marker for this:
+`Checkbox.Button`'s label is arbitrary inline content with no separate label element to attach a
+`*` to, so `isRequired` only sets `aria-required` and drives validation — `Checkbox.FieldError`
+surfaces the message if the field is submitted unchecked.
+
+If you want a visible "must select at least one" affordance with a labeled `*`, that's
+[`CheckboxGroup`](/?path=/docs/component-checkboxgroup--docs)'s `isRequired`, not this one.
+
+### Error
+
+Set `isInvalid` to switch the indicator into its error styling and reveal `Checkbox.FieldError`.
+Invalid wins over the usual primary color for the indicator's border, hover, and focus ring.
+
+<Canvas of={CheckboxStories.ErrorState} />
+
+### Disabled
+
+<Canvas of={CheckboxStories.DisabledState} />
+
+## API
+
+### `Checkbox` / `Checkbox.Root`
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Prop'}</th>
+      <th>{'Type'}</th>
+      <th>{'Default'}</th>
+      <th>{'Description'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'children'}</td>
+      <td>{'ReactNode'}</td>
+      <td>{'required'}</td>
+      <td>{'The field slots (Button, Description, FieldError).'}</td>
+    </tr>
+    <tr>
+      <td>{'isSelected'}</td>
+      <td>{'boolean'}</td>
+      <td>{'required'}</td>
+      <td>{'The controlled selected state.'}</td>
+    </tr>
+    <tr>
+      <td>{'onChange'}</td>
+      <td>{'(isSelected: boolean) => void'}</td>
+      <td>{'required'}</td>
+      <td>{'Called with the new selected state on every change.'}</td>
+    </tr>
+    <tr>
+      <td>{'isIndeterminate'}</td>
+      <td>{'boolean'}</td>
+      <td>{'false'}</td>
+      <td>{'Shows a dash instead of a checkmark; purely visual.'}</td>
+    </tr>
+    <tr>
+      <td>{'isRequired'}</td>
+      <td>{'boolean'}</td>
+      <td>{'false'}</td>
+      <td>{'Requires isSelected to be true to pass validation. No dedicated visual marker — see Required above.'}</td>
+    </tr>
+    <tr>
+      <td>{'isDisabled'}</td>
+      <td>{'boolean'}</td>
+      <td>{'false'}</td>
+      <td>{'Disables the field.'}</td>
+    </tr>
+    <tr>
+      <td>{'isInvalid'}</td>
+      <td>{'boolean'}</td>
+      <td>{'false'}</td>
+      <td>{'Puts the field in its error state; reveals FieldError.'}</td>
+    </tr>
+    <tr>
+      <td>{'validate'}</td>
+      <td>{'(isSelected: boolean) => ValidationError | true | null | undefined'}</td>
+      <td>{'undefined'}</td>
+      <td>{'React Aria field-level validation.'}</td>
+    </tr>
+  </tbody>
+</table>
+
+`Checkbox.Root` accepts any other prop supported by React Aria Components'
+[`CheckboxField`](https://react-spectrum.adobe.com/react-aria/Checkbox.html).
+
+### `Checkbox.Button`
+
+Renders the indicator box and its `children` as the clickable label. Accepts standard
+`react-aria-components` `CheckboxButton` props.
+
+### `Checkbox.Description`, `Checkbox.FieldError`
+
+Shared with `TextField`/`NumberField` — see their own docs for details.
+
+<Controls of={CheckboxStories.Default} />
