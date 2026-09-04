@@ -10,14 +10,14 @@ import { NumberFieldRoot } from './number-field-root';
 
 const DEFAULT_DEBOUNCE_WAIT_MS = 300;
 
-type NumberFieldRootProps = SetRequired<
-  Omit<ComponentPropsWithRef<typeof NumberFieldRoot>, 'defaultValue'>,
-  'value' | 'onChange'
->;
+type NumberFieldRootProps = ComponentPropsWithRef<typeof NumberFieldRoot>;
 
 type NumberFieldRootDebouncerOptions = DebouncerOptions<NonNullable<NumberFieldRootProps['onChange']>>;
 
-interface NumberFieldRootDebouncedProps extends NumberFieldRootProps {
+interface NumberFieldRootDebouncedProps extends SetRequired<
+  Omit<NumberFieldRootProps, 'defaultValue'>,
+  'value' | 'onChange'
+> {
   debounceOptions?: Partial<NumberFieldRootDebouncerOptions>;
 }
 

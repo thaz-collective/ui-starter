@@ -10,14 +10,14 @@ import { TextFieldRoot } from './text-field-root';
 
 const DEFAULT_DEBOUNCE_WAIT_MS = 300;
 
-type TextFieldRootProps = SetRequired<
-  Omit<ComponentPropsWithRef<typeof TextFieldRoot>, 'defaultValue'>,
-  'value' | 'onChange'
->;
+type TextFieldRootProps = ComponentPropsWithRef<typeof TextFieldRoot>;
 
 type TextFieldRootDebouncerOptions = DebouncerOptions<NonNullable<TextFieldRootProps['onChange']>>;
 
-interface TextFieldRootDebouncedProps extends TextFieldRootProps {
+interface TextFieldRootDebouncedProps extends SetRequired<
+  Omit<TextFieldRootProps, 'defaultValue'>,
+  'value' | 'onChange'
+> {
   debounceOptions?: Partial<TextFieldRootDebouncerOptions>;
 }
 

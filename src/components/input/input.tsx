@@ -4,8 +4,6 @@ import type { SetRequired } from 'type-fest';
 import { composeRenderProps, Input as RACInput } from 'react-aria-components';
 import { cn } from 'tailwind-variants';
 
-// Label's floating behavior keys off :not(:placeholder-shown), which never matches without a
-// placeholder attribute — so it's required here rather than left to be forgotten per usage.
 type InputProps = SetRequired<ComponentPropsWithRef<typeof RACInput>, 'placeholder'>;
 
 export function Input(props: InputProps) {

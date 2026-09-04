@@ -6,9 +6,11 @@ import * as FieldContainerStories from './field-container.stories.tsx';
 
 # FieldContainer
 
-A plain `<div>` wrapper that owns the bordered "field" chrome around a label and input — background,
-border, radius, and the hover/focus/invalid/disabled border colors. `Label` and `Input` treat it
-as their positioning context for the floating-label and placeholder-fade behavior.
+A `react-aria-components` `Group` that owns the bordered "field" chrome around a label, input, and
+any trailing controls (e.g. stepper buttons) — background, border, radius, the flex layout that
+lines them up side by side, and the hover/focus/invalid/disabled border colors. `Label` and
+`Input` treat it as their positioning context for the floating-label and placeholder-fade
+behavior.
 
 ## Import
 
@@ -75,8 +77,8 @@ function Example() {
     </tr>
     <tr>
       <td>{'...rest'}</td>
-      <td>{"ComponentPropsWithRef<'div'>"}</td>
-      <td>{'Any prop accepted by a native div, e.g. className, id.'}</td>
+      <td>{'ComponentPropsWithRef<typeof Group>'}</td>
+      <td>{"Any prop accepted by React Aria Components' Group, e.g. className, id."}</td>
     </tr>
   </tbody>
 </table>

@@ -26,11 +26,10 @@ slots hang off of it:
 NumberField
 ├── NumberField.FieldContainer
 │   ├── NumberField.Label
-│   └── NumberField.Group
-│       ├── NumberField.Input
-│       └── NumberField.StepButtons
-│           ├── NumberField.IncrementButton
-│           └── NumberField.DecrementButton
+│   ├── NumberField.Input
+│   └── NumberField.StepButtons
+│       ├── NumberField.IncrementButton
+│       └── NumberField.DecrementButton
 ├── NumberField.Description (optional)
 └── NumberField.FieldError (optional)
 ```
@@ -71,17 +70,12 @@ from React Aria and will not work standalone.
     </tr>
     <tr>
       <td>{'NumberField.FieldContainer'}</td>
-      <td>{'Wraps the label and input group, and owns the floating-label styling.'}</td>
+      <td>{'Wraps the label, input, and stepper buttons side by side, and owns the floating-label styling.'}</td>
       <td>{'No'}</td>
     </tr>
     <tr>
       <td>{'NumberField.Label'}</td>
       <td>{"The field's label text. Floats above the input on focus/value."}</td>
-      <td>{'No'}</td>
-    </tr>
-    <tr>
-      <td>{'NumberField.Group'}</td>
-      <td>{'Wraps the input and stepper buttons side by side.'}</td>
       <td>{'No'}</td>
     </tr>
     <tr>
@@ -91,7 +85,7 @@ from React Aria and will not work standalone.
     </tr>
     <tr>
       <td>{'NumberField.StepButtons'}</td>
-      <td>{'Stacks the increment/decrement buttons along the trailing edge of the group.'}</td>
+      <td>{'Stacks the increment/decrement buttons along the trailing edge of the field container.'}</td>
       <td>{'Yes'}</td>
     </tr>
     <tr>
@@ -137,13 +131,11 @@ function Example() {
     >
       <NumberField.FieldContainer>
         <NumberField.Label>{'Quantity'}</NumberField.Label>
-        <NumberField.Group>
-          <NumberField.Input placeholder="0" />
-          <NumberField.StepButtons>
-            <NumberField.IncrementButton />
-            <NumberField.DecrementButton />
-          </NumberField.StepButtons>
-        </NumberField.Group>
+        <NumberField.Input placeholder="0" />
+        <NumberField.StepButtons>
+          <NumberField.IncrementButton />
+          <NumberField.DecrementButton />
+        </NumberField.StepButtons>
       </NumberField.FieldContainer>
     </NumberField>
   );
@@ -161,10 +153,10 @@ uncontrolled field.
 ### Label placement
 
 `NumberField.Label` and `NumberField.FieldContainer` are required and must be nested together —
-`NumberField.Label` alongside `NumberField.Group`, inside `NumberField.FieldContainer`. The
+`NumberField.Label` alongside `NumberField.Input`, inside `NumberField.FieldContainer`. The
 container watches its children for focus and content and floats the label above the input in
-response, so the label, group, and container need to stay together — don't split them apart or
-render the label outside the container.
+response, so the label and container need to stay together — don't split them apart or render the
+label outside the container.
 
 Detecting "has content" this way relies on the input actually having a `placeholder`, which is
 why `placeholder` is a required prop on `NumberField.Input` — pass `placeholder=" "` if you don't
@@ -173,11 +165,11 @@ want visible placeholder text.
 ### Stepper buttons
 
 `NumberField.StepButtons` is an optional wrapper that stacks `NumberField.IncrementButton` and
-`NumberField.DecrementButton` along the trailing edge of `NumberField.Group`. They call React
-Aria's built-in `increment`/`decrement` handlers via the `slot` prop, so no `onPress` wiring is
-required — just render them inside `NumberField.Group`, after `NumberField.Input`. Omit
-`NumberField.StepButtons` entirely for a plain numeric input with no visible steppers (the field
-remains steppable with the arrow keys and mouse wheel).
+`NumberField.DecrementButton` along the trailing edge of `NumberField.FieldContainer`. They call
+React Aria's built-in `increment`/`decrement` handlers via the `slot` prop, so no `onPress` wiring
+is required — just render them inside `NumberField.FieldContainer`, after `NumberField.Input`.
+Omit `NumberField.StepButtons` entirely for a plain numeric input with no visible steppers (the
+field remains steppable with the arrow keys and mouse wheel).
 
 ### Formatting
 
@@ -255,9 +247,7 @@ function Example() {
     >
       <NumberField.FieldContainer>
         <NumberField.Label>{'Quantity'}</NumberField.Label>
-        <NumberField.Group>
-          <NumberField.Input placeholder="0" />
-        </NumberField.Group>
+        <NumberField.Input placeholder="0" />
       </NumberField.FieldContainer>
     </NumberField.RootDebounced>
   );
@@ -367,11 +357,6 @@ as `@tanstack/react-pacer`'s `useDebouncedCallback` (`wait` defaults to `300`).
 
 `NumberField.Root` accepts any other prop supported by React Aria Components'
 [`NumberField`](https://react-spectrum.adobe.com/react-aria/NumberField.html).
-
-### `NumberField.Group`
-
-Renders a `react-aria-components` `Group` around `NumberField.Input` and
-`NumberField.StepButtons`. Accepts standard `className`/`children`.
 
 ### `NumberField.Input`
 
