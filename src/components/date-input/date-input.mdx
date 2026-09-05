@@ -1,0 +1,93 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+
+import * as DateInputStories from './date-input.stories';
+
+<Meta of={DateInputStories} />
+
+# DateInput
+
+The segmented editable-date-part building block, built on `react-aria-components`' `DateInput`
+and `DateSegment`. Each part of a date/time value (hour, minute, second, AM/PM, month, day, year,
+etc.) renders as its own individually focusable segment rather than a single `<input>`. It's the
+shared input primitive for any date- or time-based field — currently
+[`TimeField`](/?path=/docs/component-timefield--docs) uses it, with more date/date-time fields
+planned to reuse it going forward.
+
+## Import
+
+```tsx
+import { DateInput } from '#src/components/date-input';
+```
+
+`TimeField` also re-exports this as `TimeField.Input` for convenience when composing a time
+field.
+
+## Usage
+
+`DateInput` must be rendered inside a date/time field root that provides React Aria's date-field
+state (for example `TimeField` / `TimeField.Root`), typically inside a `FieldContainer`.
+
+```tsx
+import { useState } from 'react';
+
+import { TimeField } from '#src/components/time-field';
+
+function Example() {
+  const [value, setValue] = useState<Temporal.PlainTime | null>(null);
+
+  return (
+    <TimeField
+      value={value}
+      onChange={setValue}
+    >
+      <TimeField.FieldContainer>
+        <TimeField.Label>{'Meeting time'}</TimeField.Label>
+        <TimeField.Input />
+      </TimeField.FieldContainer>
+    </TimeField>
+  );
+}
+```
+
+<Canvas of={DateInputStories.Default} />
+
+## Behavior
+
+- **Segments**: renders one segment per editable part of the value (e.g. hour, minute, AM/PM) plus
+  literal separators (e.g. `:`), each as its own focusable element — arrow keys and typing move
+  between and edit segments individually.
+- **Placeholder segments and literal separators fade in** once the field is focused or already has
+  a real value, so an idle empty field reads as a single hint rather than a full template like
+  `hh:mm AM`.
+- **Focused segment**: gets a solid highlight (primary background/foreground) so keyboard/pointer
+  focus within the field is easy to track.
+- **Disabled** (`isDisabled` on the field root): cursor becomes `not-allowed`, text dims to the
+  muted foreground color.
+- **Read-only** (`isReadOnly` on the field root): cursor becomes `default`.
+- **Invalid** (`isInvalid` on the field root): segment text turns to the danger color.
+
+## API
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Prop'}</th>
+      <th>{'Type'}</th>
+      <th>{'Description'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'segmentProps'}</td>
+      <td>{"Omit<React Aria's DateSegmentProps, 'segment' | 'children'>"}</td>
+      <td>{'Passed through to every individual segment, e.g. to override className per-segment.'}</td>
+    </tr>
+    <tr>
+      <td>{'...rest'}</td>
+      <td>{"React Aria's DateInputProps"}</td>
+      <td>{'Any other prop accepted by react-aria-components’ DateInput, e.g. className, id.'}</td>
+    </tr>
+  </tbody>
+</table>
+
+<Controls of={DateInputStories.Default} />

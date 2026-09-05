@@ -15,10 +15,10 @@ export function CheckboxGroupLabel(props: CheckboxGroupLabelProps) {
           'text-sm leading-none font-medium text-foreground',
 
           // required indicator
-          'group-data-[required="true"]/field:after:ml-0.5 group-data-[required="true"]/field:after:content-["*"]',
+          'group-data-required/field:after:ml-0.5 group-data-required/field:after:content-["*"]',
 
           // invalid
-          'group-data-[invalid="true"]/field:text-danger',
+          'group-data-invalid/field:text-danger',
 
           // disabled
           'group-data-disabled/field:cursor-not-allowed group-data-disabled/field:opacity-50',

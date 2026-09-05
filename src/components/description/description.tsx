@@ -15,7 +15,7 @@ export function Description(props: DescriptionProps) {
         cn(
           'group/description block text-xs text-field-foreground',
 
-          'group-data-[invalid="true"]/field:hidden',
+          'group-data-invalid/field:hidden',
 
           props.className,
         ) ?? ''

@@ -1,0 +1,354 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+
+import * as TimeFieldStories from './time-field.stories';
+
+<Meta of={TimeFieldStories} />
+
+# Time Field
+
+A time input built on top of `react-aria-components`' `TimeField`, where each part of the time
+(hour, minute, second, AM/PM) is displayed as an individually editable segment. It handles
+labeling, descriptions, validation error messaging, and the required/disabled/read-only/invalid
+states that come from React Aria, and exposes them as a small set of composable slots so you
+control exactly what gets rendered.
+
+`TimeField` works with `Temporal` values (`Temporal.PlainTime`, `Temporal.PlainDateTime`, or
+`Temporal.ZonedDateTime`) rather than React Aria's own internationalized-date types — it converts
+between the two internally so the rest of the app only ever deals in `Temporal`.
+
+## Import
+
+```tsx
+import { TimeField } from '#src/components/time-field';
+```
+
+## Composition
+
+`TimeField` is a compound component. `TimeField` itself is `TimeField.Root`, and the other slots
+hang off of it:
+
+```
+TimeField
+├── TimeField.FieldContainer
+│   ├── TimeField.Label
+│   └── TimeField.Input
+├── TimeField.Description (optional)
+└── TimeField.FieldError (optional)
+```
+
+`TimeField.RootDebounced` is a drop-in alternative to `TimeField.Root` for cases where you want to
+debounce `onChange` (for example, wiring the field up to a network request) — see
+[Debounced input](#debounced-input) below.
+
+`TimeField.FieldContainer`, `TimeField.Label`, `TimeField.Description`, and `TimeField.FieldError`
+are the same shared components used by [`TextField`](/?path=/docs/component-textfield--docs) and
+[`NumberField`](/?path=/docs/component-numberfield--docs) — they only care about being nested
+inside a field root and its container, both of which `TimeField.Root` and
+`TimeField.FieldContainer` provide, so they work here unmodified.
+
+`TimeField.Input` is the shared [`DateInput`](/?path=/docs/component-dateinput--docs) component —
+the segmented editable building block meant for any date/time field, not just `TimeField`.
+
+Every slot must be rendered inside `TimeField` / `TimeField.Root` — they read shared context from
+React Aria and will not work standalone.
+
+## Anatomy
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Component'}</th>
+      <th>{'Description'}</th>
+      <th>{'Optional'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'TimeField / TimeField.Root'}</td>
+      <td>{'The container; supplies context to every slot below.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'TimeField.RootDebounced'}</td>
+      <td>{'Same as Root, but debounces onChange.'}</td>
+      <td>{'No¹'}</td>
+    </tr>
+    <tr>
+      <td>{'TimeField.FieldContainer'}</td>
+      <td>{'Wraps the label and segmented input, and owns the floating-label styling.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'TimeField.Label'}</td>
+      <td>{"The field's label text. Floats above the input on focus/value."}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'TimeField.Input'}</td>
+      <td>{'The segmented time input (hour, minute, second, AM/PM).'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'TimeField.Description'}</td>
+      <td>{'Supporting text under the field. Hidden automatically when invalid.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'TimeField.FieldError'}</td>
+      <td>{'Validation error text. Hidden unless isInvalid is set.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+  </tbody>
+</table>
+
+¹ Use either `TimeField.Root` or `TimeField.RootDebounced` as the container, not both.
+
+## Usage
+
+```tsx
+import { useState } from 'react';
+
+import { TimeField } from '#src/components/time-field';
+
+function Example() {
+  const [value, setValue] = useState<Temporal.PlainTime | null>(null);
+
+  return (
+    <TimeField
+      className="w-48"
+      value={value}
+      onChange={setValue}
+    >
+      <TimeField.FieldContainer>
+        <TimeField.Label>{'Meeting time'}</TimeField.Label>
+        <TimeField.Input />
+      </TimeField.FieldContainer>
+      <TimeField.Description>{'Choose a start time.'}</TimeField.Description>
+    </TimeField>
+  );
+}
+```
+
+`value`/`onChange` are required on `TimeField` / `TimeField.Root` — pass `value={null}` for an
+empty, controlled field.
+
+<Canvas of={TimeFieldStories.Default} />
+
+### Label placement
+
+`TimeField.Label` and `TimeField.FieldContainer` are required and must be nested together —
+`TimeField.Label` alongside `TimeField.Input`, inside `TimeField.FieldContainer`. The container
+watches its children for focus and content and floats the label above the input in response, so
+the label and container need to stay together — don't split them apart or render the label outside
+the container.
+
+Unlike `TextField.Input` and `NumberField.Input`, `TimeField.Input` renders one segment per part
+of the time rather than a single `<input>`, so "has content" is detected from whether any segment
+holds a real value instead of from a `placeholder` — no `placeholder` prop is needed here.
+
+### Granularity (with seconds)
+
+Pass `granularity="second"` to add a seconds segment; the default granularity is minutes.
+
+<Canvas of={TimeFieldStories.WithSeconds} />
+
+### Value types
+
+`TimeField` is generic over which `Temporal` type it stores — pick whichever already matches the
+data you're editing, and `value`/`onChange` follow that type:
+
+- **`Temporal.PlainTime`** — a time with no associated date (e.g. "2:30 PM"). See
+  [Default](#usage) above.
+- **`Temporal.PlainDateTime`** — a date and time with no time zone; only the time segments render,
+  the date portion passes through unedited.
+
+  <Canvas of={TimeFieldStories.PlainDateTimeValue} />
+
+- **`Temporal.ZonedDateTime`** — a date and time pinned to a specific time zone; only the time
+  segments render, the date and time zone pass through unedited.
+
+  <Canvas of={TimeFieldStories.ZonedDateTimeValue} />
+
+### Inside a Card
+
+`TimeField.FieldContainer` reads its `--field*` colors from whichever `Surface` it's nested in —
+one step further into the surface stack than its parent, via `Surface`'s `useSurfaceVariant`. Since
+`Card` is built on `Surface`, a field placed inside a `Card` automatically stays visually distinct
+from the card's background on any `Card` variant, with no extra props:
+
+<Canvas of={TimeFieldStories.OnCards} />
+
+## States
+
+`isRequired`, `isDisabled`, `isReadOnly`, and `isInvalid` are passed to `TimeField` /
+`TimeField.Root` (not `TimeField.Input`) — they flow down through React Aria context to every
+slot, which is how `TimeField.FieldError` knows to show itself, `TimeField.Description` knows to
+hide itself, and the label/border/segment styling responds automatically.
+
+### Required
+
+Adds a `*` after the label and sets `aria-required` on the input.
+
+<Canvas of={TimeFieldStories.Required} />
+
+### Error
+
+Set `isInvalid` to switch the field into its error styling and reveal `TimeField.FieldError`.
+While invalid, `TimeField.Description` is hidden automatically so the two don't compete for space.
+
+<Canvas of={TimeFieldStories.ErrorState} />
+
+### Disabled
+
+<Canvas of={TimeFieldStories.DisabledState} />
+
+### Read-only
+
+Read-only fields keep their value visible and focusable but prevent edits — use this instead of
+`isDisabled` when the value should remain legible and selectable.
+
+<Canvas of={TimeFieldStories.ReadonlyState} />
+
+## Debounced input
+
+Use `TimeField.RootDebounced` in place of `TimeField.Root` when `onChange` triggers something
+expensive (a search request, autosave, etc.) and you want to debounce it without debouncing the
+visible segment edits themselves:
+
+```tsx
+import { TimeField } from '#src/components/time-field';
+
+function Example() {
+  const [value, setValue] = useState<Temporal.PlainTime | null>(null);
+
+  return (
+    <TimeField.RootDebounced
+      value={value}
+      onChange={setValue}
+      debounceOptions={{ wait: 300 }}
+    >
+      <TimeField.FieldContainer>
+        <TimeField.Label>{'Meeting time'}</TimeField.Label>
+        <TimeField.Input />
+      </TimeField.FieldContainer>
+    </TimeField.RootDebounced>
+  );
+}
+```
+
+The segments themselves update immediately as the user edits them; `onChange` (and therefore
+`value`) only fires after `wait` milliseconds of inactivity. `debounceOptions` accepts the same
+options as `@tanstack/react-pacer`'s `useDebouncedCallback` (`wait` defaults to `300`).
+
+<Canvas of={TimeFieldStories.Debounced} />
+
+## API
+
+### `TimeField` / `TimeField.Root`
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Prop'}</th>
+      <th>{'Type'}</th>
+      <th>{'Default'}</th>
+      <th>{'Description'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'children'}</td>
+      <td>{'ReactNode'}</td>
+      <td>{'required'}</td>
+      <td>{'The field slots (FieldContainer, Description, FieldError).'}</td>
+    </tr>
+    <tr>
+      <td>{'value'}</td>
+      <td>{'Temporal.PlainTime | Temporal.PlainDateTime | Temporal.ZonedDateTime | null'}</td>
+      <td>{'required'}</td>
+      <td>{'The controlled field value. Pass null for an empty field.'}</td>
+    </tr>
+    <tr>
+      <td>{'onChange'}</td>
+      <td>{'(value: T | null) => void'}</td>
+      <td>{'required'}</td>
+      <td>{'Called with the new value on every change; T matches the type passed to value.'}</td>
+    </tr>
+    <tr>
+      <td>{'onBlur'}</td>
+      <td>{'() => void'}</td>
+      <td>{'undefined'}</td>
+      <td>{'Called when the field loses focus.'}</td>
+    </tr>
+    <tr>
+      <td>{'granularity'}</td>
+      <td>{"'hour' | 'minute' | 'second'"}</td>
+      <td>{"'minute'"}</td>
+      <td>{'The smallest unit displayed as a segment.'}</td>
+    </tr>
+    <tr>
+      <td>{'hourCycle'}</td>
+      <td>{'12 | 24'}</td>
+      <td>{"the locale's default"}</td>
+      <td>{'Overrides 12- vs 24-hour display.'}</td>
+    </tr>
+    <tr>
+      <td>{'minValue'}</td>
+      <td>{'T'}</td>
+      <td>{'undefined'}</td>
+      <td>{'The earliest time the user can enter.'}</td>
+    </tr>
+    <tr>
+      <td>{'maxValue'}</td>
+      <td>{'T'}</td>
+      <td>{'undefined'}</td>
+      <td>{'The latest time the user can enter.'}</td>
+    </tr>
+    <tr>
+      <td>{'isRequired'}</td>
+      <td>{'boolean'}</td>
+      <td>{'false'}</td>
+      <td>{'Marks the field required and adds the * label indicator.'}</td>
+    </tr>
+    <tr>
+      <td>{'isDisabled'}</td>
+      <td>{'boolean'}</td>
+      <td>{'false'}</td>
+      <td>{'Disables the field.'}</td>
+    </tr>
+    <tr>
+      <td>{'isReadOnly'}</td>
+      <td>{'boolean'}</td>
+      <td>{'false'}</td>
+      <td>{'Makes the field read-only (focusable, not editable).'}</td>
+    </tr>
+    <tr>
+      <td>{'isInvalid'}</td>
+      <td>{'boolean'}</td>
+      <td>{'false'}</td>
+      <td>{'Puts the field in its error state; reveals FieldError.'}</td>
+    </tr>
+    <tr>
+      <td>{'validate'}</td>
+      <td>{'(value: T) => ValidationError | true | null | undefined'}</td>
+      <td>{'undefined'}</td>
+      <td>{'React Aria field-level validation.'}</td>
+    </tr>
+  </tbody>
+</table>
+
+`TimeField.Root` accepts any other prop supported by React Aria Components'
+[`TimeField`](https://react-spectrum.adobe.com/react-aria/TimeField.html), aside from `value`,
+`defaultValue`, and `onChange`, which are replaced by the `Temporal`-based versions above.
+
+### `TimeField.Input`
+
+The shared [`DateInput`](/?path=/docs/component-dateinput--docs) component — see its docs for the
+full prop list and behavior.
+
+### `TimeField.Label`, `TimeField.Description`, `TimeField.FieldError`
+
+Render text content (`children`); styling responds automatically to the parent field's state, no
+extra props required beyond standard `className`/`children`.
+
+<Controls of={TimeFieldStories.Default} />

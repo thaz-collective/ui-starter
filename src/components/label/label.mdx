@@ -25,6 +25,10 @@ field root (for example `TextField` / `TextField.Root`). It reacts to state — 
 required, invalid, disabled — from those ancestors purely through styling, not React context, so
 it works with any field root that follows the same conventions.
 
+"Focused" and "has a value" are each detected two ways, so `Label` floats correctly whether its
+sibling is a plain `<input>` (`TextField`, `NumberField`) or a segmented time input with no
+`<input>` element at all (`TimeField`).
+
 ```tsx
 import { useState } from 'react';
 

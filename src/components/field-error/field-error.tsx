@@ -15,7 +15,7 @@ export function FieldError(props: FieldErrorProps) {
           cn(
             'group/field-error hidden text-xs text-danger',
 
-            'group-data-[invalid="true"]/field:block',
+            'group-data-invalid/field:block',
 
             className,
           ) ?? ''

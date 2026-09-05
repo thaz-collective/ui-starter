@@ -25,10 +25,10 @@ export function FieldContainer(props: FieldContainerProps) {
             'group/field-container relative flex w-full items-stretch gap-1 rounded-md border border-field-border bg-field text-field-foreground transition-colors duration-150 data-focus-within:border-primary-border data-hovered:border-primary-hover',
 
             // TODO - Change color or adjust size on focus?
-            'group-data-[invalid="true"]/field:border-danger/90 group-data-[invalid="true"]/field:data-focus-within:border-danger group-data-[invalid="true"]/field:data-hovered:border-danger-hover',
+            'group-data-invalid/field:border-danger/90 group-data-invalid/field:data-focus-within:border-danger group-data-invalid/field:data-hovered:border-danger-hover',
 
             // TODO - Any adjustments to the disabled state?
-            'group-data-[disabled="true"]/field:cursor-not-allowed group-data-[disabled="true"]/field:opacity-50',
+            'group-data-disabled/field:cursor-not-allowed group-data-disabled/field:opacity-50',
 
             className,
 
