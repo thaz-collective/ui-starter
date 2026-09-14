@@ -21,7 +21,7 @@ export function Input(props: InputProps) {
 
             'data-readonly:cursor-default',
 
-            'group-focus-within/field-container:placeholder:opacity-100',
+            'group-data-focus-within/field-container:placeholder:opacity-100',
 
             className,
           ) ?? ''

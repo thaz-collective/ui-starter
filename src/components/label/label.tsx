@@ -17,19 +17,23 @@ export function Label(props: LabelProps) {
           'group-data-required/field:after:ml-0.5 group-data-required/field:after:content-["*"]',
 
           // hover
-          'group-hover/field-container:text-primary-hover',
-          'group-data-invalid/field:group-hover/field-container:text-danger-hover',
+          'group-data-hovered/field-container:text-primary-hover',
+          'group-data-invalid/field:group-data-hovered/field-container:text-danger-hover',
 
-          // focused OR has a value → float up + shrink
-          // (matches a plain <input> in focus/non-empty state, e.g. TextField/NumberField)
-          'group-has-[input:focus]/field-container:top-1.5 group-has-[input:focus]/field-container:translate-y-0 group-has-[input:focus]/field-container:text-xs group-has-[input:focus]/field-container:text-primary',
-          'group-has-[input:not(:placeholder-shown)]/field-container:top-1.5 group-has-[input:not(:placeholder-shown)]/field-container:translate-y-0 group-has-[input:not(:placeholder-shown)]/field-container:text-xs',
-          // (matches a focused/filled date segment, e.g. TimeField, which has no <input>)
+          // focused (plain <input> or a date segment — both set data-focused) OR has a value →
+          // float up + shrink
           'group-has-[[data-focused="true"]]/field-container:top-1.5 group-has-[[data-focused="true"]]/field-container:translate-y-0 group-has-[[data-focused="true"]]/field-container:text-xs group-has-[[data-focused="true"]]/field-container:text-primary',
+          // (matches a plain <input> with a non-empty value, e.g. TextField/NumberField — RAC has
+          // no data attribute for this, :placeholder-shown is the only reliable signal. Scoped to
+          // input[placeholder] specifically — our own Input requires placeholder, but RAC's
+          // TimeField/DateField render an extra hidden native <input> internally (for autofill)
+          // with no placeholder attribute, which would otherwise permanently match
+          // :not(:placeholder-shown) and falsely float the label)
+          'group-has-[input[placeholder]:not(:placeholder-shown)]/field-container:top-1.5 group-has-[input[placeholder]:not(:placeholder-shown)]/field-container:translate-y-0 group-has-[input[placeholder]:not(:placeholder-shown)]/field-container:text-xs',
+          // (matches a filled date segment, e.g. TimeField, which has no <input>)
           'group-has-[[data-type]:not([data-type="literal"]):not([data-placeholder])]/field-container:top-1.5 group-has-[[data-type]:not([data-type="literal"]):not([data-placeholder])]/field-container:translate-y-0 group-has-[[data-type]:not([data-type="literal"]):not([data-placeholder])]/field-container:text-xs',
 
           // error + focused → error color wins over primary
-          'group-data-invalid/field:group-has-[input:focus]/field-container:text-danger',
           'group-data-invalid/field:group-has-[[data-focused="true"]]/field-container:text-danger',
 
           // invalid (floated or not)

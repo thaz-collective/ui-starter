@@ -52,9 +52,11 @@ export function DateInput(props: DateInputProps) {
 
                 // Fade out the placeholder segments and literal separators until the input is
                 // focused or already has a value, so an empty field reads as a single hint
-                // rather than a full segmented template.
-                // 'group-not-focus-within/date-input:group-not-has-[[data-type]:not([data-type="literal"]):not([data-placeholder])]/date-input:data-[placeholder]:opacity-0',
-                // 'group-not-focus-within/date-input:group-not-has-[[data-type]:not([data-type="literal"]):not([data-placeholder])]/date-input:data-[type="literal"]:opacity-0',
+                // rather than a full segmented template. (DateInput itself has no
+                // data-focus-within of its own, so "focused" is checked the same way as "has a
+                // value" — via has-[[data-focused="true"]] against the individual segments.)
+                'group-not-has-[[data-focused="true"]]/date-input:group-not-has-[[data-type]:not([data-type="literal"]):not([data-placeholder])]/date-input:data-[placeholder]:opacity-0',
+                'group-not-has-[[data-focused="true"]]/date-input:group-not-has-[[data-type]:not([data-type="literal"]):not([data-placeholder])]/date-input:data-[type="literal"]:opacity-0',
 
                 className,
 
