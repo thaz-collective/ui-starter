@@ -40,7 +40,7 @@ export function DateInput(props: DateInputProps) {
           className={composeRenderProps(segmentProps?.className, (className) => {
             return (
               cn(
-                'rounded-sm px-0.5 tabular-nums transition-opacity duration-150 outline-none',
+                'rounded-sm px-0.5 tabular-nums transition-opacity duration-150 outline-none data-placeholder:opacity-0 data-[type="literal"]:opacity-0',
 
                 'data-placeholder:text-muted-foreground/50',
 
@@ -55,8 +55,8 @@ export function DateInput(props: DateInputProps) {
                 // rather than a full segmented template. (DateInput itself has no
                 // data-focus-within of its own, so "focused" is checked the same way as "has a
                 // value" — via has-[[data-focused="true"]] against the individual segments.)
-                'group-not-has-[[data-focused="true"]]/date-input:group-not-has-[[data-type]:not([data-type="literal"]):not([data-placeholder])]/date-input:data-[placeholder]:opacity-0',
-                'group-not-has-[[data-focused="true"]]/date-input:group-not-has-[[data-type]:not([data-type="literal"]):not([data-placeholder])]/date-input:data-[type="literal"]:opacity-0',
+                'group-has-[[data-focused="true"],[data-type]:not([data-type="literal"]):not([data-placeholder])]/date-input:data-placeholder:opacity-100',
+                'group-has-[[data-focused="true"],[data-type]:not([data-type="literal"]):not([data-placeholder])]/date-input:data-[type="literal"]:opacity-100',
 
                 className,
 
