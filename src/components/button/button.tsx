@@ -153,7 +153,6 @@ export function Button(props: ButtonProps) {
     <RACButton
       {...props}
       className={composeRenderProps(props.className, (className, renderProps) => {
-        console.info('test');
         return buttonVariants({ ...props, ...renderProps, className });
       })}
     />
