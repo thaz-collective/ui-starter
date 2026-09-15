@@ -171,10 +171,9 @@ data you're editing, and `value`/`onChange` follow that type:
 
 ### Inside a Card
 
-`TimeField.FieldContainer` reads its `--field*` colors from whichever `Surface` it's nested in —
-one step further into the surface stack than its parent, via `Surface`'s `useSurfaceVariant`. Since
-`Card` is built on `Surface`, a field placed inside a `Card` automatically stays visually distinct
-from the card's background on any `Card` variant, with no extra props:
+`TimeField.FieldContainer` picks up field-appropriate styling from whichever `Surface` it's
+nested in. Since `Card` is built on `Surface`, a field placed inside a `Card` automatically stays
+visually distinct from the card's background on any `Card` variant, with no extra props:
 
 <Canvas of={TimeFieldStories.OnCards} />
 

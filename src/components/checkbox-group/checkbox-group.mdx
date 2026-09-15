@@ -134,8 +134,8 @@ row (`"horizontal"`):
 
 ### Inside a Card
 
-`CheckboxGroup.Description` and `CheckboxGroup.FieldError` pick up field-appropriate text color
-from whichever `Surface` they're nested in, the same as they do for `TextField`/`NumberField`, so
+`CheckboxGroup.Description` and `CheckboxGroup.FieldError` pick up field-appropriate styling from
+whichever `Surface` they're nested in, the same as they do for `TextField`/`NumberField`, so
 a group placed inside a `Card` stays visually consistent with no extra props:
 
 <Canvas of={CheckboxGroupStories.OnCards} />
@@ -156,8 +156,8 @@ Adds a `*` after `CheckboxGroup.Label`.
 ### Error
 
 Set `isInvalid` to turn `CheckboxGroup.Label` and every field's indicator into their error
-styling and reveal `CheckboxGroup.FieldError`. Invalid wins over the usual primary color for each
-indicator's border, hover, and focus ring.
+styling and reveal `CheckboxGroup.FieldError`. Invalid takes precedence over each indicator's
+usual hover and focus styling.
 
 <Canvas of={CheckboxGroupStories.ErrorState} />
 

@@ -9,9 +9,8 @@ import * as DateInputStories from './date-input.stories';
 The segmented editable-date-part building block, built on `react-aria-components`' `DateInput`
 and `DateSegment`. Each part of a date/time value (hour, minute, second, AM/PM, month, day, year,
 etc.) renders as its own individually focusable segment rather than a single `<input>`. It's the
-shared input primitive for any date- or time-based field — currently
-[`TimeField`](/?path=/docs/component-timefield--docs) uses it, with more date/date-time fields
-planned to reuse it going forward.
+shared input primitive for date- and time-based fields, currently used by
+[`TimeField`](/?path=/docs/component-timefield--docs).
 
 ## Import
 
@@ -59,12 +58,10 @@ function Example() {
 - **Placeholder segments and literal separators fade in** once the field is focused or already has
   a real value, so an idle empty field reads as a single hint rather than a full template like
   `hh:mm AM`.
-- **Focused segment**: gets a solid highlight (primary background/foreground) so keyboard/pointer
-  focus within the field is easy to track.
-- **Disabled** (`isDisabled` on the field root): cursor becomes `not-allowed`, text dims to the
-  muted foreground color.
-- **Read-only** (`isReadOnly` on the field root): cursor becomes `default`.
-- **Invalid** (`isInvalid` on the field root): segment text turns to the danger color.
+- **Focused segment**: highlighted so keyboard/pointer focus within the field is easy to track.
+- **Disabled** (`isDisabled` on the field root): no longer interactive.
+- **Read-only** (`isReadOnly` on the field root): focusable, but not editable.
+- **Invalid** (`isInvalid` on the field root): takes error styling.
 
 ## API
 

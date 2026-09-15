@@ -7,8 +7,8 @@ import * as InputStories from './input.stories';
 # Input
 
 The underlying `<input>` element for a text field, built on `react-aria-components`' `Input`. It
-supplies the field's typography, padding, and placeholder-fade behavior, and reacts to
-`disabled`/`readonly` state exposed by React Aria via `data-*` attributes.
+handles the placeholder-fade behavior and reflects the disabled/read-only state exposed by React
+Aria.
 
 ## Import
 
@@ -54,9 +54,8 @@ function Example() {
   label. `placeholder` is required — `Label` needs it to tell whether the field is empty, so
   without one the label would be permanently stuck in its floated position. Pass a space
   (`placeholder=" "`) if you don't want visible placeholder text.
-- **Disabled** (`isDisabled` on the field root): cursor becomes `not-allowed`, text dims to the
-  muted foreground color.
-- **Read-only** (`isReadOnly` on the field root): cursor becomes `default`.
+- **Disabled** (`isDisabled` on the field root): no longer interactive.
+- **Read-only** (`isReadOnly` on the field root): focusable, but not editable.
 
 ## API
 
