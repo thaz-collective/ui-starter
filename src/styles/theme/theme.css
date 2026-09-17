@@ -91,4 +91,13 @@
   --color-secondary-inv-foreground: var(--secondary-inv-foreground);
   --color-secondary-inv-hover: var(--secondary-inv-hover);
   --color-secondary-inv-border: var(--secondary-inv-border);
+
+  /* Animations */
+  --animate-shimmer: shimmer 2s ease-in-out infinite;
+
+  @keyframes shimmer {
+    100% {
+      transform: translateX(200%);
+    }
+  }
 }
