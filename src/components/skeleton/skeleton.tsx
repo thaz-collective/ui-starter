@@ -4,7 +4,7 @@ import type { VariantProps } from 'tailwind-variants';
 import { tv } from 'tailwind-variants';
 
 const skeletonVariants = tv({
-  base: 'animate-pulse bg-field-hover select-none motion-reduce:animate-none',
+  base: 'animate-shimmer bg-field-hover text-field-border select-none motion-reduce:animate-none',
   defaultVariants: {
     shape: 'text',
   },
