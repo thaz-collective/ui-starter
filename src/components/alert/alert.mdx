@@ -1,0 +1,183 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+
+import * as AlertStories from './alert.stories';
+
+<Meta of={AlertStories} />
+
+# Alert
+
+A persistent, inline status message for surfacing information, confirmations, warnings, or errors
+that live alongside your content — inside a page, a form, or a card. Alert always stays in
+document flow; it never overlays other content and never auto-dismisses on its own. There isn't a
+toast/notification component in this library yet for transient, auto-dismissing messages — Alert
+is for content that should remain visible until the user (or your application logic) removes it.
+
+## Import
+
+```tsx
+import { Alert } from '#src/components/alert';
+```
+
+## Composition
+
+`Alert` is a compound component. `Alert` itself is `Alert.Root`, and the other slots hang off of
+it:
+
+```
+Alert (Alert.Root)
+├── Alert.Icon (optional)
+└── Alert.Content
+    ├── Alert.Title
+    └── Alert.Description (optional)
+```
+
+## Anatomy
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Component'}</th>
+      <th>{'Description'}</th>
+      <th>{'Optional'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'Alert / Alert.Root'}</td>
+      <td>{'The status container. Sets the color treatment and the accessible role.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Alert.Icon'}</td>
+      <td>{'The leading icon. Shows a default icon matching the current variant unless you pass your own.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'Alert.Content'}</td>
+      <td>{'Wraps the title, description, and any other content (such as action buttons) next to the icon.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Alert.Title'}</td>
+      <td>{'The short, primary message.'}</td>
+      <td>{'No'}</td>
+    </tr>
+    <tr>
+      <td>{'Alert.Description'}</td>
+      <td>{'Supporting detail below the title.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+  </tbody>
+</table>
+
+## Usage
+
+```tsx
+import { Alert } from '#src/components/alert';
+
+function Example() {
+  return (
+    <Alert variant="default">
+      <Alert.Icon />
+      <Alert.Content>
+        <Alert.Title>Scheduled maintenance</Alert.Title>
+        <Alert.Description>The dashboard will be unavailable for 10 minutes tonight at 11pm.</Alert.Description>
+      </Alert.Content>
+    </Alert>
+  );
+}
+```
+
+<Canvas of={AlertStories.Default} />
+
+### Variants
+
+Four status variants are available: `default` for neutral, informational messaging, and
+`success`, `warning`, and `danger` for the corresponding outcomes. Each variant uses a softly
+tinted background so it reads clearly without competing with the rest of the page.
+
+<Canvas of={AlertStories.AllVariants} />
+
+### Icons
+
+`Alert.Icon` automatically shows an icon matching the alert's `variant` — you don't need to pass
+anything to get a sensible default. Pass your own icon as its children to override that default.
+
+<Canvas of={AlertStories.WithCustomIcon} />
+
+A title with no description still lays out correctly:
+
+<Canvas of={AlertStories.TitleOnly} />
+
+### Actions
+
+To give the reader something to do about the message — retrying a failed action, undoing a
+change, or dismissing the alert — place regular `Button`s inside `Alert.Content` after the
+description.
+
+<Canvas of={AlertStories.WithActions} />
+
+### Inside a Card
+
+Alert doesn't need any extra configuration to sit correctly inside a `Card` or any other surface —
+its color treatment holds up regardless of what it's layered on top of.
+
+<Canvas of={AlertStories.OnCards} />
+
+### Dismissing an alert
+
+Alert has no built-in close button or dismissed state. If you want an alert to go away, control
+that from the parent — keep a boolean in state and stop rendering the `Alert` when it should
+disappear, optionally triggered by a button placed in `Alert.Content`.
+
+## API
+
+### `Alert` / `Alert.Root`
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Prop'}</th>
+      <th>{'Type'}</th>
+      <th>{'Default'}</th>
+      <th>{'Description'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'children'}</td>
+      <td>{'ReactNode'}</td>
+      <td>{'required'}</td>
+      <td>{'The alert slots (Icon and Content).'}</td>
+    </tr>
+    <tr>
+      <td>{'variant'}</td>
+      <td>{"'default' | 'success' | 'warning' | 'danger'"}</td>
+      <td>{"'default'"}</td>
+      <td>{'The status this alert communicates.'}</td>
+    </tr>
+    <tr>
+      <td>{'role'}</td>
+      <td>{"'alert' | 'status'"}</td>
+      <td>{"'alert' for warning/danger, 'status' for default/success"}</td>
+      <td>
+        {
+          "Controls whether assistive technology interrupts to announce the message immediately (alert) or announces it politely (status). Override only if the default urgency doesn't fit your use case."
+        }
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+`Alert.Root` accepts any other standard `<div>` prop.
+
+### `Alert.Icon`
+
+Shows a default icon matching the parent `Alert`'s `variant`. Pass `children` to render your own
+icon instead. Accepts standard `<div>` props otherwise.
+
+### `Alert.Content`, `Alert.Title`, `Alert.Description`
+
+Accept standard `<div>` props, with `children` required on all three.
+
+<Controls of={AlertStories.Default} />
