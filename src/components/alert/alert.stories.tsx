@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Sparkles } from 'lucide-react';
 
@@ -160,17 +162,71 @@ export const WithActions: Story = {
       <Alert.Content>
         <Alert.Title>{'File deleted'}</Alert.Title>
         <Alert.Description>{'"Q3 Report.pdf" was permanently deleted.'}</Alert.Description>
-        <div className="mt-2 flex items-center gap-2">
+        <Alert.Actions>
           <Button
             size="sm"
             variant="outline"
           >
             {'Undo'}
           </Button>
-        </div>
+        </Alert.Actions>
       </Alert.Content>
     </Alert>
   ),
+};
+
+export const WithCloseButton: Story = {
+  args: {
+    variant: 'default',
+    className: 'w-96',
+    children: null,
+  },
+  render: () => (
+    <Alert
+      variant="default"
+      className="w-96"
+    >
+      <Alert.Icon />
+      <Alert.Content>
+        <Alert.Title>{'New version available'}</Alert.Title>
+        <Alert.Description>{'Refresh the page to get the latest features.'}</Alert.Description>
+      </Alert.Content>
+      <Alert.CloseButton />
+    </Alert>
+  ),
+};
+
+export const Dismissible: Story = {
+  args: {
+    variant: 'warning',
+    className: 'w-96',
+    children: null,
+  },
+  render: function Render() {
+    const [isVisible, setIsVisible] = useState(true);
+
+    if (!isVisible) {
+      return <p className="w-96 text-sm text-surface-foreground/70">{'Dismissed.'}</p>;
+    }
+
+    return (
+      <Alert
+        variant="warning"
+        className="w-96"
+      >
+        <Alert.Icon />
+        <Alert.Content>
+          <Alert.Title>{'Session expiring soon'}</Alert.Title>
+          <Alert.Description>{"You'll be signed out in 5 minutes due to inactivity."}</Alert.Description>
+        </Alert.Content>
+        <Alert.CloseButton
+          onPress={() => {
+            setIsVisible(false);
+          }}
+        />
+      </Alert>
+    );
+  },
 };
 
 export const OnCards: Story = {

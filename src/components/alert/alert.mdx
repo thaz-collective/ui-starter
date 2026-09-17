@@ -26,9 +26,11 @@ it:
 ```
 Alert (Alert.Root)
 ├── Alert.Icon (optional)
-└── Alert.Content
-    ├── Alert.Title
-    └── Alert.Description (optional)
+├── Alert.Content
+│   ├── Alert.Title
+│   ├── Alert.Description (optional)
+│   └── Alert.Actions (optional)
+└── Alert.CloseButton (optional)
 ```
 
 ## Anatomy
@@ -54,7 +56,7 @@ Alert (Alert.Root)
     </tr>
     <tr>
       <td>{'Alert.Content'}</td>
-      <td>{'Wraps the title, description, and any other content (such as action buttons) next to the icon.'}</td>
+      <td>{'Wraps the title, description, and actions next to the icon.'}</td>
       <td>{'No'}</td>
     </tr>
     <tr>
@@ -65,6 +67,16 @@ Alert (Alert.Root)
     <tr>
       <td>{'Alert.Description'}</td>
       <td>{'Supporting detail below the title.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'Alert.Actions'}</td>
+      <td>{'A row for buttons related to the message, placed after the description.'}</td>
+      <td>{'Yes'}</td>
+    </tr>
+    <tr>
+      <td>{'Alert.CloseButton'}</td>
+      <td>{'A trailing dismiss affordance for the alert as a whole.'}</td>
       <td>{'Yes'}</td>
     </tr>
   </tbody>
@@ -111,9 +123,8 @@ A title with no description still lays out correctly:
 
 ### Actions
 
-To give the reader something to do about the message — retrying a failed action, undoing a
-change, or dismissing the alert — place regular `Button`s inside `Alert.Content` after the
-description.
+To give the reader something to do about the message — retrying a failed action or undoing a
+change — place regular `Button`s inside `Alert.Actions`, as the last child of `Alert.Content`.
 
 <Canvas of={AlertStories.WithActions} />
 
@@ -124,11 +135,21 @@ its color treatment holds up regardless of what it's layered on top of.
 
 <Canvas of={AlertStories.OnCards} />
 
+### Close button
+
+`Alert.CloseButton` renders a dismiss affordance at the trailing edge of the alert. It's purely
+presentational — pass it as a plain sibling after `Alert.Content` and it renders standalone even
+without an `onPress` handler:
+
+<Canvas of={AlertStories.WithCloseButton} />
+
 ### Dismissing an alert
 
-Alert has no built-in close button or dismissed state. If you want an alert to go away, control
-that from the parent — keep a boolean in state and stop rendering the `Alert` when it should
-disappear, optionally triggered by a button placed in `Alert.Content`.
+Alert has no built-in dismissed state of its own. To make an alert actually go away, wire
+`Alert.CloseButton`'s `onPress` to state in the parent and stop rendering the `Alert` once it's
+dismissed:
+
+<Canvas of={AlertStories.Dismissible} />
 
 ## API
 
@@ -148,7 +169,7 @@ disappear, optionally triggered by a button placed in `Alert.Content`.
       <td>{'children'}</td>
       <td>{'ReactNode'}</td>
       <td>{'required'}</td>
-      <td>{'The alert slots (Icon and Content).'}</td>
+      <td>{'The alert slots (Icon, Content, CloseButton).'}</td>
     </tr>
     <tr>
       <td>{'variant'}</td>
@@ -176,8 +197,15 @@ disappear, optionally triggered by a button placed in `Alert.Content`.
 Shows a default icon matching the parent `Alert`'s `variant`. Pass `children` to render your own
 icon instead. Accepts standard `<div>` props otherwise.
 
-### `Alert.Content`, `Alert.Title`, `Alert.Description`
+### `Alert.Content`, `Alert.Title`, `Alert.Description`, `Alert.Actions`
 
-Accept standard `<div>` props, with `children` required on all three.
+Accept standard `<div>` props, with `children` required on all four.
+
+### `Alert.CloseButton`
+
+Renders as the repo's `Button` with a close icon. Accepts any `Button` prop except `children`,
+`variant`, and `isIcon`, which are fixed. `onPress` is optional — pass it to actually dismiss the
+alert (see [Dismissing an alert](#dismissing-an-alert)); without it, the button renders but does
+nothing.
 
 <Controls of={AlertStories.Default} />

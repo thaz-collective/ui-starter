@@ -1,3 +1,5 @@
+import { AlertActions } from './alert-actions';
+import { AlertCloseButton } from './alert-close-button';
 import { AlertContent } from './alert-content';
 import { AlertDescription } from './alert-description';
 import { AlertIcon } from './alert-icon';
@@ -10,4 +12,6 @@ export const Alert = Object.assign(AlertRoot, {
   Content: AlertContent,
   Title: AlertTitle,
   Description: AlertDescription,
+  Actions: AlertActions,
+  CloseButton: AlertCloseButton,
 });
