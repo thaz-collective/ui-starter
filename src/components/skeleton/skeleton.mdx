@@ -1,0 +1,104 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+
+import * as SkeletonStories from './skeleton.stories';
+
+<Meta of={SkeletonStories} />
+
+# Skeleton
+
+A gently pulsing placeholder shape used in place of content that hasn't finished loading yet. It's
+purely visual — there's no React Aria equivalent for this pattern — and is meant to be composed
+into layouts that mirror the shape of the content it's standing in for, so the transition to real
+content feels stable rather than jarring.
+
+## Import
+
+```tsx
+import { Skeleton } from '#src/components/skeleton';
+```
+
+## Usage
+
+```tsx
+import { Skeleton } from '#src/components/skeleton';
+
+function Example() {
+  return <Skeleton className="w-64" />;
+}
+```
+
+<Canvas of={SkeletonStories.Default} />
+
+## Shapes
+
+Use `shape` to match the kind of content being loaded:
+
+- **`text`** (default) — a single line of text, such as a heading or a sentence.
+- **`circle`** — a round placeholder for an avatar or icon.
+- **`rectangle`** — a block placeholder for an image, chart, or other rectangular media.
+
+<Canvas of={SkeletonStories.Shapes} />
+
+## Composing layouts
+
+`Skeleton` has no built-in width or height — size it with `className` so it matches the real
+content it's replacing.
+
+### Text lines
+
+Stack a few text skeletons to represent a paragraph. Give the last line a shorter width so the
+block doesn't read as an artificially justified paragraph.
+
+<Canvas of={SkeletonStories.TextLines} />
+
+### Avatar with text
+
+Pair a circle skeleton with a couple of text lines to represent a list row or comment while its
+data loads.
+
+<Canvas of={SkeletonStories.AvatarWithText} />
+
+### Inside a Card
+
+Compose several skeletons to mirror a populated `Card` layout — a rectangle for a media area, an
+avatar-and-text combo for a byline, and stacked text lines for body copy. `Skeleton`'s placeholder
+color stays legible against whichever `Card` variant it's placed in — no extra styling is needed
+when moving a skeleton layout between differently-nested cards.
+
+<Canvas of={SkeletonStories.CardSkeleton} />
+
+## Accessibility
+
+`Skeleton` is decorative and is hidden from assistive technology, since it carries no content of
+its own. If the surrounding loading state should be announced, add that behavior to the container
+that holds the skeletons (for example, a busy/live-region indicator), rather than to each
+individual `Skeleton`.
+
+## API
+
+<table>
+  <thead>
+    <tr>
+      <th>{'Prop'}</th>
+      <th>{'Type'}</th>
+      <th>{'Default'}</th>
+      <th>{'Description'}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'shape'}</td>
+      <td>{"'text' | 'circle' | 'rectangle'"}</td>
+      <td>{"'text'"}</td>
+      <td>{'The kind of content this placeholder represents.'}</td>
+    </tr>
+    <tr>
+      <td>{'...rest'}</td>
+      <td>{'HTML div attributes'}</td>
+      <td>{'—'}</td>
+      <td>{'Any other native div prop, e.g. className, id, children.'}</td>
+    </tr>
+  </tbody>
+</table>
+
+<Controls of={SkeletonStories.Default} />
