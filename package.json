@@ -69,8 +69,18 @@
     "vite-plugin-externalize-deps": "catalog:",
     "vite-plus": "catalog:"
   },
-  "engines": {
-    "node": ">=24"
-  },
-  "packageManager": "pnpm@11.22.0"
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.27.0",
+      "onFail": "download"
+    },
+    "runtime": [
+      {
+        "name": "node",
+        "version": "24.21.0",
+        "onFail": "warn"
+      }
+    ]
+  }
 }

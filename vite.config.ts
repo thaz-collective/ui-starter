@@ -157,19 +157,5 @@ export default defineConfig({
     rules: {
       ...jsPluginConfig.rules,
     },
-    overrides: [
-      {
-        files: ['**/src/routes/**/$*.tsx'],
-        rules: {
-          'unicorn/filename-case': 'off',
-        },
-      },
-      {
-        files: ['**/src/**/*.stories.{ts,tsx}', '**/.storybook/**'],
-        rules: {
-          'import/no-default-export': 'off',
-        },
-      },
-    ],
   },
 });
