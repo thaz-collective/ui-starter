@@ -30,7 +30,7 @@ const withThemeAndBrand: Decorator = (Story, { globals }) => {
 const preview: Preview = {
   initialGlobals: {
     theme: 'light',
-    brand: 'brand-1',
+    brand: 'default',
   },
   globalTypes: {
     theme: {

@@ -142,7 +142,7 @@ Two layers deeper than `default`.
 
 Cards can be nested directly inside `Card.Content`. Stepping through `default` → `secondary` →
 `tertiary` gives each layer a visibly distinct background, since each `Card` is a `Surface` that
-sets `--surface`/`--field` for its own subtree.
+sets the elevation for its own subtree.
 
 <Canvas of={CardStories.Nested} />
 

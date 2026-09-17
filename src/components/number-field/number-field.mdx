@@ -6,8 +6,8 @@ import * as NumberFieldStories from './number-field.stories';
 
 # Number Field
 
-A numeric input built on top of `react-aria-components`' `NumberField`, styled with
-`tailwind-variants`. It handles labeling, descriptions, validation error messaging, locale-aware
+A numeric input built on top of `react-aria-components`' `NumberField`. It handles labeling,
+descriptions, validation error messaging, locale-aware
 number formatting/parsing, and increment/decrement stepper buttons, and exposes them as a small
 set of composable slots so you control exactly what gets rendered.
 
@@ -185,11 +185,9 @@ user types.
 
 ### Inside a Card
 
-`NumberField.FieldContainer` reads its `--field*` colors from whichever `Surface` it's nested
-in — one step further into the surface stack than its parent, via `Surface`'s
-`useSurfaceVariant`. Since `Card` is built on `Surface`, a field placed inside a `Card`
-automatically stays visually distinct from the card's background on any `Card` variant, with no
-extra props:
+`NumberField.FieldContainer` picks up field-appropriate styling from whichever `Surface` it's
+nested in. Since `Card` is built on `Surface`, a field placed inside a `Card` automatically stays
+visually distinct from the card's background on any `Card` variant, with no extra props:
 
 <Canvas of={NumberFieldStories.OnCards} />
 
@@ -256,7 +254,7 @@ function Example() {
 
 The input itself updates immediately on every keystroke; `onChange` (and therefore `value`)
 only fires after `wait` milliseconds of inactivity. `debounceOptions` accepts the same options
-as `@tanstack/react-pacer`'s `useDebouncedCallback` (`wait` defaults to `300`).
+as the library's underlying debounce hook (`wait` defaults to `300`).
 
 <Canvas of={NumberFieldStories.Debounced} />
 

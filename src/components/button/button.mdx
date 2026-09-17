@@ -6,9 +6,9 @@ import * as ButtonStories from './button.stories';
 
 # Button
 
-A pressable button built on `react-aria-components`' `Button`, styled with `tailwind-variants`. It
-covers seven color variants, three sizes, an inverted (tinted) style, and an icon-only square mode,
-and exposes React Aria's hover/press/focus-visible/disabled/pending states as `data-*` selectors.
+A pressable button built on `react-aria-components`' `Button`. It covers seven color variants,
+three sizes, an inverted (tinted) style, and an icon-only square mode, and responds to React
+Aria's hover/press/focus-visible/disabled/pending states.
 
 ## Import
 
@@ -38,12 +38,12 @@ function Example() {
 <Canvas of={ButtonStories.Outline} />
 
 `ghost` and `outline` are transparent/bordered variants meant for lower-emphasis actions — both
-fall back to `bg-transparent` while disabled, rather than the default variants' dimmed background.
+stay transparent while disabled, rather than showing the default variants' dimmed background.
 
 ## Inverted
 
-Setting `isInverted` swaps the solid background for a tinted one (the variant's color mixed at low
-opacity), keeping the variant's color as the text color instead. Only `primary`, `secondary`,
+Setting `isInverted` swaps the solid background for a tinted one, keeping the variant's color as
+the text color instead. Only `primary`, `secondary`,
 `danger`, `success`, and `warning` define inverted styling — `ghost` and `outline` ignore the prop.
 
 <Canvas of={ButtonStories.PrimaryInverted} />
@@ -70,10 +70,9 @@ no visible text for assistive technology to read.
 
 ## States
 
-React Aria drives these via `data-*` attributes on the rendered `<button>`, styled directly in
-`buttonVariants`' `base`: `data-hovered`, `data-pressed`, `data-focus-visible` (a visible focus
-ring), `data-disabled` (pointer-events disabled, 50% opacity), and `data-pending` (a wait cursor,
-for use with async `onPress` handlers).
+React Aria drives hover, press, and keyboard-focus styling automatically. `isDisabled` dims the
+button and blocks interaction; `isPending` shows a pending/loading state, for use with async
+`onPress` handlers.
 
 ## API
 
@@ -103,7 +102,7 @@ for use with async `onPress` handlers).
       <td>{'isInverted'}</td>
       <td>{'boolean'}</td>
       <td>{'false'}</td>
-      <td>{'Swaps the solid background for a low-opacity tint. Ignored by ghost/outline.'}</td>
+      <td>{'Swaps the solid background for a tinted style. Ignored by ghost/outline.'}</td>
     </tr>
     <tr>
       <td>{'isIcon'}</td>

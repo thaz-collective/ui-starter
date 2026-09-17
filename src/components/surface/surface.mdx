@@ -6,10 +6,9 @@ import * as SurfaceStories from './surface.stories';
 
 # Surface
 
-A plain `<div>` that sets `--surface`/`--field` CSS custom properties (and their `-border`,
-`-foreground`, `-hover` counterparts) to one step of a five-layer elevation scale, so nested
-content — including other components that read `bg-surface`/`bg-field` — automatically picks up
-the right layered color without prop-drilling.
+A plain `<div>` that sets one step of a five-layer elevation scale for its background, border, and
+foreground colors, so nested content — including other components — automatically picks up the
+right layered color without prop-drilling.
 
 ## Import
 
@@ -38,10 +37,9 @@ function Example() {
 
 ## Variants
 
-Each variant maps `--surface` to one step of the `--surface-default` → `--surface-quinary` scale
-defined in the theme, and `--field` one step further — so a `Surface` in `secondary` gives fields
-inside it (inputs, containers reading `bg-field`) the `tertiary` tone, keeping fields visually
-distinct from the surface they sit on.
+Each variant steps one level deeper into the theme's elevation scale, and fields nested inside
+(inputs, containers) step one level deeper still — so a `Surface` in `secondary` gives its nested
+fields the `tertiary` tone, keeping fields visually distinct from the surface they sit on.
 
 <Canvas of={SurfaceStories.Transparent} />
 <Canvas of={SurfaceStories.Secondary} />
@@ -54,9 +52,8 @@ without painting a background (e.g. an overlay that should show what's behind it
 
 ## Nesting
 
-Because each `Surface` only sets CSS variables (it doesn't hardcode colors), stacking `Surface`s
-inside each other creates a visible elevation ladder for free — each level just reads the
-variables its nearest `Surface` ancestor set.
+Because each `Surface` sets its elevation relative to its context rather than hardcoding colors,
+stacking `Surface`s inside each other creates a visible elevation ladder for free.
 
 <Canvas of={SurfaceStories.Nested} />
 
@@ -76,7 +73,7 @@ variables its nearest `Surface` ancestor set.
       <td>{'variant'}</td>
       <td>{"'transparent' | 'default' | 'secondary' | 'tertiary' | 'quaternary' | 'quinary'"}</td>
       <td>{"'default'"}</td>
-      <td>{'Which step of the elevation scale to set --surface/--field to.'}</td>
+      <td>{'Which step of the elevation scale the surface (and its nested fields) render at.'}</td>
     </tr>
     <tr>
       <td>{'children'}</td>
@@ -88,11 +85,7 @@ variables its nearest `Surface` ancestor set.
       <td>{'...rest'}</td>
       <td>{"ComponentPropsWithRef<'div'>"}</td>
       <td>{'—'}</td>
-      <td>
-        {
-          'Any prop accepted by a native div, e.g. className, id. Note the component only sets CSS variables — pair it with bg-surface/border-surface-border/etc. utility classes to actually paint it.'
-        }
-      </td>
+      <td>{'Any prop accepted by a native div, e.g. className, id.'}</td>
     </tr>
   </tbody>
 </table>

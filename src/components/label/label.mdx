@@ -6,9 +6,8 @@ import * as LabelStories from './label.stories';
 
 # Label
 
-A floating field label built on `react-aria-components`' `Label`. It renders as plain text
-positioned over the input and floats up on focus or value, driven entirely by styling — no
-local state.
+A floating field label built on `react-aria-components`' `Label`. It sits over the input and
+floats above it once the field is focused or has a value.
 
 ## Import
 
@@ -22,8 +21,11 @@ import { Label } from '#src/components/label';
 
 `Label` must be rendered inside a `FieldContainer`-style wrapper, which itself must sit inside a
 field root (for example `TextField` / `TextField.Root`). It reacts to state — focus, value,
-required, invalid, disabled — from those ancestors purely through styling, not React context, so
-it works with any field root that follows the same conventions.
+required, invalid, disabled — from those ancestors, so it works with any field root that follows
+the same conventions.
+
+`Label` floats correctly whether its sibling is a plain `<input>` (`TextField`, `NumberField`) or
+a segmented time input with no `<input>` element at all (`TimeField`).
 
 ```tsx
 import { useState } from 'react';
@@ -51,12 +53,12 @@ function Example() {
 
 ## Behavior
 
-- **Idle**: centered vertically over the input, muted foreground color.
-- **Focused / has value**: floats to the top of the container and shrinks to `text-xs`.
+- **Idle**: centered over the input.
+- **Focused / has value**: floats to the top of the container.
 - **Required** (`isRequired` on the field root): appends a `*` after the label text.
-- **Invalid** (`isInvalid` on the field root): text turns to the danger color; wins over the
-  focused-primary color.
-- **Disabled** (`isDisabled` on the field root): cursor becomes `not-allowed`.
+- **Invalid** (`isInvalid` on the field root): takes error styling, taking precedence over the
+  focused state's styling.
+- **Disabled** (`isDisabled` on the field root): no longer interactive.
 
 ## API
 

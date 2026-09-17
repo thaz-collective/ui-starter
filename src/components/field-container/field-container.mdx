@@ -6,11 +6,10 @@ import * as FieldContainerStories from './field-container.stories.tsx';
 
 # FieldContainer
 
-A `react-aria-components` `Group` that owns the bordered "field" chrome around a label, input, and
-any trailing controls (e.g. stepper buttons) — background, border, radius, the flex layout that
-lines them up side by side, and the hover/focus/invalid/disabled border colors. `Label` and
-`Input` treat it as their positioning context for the floating-label and placeholder-fade
-behavior.
+A `react-aria-components` `Group` that renders the bordered "field" chrome around a label, input,
+and any trailing controls (e.g. stepper buttons), laying them out side by side and reflecting the
+field's hover/focus/invalid/disabled state. `Label` and `Input` treat it as their positioning
+context for the floating-label and placeholder-fade behavior.
 
 ## Import
 
@@ -52,12 +51,12 @@ function Example() {
 
 ## Behavior
 
-- **Idle**: `field` background with a subtle border.
-- **Hover / focus-within**: border shifts to the primary color.
-- **Invalid** (`isInvalid` on the field root): border becomes the danger color, including on hover
-  and focus-within.
-- **Disabled** (`isDisabled` on the field root): the whole container dims to 50% opacity, cursor
-  becomes `not-allowed`.
+- **Idle**: shows a subtle border around its contents.
+- **Hover / focus-within**: border becomes more prominent.
+- **Invalid** (`isInvalid` on the field root): takes error styling, including on hover and
+  focus-within.
+- **Disabled** (`isDisabled` on the field root): the whole container dims and stops responding to
+  interaction.
 
 ## API
 

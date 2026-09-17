@@ -109,7 +109,7 @@ text as `Checkbox.Button`'s children.
 
 ### Inside a Card
 
-`Checkbox.Description` and `Checkbox.FieldError` pick up field-appropriate text color from
+`Checkbox.Description` and `Checkbox.FieldError` pick up field-appropriate styling from
 whichever `Surface` they're nested in, the same as they do for `TextField`/`NumberField`, so a
 checkbox placed inside a `Card` stays visually consistent with no extra props:
 
@@ -144,7 +144,7 @@ If you want a visible "must select at least one" affordance with a labeled `*`, 
 ### Error
 
 Set `isInvalid` to switch the indicator into its error styling and reveal `Checkbox.FieldError`.
-Invalid wins over the usual primary color for the indicator's border, hover, and focus ring.
+Invalid takes precedence over the indicator's usual hover and focus styling.
 
 <Canvas of={CheckboxStories.ErrorState} />
 

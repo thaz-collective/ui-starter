@@ -6,9 +6,9 @@ import * as SeparatorStories from './separator.stories';
 
 # Separator
 
-A thin dividing line built on `react-aria-components`' `Separator`, styled with
-`tailwind-variants`. It's purely visual by default, but renders with the appropriate divider role
-so assistive technology announces it as a separator rather than skipping it.
+A thin dividing line built on `react-aria-components`' `Separator`. It's purely visual by
+default, but renders with the appropriate divider role so assistive technology announces it as a
+separator rather than skipping it.
 
 ## Import
 
@@ -38,10 +38,9 @@ function Example() {
 
 ### Horizontal (default)
 
-Spans the full width of its container as a single hairline. React Aria renders this orientation as
-a semantic divider element that carries its own default browser styling, so the component always
-resets any inherited border before applying its own fill color — worth knowing if you're layering
-additional border utilities on top via `className`.
+Spans the full width of its container as a single hairline, rendering consistently regardless of
+any inherited browser default styling — worth knowing if you're layering additional border
+utilities on top via `className`.
 
 <Canvas of={SeparatorStories.Horizontal} />
 
