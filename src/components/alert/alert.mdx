@@ -105,10 +105,20 @@ function Example() {
 ### Variants
 
 Four status variants are available: `default` for neutral, informational messaging, and
-`success`, `warning`, and `danger` for the corresponding outcomes. Each variant uses a softly
-tinted background so it reads clearly without competing with the rest of the page.
+`success`, `warning`, and `danger` for the corresponding outcomes. By default each colored variant
+uses a softly tinted background so it reads clearly without competing with the rest of the page.
 
 <Canvas of={AlertStories.AllVariants} />
+
+### Solid
+
+Set `isInverted={false}` for a bolder, solid-color treatment instead of the default tinted look —
+useful when an alert needs to stand out more assertively, such as a page-level banner. `default`
+has no solid counterpart since it carries no color to begin with.
+
+<Canvas of={AlertStories.Solid} />
+
+<Canvas of={AlertStories.AllVariantsSolid} />
 
 ### Icons
 
@@ -176,6 +186,16 @@ dismissed:
       <td>{"'default' | 'success' | 'warning' | 'danger'"}</td>
       <td>{"'default'"}</td>
       <td>{'The status this alert communicates.'}</td>
+    </tr>
+    <tr>
+      <td>{'isInverted'}</td>
+      <td>{'boolean'}</td>
+      <td>{'true'}</td>
+      <td>
+        {
+          'true for the default tinted look; false for a bolder, solid-color treatment. Has no visible effect on the default variant.'
+        }
+      </td>
     </tr>
     <tr>
       <td>{'role'}</td>

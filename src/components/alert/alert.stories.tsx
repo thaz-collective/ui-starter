@@ -19,6 +19,9 @@ const meta = {
       control: 'select',
       options: ['default', 'success', 'warning', 'danger'],
     },
+    isInverted: {
+      control: 'boolean',
+    },
   },
 } satisfies Meta<typeof Alert>;
 
@@ -310,6 +313,81 @@ export const AllVariants: Story = {
         </Alert.Content>
       </Alert>
       <Alert variant="danger">
+        <Alert.Icon />
+        <Alert.Content>
+          <Alert.Title>{'Danger'}</Alert.Title>
+          <Alert.Description>{'An action failed or needs immediate attention.'}</Alert.Description>
+        </Alert.Content>
+      </Alert>
+    </div>
+  ),
+};
+
+export const Solid: Story = {
+  args: {
+    variant: 'danger',
+    isInverted: false,
+    className: 'w-96',
+    children: null,
+  },
+  render: () => (
+    <Alert
+      variant="danger"
+      isInverted={false}
+      className="w-96"
+    >
+      <Alert.Icon />
+      <Alert.Content>
+        <Alert.Title>{'Payment failed'}</Alert.Title>
+        <Alert.Description>{'Your card was declined. Update your payment method to continue.'}</Alert.Description>
+      </Alert.Content>
+    </Alert>
+  ),
+};
+
+export const AllVariantsSolid: Story = {
+  args: {
+    variant: 'default',
+    isInverted: false,
+    className: 'w-96',
+    children: null,
+  },
+  render: () => (
+    <div className="flex w-96 flex-col gap-3">
+      <Alert
+        variant="default"
+        isInverted={false}
+      >
+        <Alert.Icon />
+        <Alert.Content>
+          <Alert.Title>{'Default'}</Alert.Title>
+          <Alert.Description>{'Neutral, informational messaging.'}</Alert.Description>
+        </Alert.Content>
+      </Alert>
+      <Alert
+        variant="success"
+        isInverted={false}
+      >
+        <Alert.Icon />
+        <Alert.Content>
+          <Alert.Title>{'Success'}</Alert.Title>
+          <Alert.Description>{'An action completed successfully.'}</Alert.Description>
+        </Alert.Content>
+      </Alert>
+      <Alert
+        variant="warning"
+        isInverted={false}
+      >
+        <Alert.Icon />
+        <Alert.Content>
+          <Alert.Title>{'Warning'}</Alert.Title>
+          <Alert.Description>{'Something needs attention soon.'}</Alert.Description>
+        </Alert.Content>
+      </Alert>
+      <Alert
+        variant="danger"
+        isInverted={false}
+      >
         <Alert.Icon />
         <Alert.Content>
           <Alert.Title>{'Danger'}</Alert.Title>
